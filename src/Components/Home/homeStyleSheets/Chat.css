@@ -1,0 +1,25 @@
+.avail-chat{
+    margin:30px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap:20px;
+  
+}
+.chat_btn{
+ justify-content: flex-start !important;
+ margin-left: 10px;
+
+}
+#type_astro{
+
+    gap:10%;
+}
+.chat_astrologer{
+    height:60vh;
+}
+@media screen and (max-width:736px) {
+    #mobile_view{
+      height:70vh;
+    }
+}

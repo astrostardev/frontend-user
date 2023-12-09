@@ -1,0 +1,64 @@
+#chatHistory{
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    margin-top: 20px;
+    margin-right: 10px;
+    padding: 20px;
+}
+#chatHistory>.earnHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#chatHistory>.earnHead>.earnFilter {
+    max-width: 150px;
+    padding: 10px;
+    border: transparent;
+    outline: none;
+    border-radius: 10px;
+}
+
+#chatHistory>.earnTable {
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+
+#callHistory>.earnHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#callHistory>.earnHead>.earnFilter {
+    max-width: 150px;
+    padding: 10px;
+    border: transparent;
+    outline: none;
+    border-radius: 10px;
+}
+
+#callHistory>.earnTable {
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+@media screen and (max-width:736px) {
+    #chatHistory{
+      height:80vh;
+      overflow-y: auto;
+
+    }
+    #chatHistory>.earnTable {
+    
+        margin-top: 0px;
+      
+    }
+
+}
