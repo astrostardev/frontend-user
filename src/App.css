@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Open+Sans&display=swap');
+
+* {
+  font-family: 'Fira Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.astro_chat_header{
+
+margin-left:10rem;
+}
+
+h4 {
+  font-size: 16px !important;
+  font-weight: bold !important;
+  margin-bottom: 0 !important;
+}
+.__main {
+
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  padding-left: 0;
+}
+@media screen  and (max-width:600px){
+  .__main{
+     margin: auto 0.5rem   !important;
+     /* width:100vw !important;
+     max-width: 100%;  */
+     
+     
+  }
+}
+#fixedbar {
+  display: block;
+}
+
+#offcanvas {
+  display: none;
+}
+
+
+@media screen and (max-width: 736px) {
+  #fixedbar {
+    display: none;
+  }
+
+  #offcanvas {
+    display: block;
+  }
+}
+
+
+.infoContainer {
+  margin-left: 260px;
+
+}
+
+.bgDim {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+@media screen and (max-width: 736px) {
+  .infoContainer {
+    margin: 20px 10px 10px 10px;
+  }
+}
+
+
+
+
