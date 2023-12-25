@@ -18,7 +18,7 @@ import axios from 'axios'
 export const login = (phoneNo) => async (dispatch, getState) => {
     try {
       dispatch(loginRequest());
-      const response = await axios.post(`http://127.0.0.1:8000/api/v1/user/login`, { phoneNo });
+      const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/login`, { phoneNo });
       const {data} = response;
       console.log(data);
       dispatch(loginSuccess(data));
@@ -38,7 +38,7 @@ export const clearAuthError = dispatch => {
 export const userRegister = (phoneNo, name) => async (dispatch) => {
   try {
     dispatch(registerRequest());
-    const response = await axios.post(`http://127.0.0.1:8000/api/v1/user/register`, { phoneNo, name });
+    const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/register`, { phoneNo, name });
     const {data} = response;
     console.log(data);
     dispatch(registerSuccess(data));
@@ -57,7 +57,7 @@ export const userCall = (id,recordedTime) => async (dispatch) => {
 
   try {
       dispatch(callDurationRequest())
-      const { data } = await axios.post(`http://127.0.0.1:8000/api/v1/user/callDuration`, {id,recordedTime});
+      const { data } = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/callDuration`, {id,recordedTime});
       dispatch(callDurationSuccess(data))
   } catch (error) {
       dispatch(callDurationFail(error.response.data.message))
@@ -70,7 +70,7 @@ export const userCall = (id,recordedTime) => async (dispatch) => {
 export const logout =  async (dispatch) => {
 
     try {
-        const {data} = await axios.get(`http://127.0.0.1:8000/api/v1/user/logout`)
+        const {data} = await axios.get(`${process.env.REACT_APP_URL}/api/v1/user/logout`)
         dispatch(logoutSuccess(data))
     } catch (error) {
         dispatch(logoutFail())
