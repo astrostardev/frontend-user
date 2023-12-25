@@ -10,15 +10,19 @@ import {
     logoutSuccess,
     callDurationFail,
     callDurationRequest,
-    callDurationSuccess
+    callDurationSuccess,
+    postRechargeRequest,
+    postRechargeSuccess,
+    postRechargeFail
 } from '../slice/authSlice'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 
-export const login = (phoneNo) => async (dispatch, getState) => {
+export const login = (phoneNo,token) => async (dispatch, getState) => {
     try {
       dispatch(loginRequest());
-      const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/login`, { phoneNo });
+  
+      const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/login`,{ phoneNo });
       const {data} = response;
       console.log(data);
       dispatch(loginSuccess(data));
@@ -64,7 +68,18 @@ export const userCall = (id,recordedTime) => async (dispatch) => {
   }
 
 }
+export const userRecharge = (packid,packages) => async (dispatch) => {
 
+  try {
+      dispatch(postRechargeRequest())
+      const { data } = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/recharge/${packid}`,packages);
+      dispatch(postRechargeSuccess(data))
+  } catch (error) {
+      dispatch(postRechargeFail(error.response.data.message))
+      console.log(error);
+  }
+
+}
 
 
 export const logout =  async (dispatch) => {
