@@ -4,8 +4,11 @@ import OffCanvasNav from "./OffCanvasNav";
 import "../Stylesheets/wallet.css";
 import astro1 from "../assests/astro1.svg";
 import cardbg from "../assests/bg-orange.jpeg";
+import { useSelector } from "react-redux";
 function Wallet(props) {
   const [showTrans, setShowTrans] = useState(1);
+  const { user } = useSelector((state) => state.authState);
+
   const handleClick = (e) => {
     setShowTrans(e);
   };
@@ -22,7 +25,7 @@ function Wallet(props) {
           <div style={{ display: "flex", gap: "20px" }}>
             <h4>Available Balance</h4>
             <h4>
-              <span>&#8377;</span> 23,324.32
+              <span>&#8377;</span> {user?.packages?.totalAmount}
             </h4>
           </div>
           <button>Recharge</button>
@@ -112,7 +115,7 @@ function Wallet(props) {
                       <p style={{ color: "gray" }}>Yesturday 04:30 PM</p>{" "}
                     </span>{" "}
                   </td>
-                  <td style={{ color: "green" }}>+2000</td>
+                  <td style={{ color: "green" }}>{user?.packages?.totalAmount}</td>
                 </tr>
                 <tr className="data">
                   <td className="trans_detail">

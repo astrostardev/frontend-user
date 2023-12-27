@@ -10,81 +10,110 @@ import astro3 from "../../../assests/astro3.svg";
 import search from "../../../assests/search.svg";
 import group from "../../../assests/Group.svg";
 import astroImage from "../../../assests/astrologerImage.png";
-
 import line from "../../../assests/horizontalLine.svg";
 import postalCodes from "postal-codes-js";
 import { MdArrowDropDown } from "react-icons/md";
 import OffCanvasNav from "../../OffCanvasNav";
 import { Link } from "react-router-dom";
 import Sidebar from "../../Sidebar";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 
 function MeetAstrologers(props) {
-const[astrologers, setAstrologers]=useState()
-  const astrologerData = [
-    {
-      image: astro1,
-      name: "ramamoorthi",
-      rate: 4.2,
-      exp: "15",
-      chat: "4",
-      call: "21",
-    },
+  const [astrologers, setAstrologers] = useState();
+ const[categories,setCategories]= useState(null)
+ const[languages,setLanguages]= useState(null);
+ const[filterCat,setFilterCat]=useState('')
 
-    {
-      image: astro2,
-      name: "ganesh",
-      rate: 4.0,
-      exp: "3",
-      chat: "24",
-      call: "240",
-    },
-    {
-      image: astro3,
-      name: "Gurusami",
-      rate: 3.9,
-      exp: "9",
-      chat: "25",
-      call: "20",
-    },
-    {
-      image: astro1,
-      name: "prabu",
-      rate: 4.5,
-      exp: "19",
-      chat: "27",
-      call: "40",
-    },
-    {
-      image: astro2,
-      name: "priya shankar",
-      rate: 3.8,
-      exp: "23",
-      chat: "20",
-      call: "90",
-    },
-    {
-      image: astro3,
-      name: "bavanikumari",
-      rate: 4.2,
-      exp: "4",
-      chat: "5",
-      call: "290",
-    },
-  ];
-useEffect(()=>{
-  async function fetchData() {
-    let response = await fetch("https://shy-gold-sawfish-robe.cyclic.app/api/v1/astrologer/allAstrologers", {
+  useEffect(() => {
+    async function fetchData() {
+        let response = await fetch(`${process.env.REACT_APP_URL}/api/v1/method/show`, {
+            headers: {
+                'Content-type': 'multipart/form-data',
+                // Authorization: `Bearer ${token}`
+            },   
         method: "GET",
-    });
-    // console.log(response);
-    let data = await response.json();
-    console.log(data)
-   
-    setAstrologers(data.astrologers)
-    console.log(astrologers);
-}
-fetchData();
-},[])
+        });
+        // console.log(response);
+        let data = await response.json();
+        console.log(data)
+        
+        setCategories(data.categories)
+        console.log(categories);
+    }
+    fetchData();
+}, []);
+useEffect(() => {
+  async function fetchData() {
+      let response = await fetch(`${process.env.REACT_APP_URL}/api/v1/language/show`, {
+          headers: {
+              'Content-type': 'multipart/form-data',
+              // Authorization: `Bearer ${token}`
+          },   
+      method: "GET",
+      });
+      // console.log(response);
+      let data = await response.json();
+      console.log(data)
+
+      setLanguages(data.languages)
+      console.log(languages);
+  }
+  fetchData();
+}, []);
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     let response = await fetch(
+  //       `${process.env.REACT_APP_URL}/api/v1/astrologer/allAstrologers`,
+  //       {
+  //         method: "GET",
+  //       }
+  //     );
+  //     // console.log(response);
+  //     let data = await response.json();
+  //     console.log(data);
+
+  //     setAstrologers(data.astrologers);
+  //     console.log(astrologers);
+  //   }
+  //   fetchData();
+  // }, []);
+
+
+  const filterCategoryAstrologer = async(selectedCategory)=>{
+    console.log('filter',selectedCategory);
+      let response = await fetch(
+        `${process.env.REACT_APP_URL}/api/v1/astrologer/category?category=${selectedCategory}`,
+        {
+          method: "GET",
+        }
+      );
+      // console.log(response);
+      let data = await response.json();
+      console.log(data);
+
+      setAstrologers(data.astrologer);
+      console.log(astrologers);
+    
+  }
+
+  const filterLanguageAstrologer = async(selectedCategory)=>{
+    console.log('filter',selectedCategory);
+      let response = await fetch(
+        `${process.env.REACT_APP_URL}/api/v1/astrologer/language?language=${selectedCategory}`,
+        {
+          method: "GET",
+        }
+      );
+      // console.log(response);
+      let data = await response.json();
+      console.log(data);
+
+      setAstrologers(data.astrologer);
+      console.log(astrologers);
+    
+  }
   return (
     <div>
       <div id="fixedbar">
@@ -115,30 +144,28 @@ fetchData();
         <div className="container-fluid ">
           <div className="meet_astro_option">
             <div>
-              <h4> Meet Astrologers</h4> 
+              <h4> Meet Astrologers</h4>
             </div>
-         
+
             <div className="astro_drop_btn button_container">
               <button className="all">
                 All <img src={arrow_ios} alt="" />
               </button>
-              <button>
-                top astrologers
-                <img src={arr_forward} alt="" />
-              </button>
-              <button>
-                language <img src={arr_forward} alt="" />
-              </button>
+              <DropdownButton id="dropdown-item-button" title="Methodology">
+                {categories?.map((cat)=>(
+                <Dropdown.Item  key={cat.category[0]?.name} onClick={() => filterCategoryAstrologer(cat.category[0]?.name)}>{cat.category[0]?.name}</Dropdown.Item>
+
+                ))}
             
-              <button>
-                top astrologers <img src={arr_forward} alt="" />
-              </button>
-              <button>
-                top astrologers
-                <img src={arr_forward} alt="" />
-              </button>
-            </div>
+              </DropdownButton>
+              <DropdownButton id="dropdown-item-button" title="Languages">
+                {languages?.map((cat)=>(
+                <Dropdown.Item key={cat.language[0]?.name} onClick={() => filterLanguageAstrologer(cat.language[0]?.name)} >{cat.language[0]?.name}</Dropdown.Item>
+
+                ))}
           
+              </DropdownButton>
+            </div>
           </div>
           <div className=" top_astrologers">
             <div className="meet_header">
@@ -147,7 +174,7 @@ fetchData();
             <div>
               <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-3 astrologer_container">
                 {astrologers?.map((data) => (
-                  <div class="col" style={{width:"330px"}}>
+                  <div class="col" style={{ width: "330px" }}>
                     <div className="card" key={data.id}>
                       {" "}
                       {/* Added a unique key */}
@@ -182,7 +209,7 @@ fetchData();
                           >
                             <button>
                               chat <span>&#8377;</span>
-                             {data.chat}/min
+                              {data.chat}/min
                             </button>
                           </Link>
                           <Link
@@ -210,4 +237,3 @@ fetchData();
 }
 
 export default MeetAstrologers;
-

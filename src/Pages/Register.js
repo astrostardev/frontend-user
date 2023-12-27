@@ -24,7 +24,7 @@ import OtpInput from "react-otp-input";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { Checkbox } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 
 function Login() {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ function Login() {
   const handleClick = (num) => {
     setShowtab(num);
   };
-
+const {isAuthendicated} = useSelector(state=>state.authState)
   //step-1
   const [phoneNumber, setPhoneNumber] = useState("");
   const [name, setUserName] = useState("");
@@ -87,6 +87,7 @@ function Login() {
     
 dispatch(userRegister(phoneNo,name))
 handleOTP()
+
   };
   
 
