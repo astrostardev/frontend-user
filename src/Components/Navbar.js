@@ -36,7 +36,7 @@ function Navbar() {
                                     <a className="nav-link" href="#contact">Contact Us</a>
                                 </li>
                                 <li className="nav-item">
-                                    <button className="loginBtn px-1"><Link to="/register" style={{textDecoration: "none", color:"initial"}}>Join Now</Link></button>
+                                    <button className="loginBtn px-1"><Link to="/login" style={{textDecoration: "none", color:"initial"}}>Join Now</Link></button>
                                 </li>
                             </ul>
                         </div>
