@@ -1,7 +1,7 @@
 import loginBG from "../assests/LoginBG.png";
-import loginStar from "../assests/astrostar.png";
+import loginStar from "../assests/a1.jpg";
 import "../Stylesheets/Login.css";
-import logo from "../assests/aq1.png";
+import logo from "../assests/logo green.png";
 import icons from "../assests/icons.png";
 import PhoneInput from "react-phone-input-2";
 import { toast } from 'react-toastify'
@@ -240,7 +240,7 @@ function Login() {
             style={{
               height: "3px",
               width: "75px",
-              backgroundColor: "#FFCB11",
+              backgroundColor: "#229e48",
               borderRadius: "10px",
               marginTop: "8px",
             }}
@@ -248,13 +248,16 @@ function Login() {
         </h2>
 
         <p>
-          Duis et ligula id felis gravida vulputate. Class aptent taciti
-          sociosqu ad litora torquent.
+        Welcome Back to Astro 5 Star
         </p>
         <div className={showTab === 1 ? "active" : "disable"}>
           <Form className="mt-4 form">
+        
+            
             <Form.Group controlId="formFile" className="mb-3 me-3">
               <Form.Label>Enter your mobile number:</Form.Label>
+              
+            
               <PhoneInput
                 country={"in"}
                 value={phoneNumber}
@@ -268,6 +271,7 @@ function Login() {
                 disableDropdown={true}
               />
             </Form.Group>
+            <div style={{display:"flex", marginTop:"1rem",alignItems:"center"}}>
             <Button
               onClick={submitHandler}
               className="otpBtn"
@@ -277,12 +281,15 @@ function Login() {
             >
               Get OTP
             </Button>
-            <p style={{ fontSize: "16px", marginLeft:"1.4rem", marginTop:"1rem"}}>
+            <p style={{ fontSize: "16px", marginLeft:"1.4rem",marginTop:"15px"}}>
                 New User Please?{" "}
-                <Link to="/register" style={{ color: "#FFCB11", marginLeft:"0.2rem"}}>
+                <Link to="/register" style={{ color: "#229e48", marginLeft:"0.2rem"}}>
                   Register
                 </Link>
               </p>
+            </div>
+            
+
           </Form>
           {alert && (
             <ToastContainer

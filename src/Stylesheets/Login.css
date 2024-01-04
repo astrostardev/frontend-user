@@ -42,7 +42,7 @@
   
     display: block;
 
-    background-color: #FFCB11;
+    background-color: #229e48;
     flex-basis: 52%;
     height: 100vh;
     width: 100%;
@@ -113,11 +113,11 @@
 }
 
 .loginContainer .terms a {
-    color: #FFCB11;
+    color: #229e48;
 }
 
 .otpBtn {
-    background-color: #FFCB11 !important;
+    background-color: #229e48 !important;
     color: #000000 !important;
     border: transparent !important;
     height: 35px !important;
@@ -152,7 +152,7 @@
 }
 
 .inputOtp>button {
-    background-color: #FFCB11 !important;
+    background-color: #229e48 !important;
     color: #000000 !important;
     border: transparent !important;
     height: 35px !important;
@@ -174,7 +174,7 @@
 
 .conditions {
     background-color: #ECECEC;
-    height: 35vmin;
+    height: 25vmin;
     width: fit-content;
     line-height: 30px;
     padding: 20px;
@@ -193,7 +193,7 @@
 }
 
 .next {
-    background-color: #FFCB11 !important;
+    background-color: #229e48 !important;
     color: #000000 !important;
     border: transparent !important;
     height: 37px !important;

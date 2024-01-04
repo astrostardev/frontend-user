@@ -15,17 +15,21 @@
   top: 0;
   left: 0;
   z-index: 1;
-  background-color: #ffcb11;
+  background-color: #229e48;
   text-align: justify;
 }
 
 #side > .logoContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: flex-start; */
   /* margin-top: 10px; */
-  margin-left: -25px;
+  margin-left: -40px;
   padding: 15px 20px;
+  background-color: white;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+
 }
 
 #side > .divider {
@@ -98,11 +102,12 @@
   height: 15vh;
   flex-direction: column;
   align-items: center;
+
   justify-content: space-evenly !important;
 }
 .media_icons {
   display: flex;
-  align-items: center;
+  align-items:center;
   justify-content: space-around;
   position: relative;
   width: 20vh;
@@ -116,8 +121,8 @@
 
 /* header */
 #head {
-  margin-left: 260px;
-  box-shadow: 10px 8px 10px 1px rgba(0, 0, 0, 0.2);
+  margin-left: 250px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -159,8 +164,8 @@
 }
 .earning button {
   padding: 10px 13px;
-  background-color: #ffcb11;
-  border-radius: 15px;
+  background-color: #229e48;
+  border-radius: 8px;
   border: none;
   font-size: 16px;
 }
@@ -220,7 +225,7 @@
 }
 
 #head div .drop-content .drop-link:hover {
-  background-color: #FFCB11;
+  background-color: #229e48;
   border-radius: 5px;
   color: white;
 }

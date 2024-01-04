@@ -1,7 +1,7 @@
 import loginBG from "../assests/LoginBG.png";
-import loginStar from "../assests/astrostar.png";
+import loginStar from "../assests/a1.jpg";
 import "../Stylesheets/Login.css";
-import logo from "../assests/aq1.png";
+import logo from "../assests/logo green.png";
 import icons from "../assests/icons.png";
 import PhoneInput from "react-phone-input-2";
 import { toast } from 'react-toastify'
@@ -171,13 +171,13 @@ handleOTP()
             style={{
               height: "3px",
               width: "75px",
-              backgroundColor: "#FFCB11",
+              backgroundColor: "#229e48",
               borderRadius: "10px",
               marginTop: "8px",
             }}
           ></div>
         </h2>
-
+       <p>Welcome to Astro 5! Begin your journey to self-discovery by creating an account. Gain access to expert astrologers, personalized horoscopes, and insightful consultations.</p>
         <div className={showTab === 1 ? "active" : "disable"}>
           <Form className="mt-4" id="form">
             <div className="register_feild">
@@ -233,7 +233,7 @@ handleOTP()
               className="conditions"
               style={{ marginBottom: "1rem", marginTop: "0.5rem" }}
             >
-              <h4 style={{ color: "#EE721B" }}>Terms and Conditions</h4>
+              <h4 style={{ color: "#229e48" }}>Terms and Conditions</h4>
               <p>
                 Duis et ligula id felis gravida vulputate. Class aptent taciti
                 sociosqu ad litora torquent per conubia nostra, per inceptos
@@ -294,7 +294,7 @@ handleOTP()
               </Button>
               <p style={{ fontSize: "16px", marginLeft:"1rem", marginTop:"1rem"}}>
                 Already Registered?{" "}
-                <Link to="/login" style={{ color: "#FFCB11", marginLeft:"0.2rem"}}>
+                <Link to="/" style={{ color: "#229e48", marginLeft:"0.2rem"}}>
                   Login
                 </Link>
               </p>

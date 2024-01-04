@@ -89,7 +89,7 @@
 }
 
 .drop a:hover {
-  background-color: #ffcb11;
+  background-color: #229e48;
   border-radius: 5px;
   color: white;
 }
@@ -107,7 +107,7 @@
   top: 0;
   left: 0;
   z-index: 999;
-  background-color: #ffcb11;
+  background-color: #229e48;
   overflow-x: hidden;
   text-align: justify;
   transition: 0.5s;
@@ -178,7 +178,7 @@
 
 .canvas .side-menu .history-container {
   display: none;
-  background-color: #ffcb11;
+  background-color: #229e48;
   margin-left: 50px;
   margin-top: -20px;
   margin-bottom: -20px;

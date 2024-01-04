@@ -1,5 +1,5 @@
 import "../Stylesheets/sidebar.css";
-import Logo from "../assests/homeLogo.svg";
+import Logo from "../assests/logo green.png";
 import { BsCash, BsChatLeftText } from "react-icons/bs";
 import { RiHistoryFill } from "react-icons/ri";
 import { MdAddToQueue, MdArrowDropDown, MdOutlineCall } from "react-icons/md";
@@ -217,7 +217,7 @@ function Sidebar() {
         <header id="head">
           <article>
             <h4>
-              Hello <span style={{ color: "#EE721B" }}>Raghavendraswamyar</span>
+              Hello <span style={{ color: "#229e48" }}>Raghavendraswamyar</span>
             </h4>
           </article>
           <div>

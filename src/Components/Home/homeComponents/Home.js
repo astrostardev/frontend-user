@@ -62,23 +62,26 @@ useEffect(() => {
   fetchData();
 }, []);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     let response = await fetch(
-  //       `${process.env.REACT_APP_URL}/api/v1/astrologer/allAstrologers`,
-  //       {
-  //         method: "GET",
-  //       }
-  //     );
-  //     // console.log(response);
-  //     let data = await response.json();
-  //     console.log(data);
+useEffect(()=>{
+ 
+fetchData()
+},[])
+    async function fetchData() {
+      let response = await fetch(
+        `${process.env.REACT_APP_URL}/api/v1/astrologer/allAstrologers`,
+        {
+          method: "GET",
+        }
+      );
+      // console.log(response);
+      let data = await response.json();
+      console.log(data);
 
-  //     setAstrologers(data.astrologers);
-  //     console.log(astrologers);
-  //   }
-  //   fetchData();
-  // }, []);
+      setAstrologers(data.astrologers);
+      console.log(astrologers);
+    }
+   
+
 
 
   const filterCategoryAstrologer = async(selectedCategory)=>{
@@ -148,8 +151,8 @@ useEffect(() => {
             </div>
 
             <div className="astro_drop_btn button_container">
-              <button className="all">
-                All <img src={arrow_ios} alt="" />
+              <button className="all" onClick={ fetchData}>
+                All <img src={arrow_ios} alt="" styl/>
               </button>
               <DropdownButton id="dropdown-item-button" title="Methodology">
                 {categories?.map((cat)=>(

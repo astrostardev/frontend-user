@@ -79,9 +79,12 @@
 }
 .astro_drop_btn .all {
   padding: 8px 10px;
-  color: #ee721b;
+  color: #229e48;
   display: flex;
   gap: 5px;
+}
+.astro_drop_btn .all img{
+  color:#229e48;
 }
 .astro_drop_btn button {
   padding: 8px 18px;
@@ -192,7 +195,7 @@
   min-height: 4vh;
 
   border-radius: 10px;
-  background-color: #ffcb11;
+  background-color: #229e48;
   text-align: center;
   border: none;
   font-size: 16px;

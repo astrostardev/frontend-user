@@ -3,7 +3,7 @@ import { HiMenuAlt1 } from "react-icons/hi";
 import { PiWalletBold } from "react-icons/pi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import Logo from "../assests/homeLogo.svg";
+import Logo from "../assests/logo green.png";
 import astrologer from "../assests/astro1.svg";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { BsCash, BsChatLeftText } from "react-icons/bs";

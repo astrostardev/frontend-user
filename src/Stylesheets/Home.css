@@ -28,7 +28,7 @@
 }
 
 .hero .desc h1 {
-    color: #FFCB11;
+    color: #229e48;
     font-weight: bolder;
     font-size: 15vmin;
 }
@@ -42,7 +42,7 @@
 .desc .heroBtn{
     min-width: 20vw;
     border-radius: 10px;
-    background-color: #FFCB11;
+    background-color: #229e48;
     border: transparent;
     padding: 10px 10px;
     margin: 20px 0px !important;
