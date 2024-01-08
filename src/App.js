@@ -23,24 +23,24 @@ import CallHistory from "./Components/Home/homeComponents/CallHistory";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Timer from "./Components/Timer";
-
+import { HelmetProvider } from 'react-helmet-async'
 function App() {
 
 
   return (
     <div className="App">
+      <HelmetProvider>
       <ToastContainer theme="dark"/>
       <BrowserRouter>
-        <Routes>
+        {/* <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
           </Route>
-        </Routes>
+        </Routes> */}
  
           <Routes>
-            
-            {/* <Route path="/register" element={<Register />} /> */}
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/timer" element={<Timer />} />
             <Route path="/home" element={<MeetAstrologers />} />
             <Route path="/profile" element={<UserProfile />} />
@@ -55,6 +55,7 @@ function App() {
 
     
       </BrowserRouter>
+      </HelmetProvider>
     </div>
   );
 }

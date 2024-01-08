@@ -108,6 +108,7 @@
   left: 0;
   z-index: 999;
   background-color: #229e48;
+  color:#fff;
   overflow-x: hidden;
   text-align: justify;
   transition: 0.5s;
@@ -115,6 +116,7 @@
 
 .openCanvas {
   display: block;
+  
   /* transition: all 50ms ease-in 5ms; */
 }
 
@@ -125,6 +127,7 @@
   /* margin-top: 10px; */
   /* margin-left: -25px; */
   padding: 15px 20px;
+  background-color: #fff;
 }
 
 .canvas > .divider {
@@ -155,6 +158,7 @@
 .canvas > .side-menu > .history-container > .hist-link:hover {
   background-color: #ffff;
   border-radius: 5px;
+  color:#229e48;
 }
 
 .canvas .side-menu .history-container .hist-link {
@@ -188,4 +192,5 @@
 .canvas .side-menu .open-hist {
   display: block;
   transition: all 50ms ease-in 5ms;
+
 }

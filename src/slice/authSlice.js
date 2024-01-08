@@ -4,7 +4,8 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: {
         loading: false,
-        isAuthenticated: false
+        isAuthenticated: false,
+        token:null
     },
     reducers: {
         loginRequest(state, action) {
@@ -18,7 +19,7 @@ const authSlice = createSlice({
                 loading: false,
                 isAuthenticated: true,
                 user: action.payload.user,
-                // token:action.payload.token
+                token:action.payload.token
             }
         },
         loginFail(state, action) {
@@ -88,8 +89,30 @@ const authSlice = createSlice({
                 loading: false,
                 error: action.payload
             }
-        }
+        },
+        postRechargeRequest(state, action) {
+            return {
+                ...state,
+                loading: true,
+            }
+        },
+        postRechargeSuccess(state, action) {
+            return {
+                loading: false,
+                isAuthenticated: true,
+                user: action.payload.user,
+                token:action.payload.token
+            }
+        },
+        postRechargeFail(state, action) {
+            console.log("Error in login:", action.payload);
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            }
     }
+}
 
 });
 
@@ -107,6 +130,9 @@ export const {
     logoutFail,
     callDurationFail,
     callDurationRequest,
-    callDurationSuccess
+    callDurationSuccess,
+    postRechargeRequest,
+    postRechargeFail,
+    postRechargeSuccess
 } = actions;
 export default reducer

@@ -13,14 +13,16 @@
   border: none;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 20px 20px;
-  background-image: url("../assests/bg-orange.jpeg");
+  /* background-image: url("../assests/bg-orange.jpeg"); */
+  background-color: #229e48;
   object-fit: cover;
+  color:#fff;
 }
 
 .show_balance button {
   padding: 10px 13px;
   right: 5rem !important;
-  border-radius: 15px;
+  border-radius: 10px;
   border: none;
   font-size: 16px;
 
@@ -28,9 +30,10 @@
 .active-btn {
   background: linear-gradient(
     120deg,
-    rgba(238, 114, 27, 1) 0%,
-    rgba(255, 203, 17, 1) 100%
+    rgb(40, 175, 81) 0%,
+    rgb(107, 182, 129)100%
   );
+  color:#fff;
 }
 
 .show_transaction {
@@ -47,7 +50,7 @@
 
 .show_transaction button {
   padding: 10px 20px;
-  border-radius: 15px;
+  border-radius: 10px;
   border: none;
   font-size: 16px;
 }
