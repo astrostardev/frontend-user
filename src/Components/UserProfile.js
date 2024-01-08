@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import "../Stylesheets/UserProfile.css";
 import Sidebar from "./Sidebar";
 import OffCanvasNav from "./OffCanvasNav";
+import MetaData from "../Pages/MetaData";
 function UserProfile(props) {
   const [disable, setDisabled] = useState(true);
 
@@ -18,6 +19,7 @@ function UserProfile(props) {
   }
   return (
     <>
+      <MetaData title={'Astro5Star-Profile'} />
       <div id="fixedbar">
         <Sidebar />
       </div>

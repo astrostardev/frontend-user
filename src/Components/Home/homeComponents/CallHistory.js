@@ -3,11 +3,14 @@ import Table from "react-bootstrap/Table";
 import { callHistory } from "../../../data";
 import Sidebar from "../../Sidebar";
 import OffCanvasNav from "../../OffCanvasNav";
-
+import MetaData from "../../../Pages/MetaData";
 function CallHistory() {
   return (
     <>
+      <MetaData title={'Astro5Star-CallHistory'} />
+
       <div id="fixedbar">
+
         <Sidebar />
       </div>
       <div id="offcanvas">
@@ -21,7 +24,7 @@ function CallHistory() {
               style={{
                 height: "3px",
                 width: "75px",
-                backgroundColor: "#EE721B",
+                backgroundColor: "#229e48",
                 borderRadius: "10px",
                 marginTop: "3px",
               }}

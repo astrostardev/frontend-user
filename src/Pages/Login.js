@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { clearAuthError, login } from '../action/userAction';
 import { useRef } from "react";
 import { useSelector,useDispatch } from "react-redux";
-
+import MetaData from "./MetaData";
 
 import {
   Form,
@@ -232,6 +232,7 @@ function Login() {
   };
   return (
     <div id="login">
+        <MetaData title={'Astro5Star'} />
       <div className="loginContainer">
         <img src={logo} alt="navLogo" />
         <h2>

@@ -3,10 +3,12 @@ import Table from "react-bootstrap/Table";
 import { chatHistory } from "../../../data";
 import Sidebar from "../../Sidebar";
 import OffCanvasNav from "../../OffCanvasNav";
-
+import MetaData from "../../../Pages/MetaData";
 function ChatHistory() {
   return (
     <div>
+      <MetaData title={'Astro5Star-ChatHistory'} />
+
       <div id="fixedbar">
         <Sidebar />
       </div>
@@ -21,7 +23,7 @@ function ChatHistory() {
               style={{
                 height: "3px",
                 width: "75px",
-                backgroundColor: "#EE721B",
+                backgroundColor: "#229e48",
                 borderRadius: "10px",
                 marginTop: "3px",
               }}

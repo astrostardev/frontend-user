@@ -72,7 +72,7 @@ function Offcanvas() {
         <div className="logoContainer">
           <img src={Logo} alt="logo" />
           <div>
-            <RiCloseLine style={{ fontSize: "25px" }} onClick={closeCanvas} />
+            <RiCloseLine style={{ fontSize: "25px",color:"#229e48" }} onClick={closeCanvas} />
           </div>
         </div>
         <div className="divider"></div>

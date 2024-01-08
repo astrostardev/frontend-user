@@ -5,6 +5,7 @@ import "../Stylesheets/wallet.css";
 import astro1 from "../assests/astro1.svg";
 import cardbg from "../assests/bg-orange.jpeg";
 import { useSelector } from "react-redux";
+import MetaData from "../Pages/MetaData";
 function Wallet(props) {
   const [showTrans, setShowTrans] = useState(1);
   const { user } = useSelector((state) => state.authState);
@@ -14,6 +15,8 @@ function Wallet(props) {
   };
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
+        <MetaData title={'Astro5Star-Wallet'} />
+
       <div id="fixedbar">
         <Sidebar />
       </div>

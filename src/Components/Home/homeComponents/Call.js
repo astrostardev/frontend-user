@@ -13,6 +13,7 @@ import OffCanvasNav from "../../OffCanvasNav";
 import { Link } from "react-router-dom";
 import Sidebar from "../../Sidebar";
 import "../homeStyleSheets/Chat.css";
+import MetaData from "../../../Pages/MetaData";
 function Call(props) {
   const astrologerData = [
     {
@@ -68,6 +69,8 @@ function Call(props) {
 
   return (
     <div>
+        <MetaData title={'Astro5Star-Call'} />
+
       <div id="fixedbar">
         <Sidebar />
       </div>
@@ -80,7 +83,7 @@ function Call(props) {
           style={{
             height: "3px",
             width: "30px",
-            backgroundColor: "#EE721B",
+            backgroundColor: "#229e48",
             borderRadius: "10px",
             marginTop: "3px",
             marginLeft: "20px",

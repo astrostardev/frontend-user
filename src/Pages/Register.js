@@ -7,8 +7,8 @@ import PhoneInput from "react-phone-input-2";
 import { toast } from 'react-toastify'
 import "react-phone-input-2/lib/style.css";
 import { useEffect, useReducer, useState } from "react";
-
 import {userRegister} from '../action/userAction';
+import MetaData from "./MetaData";
 
 
 import {
@@ -163,6 +163,8 @@ handleOTP()
 
   return (
     <div id="login">
+        <MetaData title={'Astro5Star'} />
+
       <div className="loginContainer">
         <img src={logo} alt="navLogo" />
         <h2>

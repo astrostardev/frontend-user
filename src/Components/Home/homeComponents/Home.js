@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import Sidebar from "../../Sidebar";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-
+import MetaData  from "../../../Pages/MetaData";
 function MeetAstrologers(props) {
   const [astrologers, setAstrologers] = useState();
  const[categories,setCategories]= useState(null)
@@ -119,6 +119,8 @@ fetchData()
   }
   return (
     <div>
+        <MetaData title={'Astro5Star'} />
+
       <div id="fixedbar">
         <Sidebar />
       </div>
