@@ -177,10 +177,11 @@
     height: 25vmin;
     width: fit-content;
     line-height: 30px;
-    padding: 20px;
+    padding: 0 20px;
     overflow: auto;
     border-radius: 6px;
 }
+
 
 .conditions>h4 {
     margin: 20px 0;

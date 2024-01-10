@@ -235,24 +235,16 @@ handleOTP()
               className="conditions"
               style={{ marginBottom: "1rem", marginTop: "0.5rem" }}
             >
-              <h4 style={{ color: "#229e48" }}>Terms and Conditions</h4>
+              <h4 style={{ color: "#229e48"}}>Terms and Conditions</h4>
               <p>
-                Duis et ligula id felis gravida vulputate. Class aptent taciti
-                sociosqu ad litora torquent per conubia nostra, per inceptos
-                himenaeos. Phasellus lacinia vestibulum gravida. Interdum et
-                malesuada fames ac ante ipsum primis in faucibus. Vestibulum
-                lacinia lobortis urna eget mattis. Nullam vestibulum vestibulum
-                neque ac efficitur. Nunc vitae tellus leo. Maecenas condimentum
-                eros metus, id ornare erat porttitor vitae vestibulum neque ac
-                efficitur. Nunc vitae tellus leo. Maecenas condimentum eros
-                metus, id ornare erat porttitor vitae. Class aptent taciti
-                sociosqu ad litora torquent per conubia nostra, per inceptos
-                himenaeos. Phasellus lacinia vestibulum gravida. Interdum et
-                malesuada fames ac ante ipsum primis in faucibus. Vestibulum
-                lacinia lobortis urna eget mattis. Nullam vestibulum vestibulum
-                neque ac efficitur. Nunc vitae tellus leo. Maecenas condimentum
-                eros metus, id ornare erat porttitor vitae vestibulum neque ac
-                efficitur.
+               <ul>
+                <li>Maintain the confidentiality of your account and password</li>
+                <li>Astro5star connects users with highly qualified astrologers</li>
+                <li>Sharing Personal contact number to astrologers are not allowed</li>
+                <li>Always us kind words to ask your questions </li>
+                <li>Astro5star may terminate accounts for violations; terms may change</li>
+                <li>Terms and conditions may be updated; continued use implies acceptance.</li>
+               </ul>
               </p>
             </div>
             <p className="terms">
