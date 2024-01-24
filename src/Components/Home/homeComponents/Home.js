@@ -186,10 +186,10 @@ fetchData()
                       <div>
                         <div className="astro_detail">
                           <div className="astro_img">
-                            <img src={astroImage} alt="" />
+                            <img src={data?.profilePic[0]?.pic} alt="" />
                           </div>
                           <div className="about_astrologer">
-                            <h4>{data.firstname}</h4>
+                            <h4>{data.displayname}</h4>
                             <div>
                               <button className="add">
                                 <img src={plus} alt="" />
@@ -214,7 +214,7 @@ fetchData()
                           >
                             <button>
                               chat <span>&#8377;</span>
-                              {data.chat}/min
+                              {data.displaychat}/min
                             </button>
                           </Link>
                           <Link
@@ -224,7 +224,7 @@ fetchData()
                           >
                             <button>
                               call <span>&#8377;</span>
-                              {data.call}/min
+                              {data.displaycall}/min
                             </button>
                           </Link>
                         </div>
