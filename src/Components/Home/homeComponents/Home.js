@@ -177,9 +177,9 @@ fetchData()
               <h4 className="top_astro">Top Astrologers</h4>
             </div>
             <div>
-              <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-3 astrologer_container">
+              <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-2 astrologer_container">
                 {astrologers?.map((data) => (
-                  <div class="col" style={{ width: "330px" }}>
+                  <div class="col" style={{ width: "300px" }}>
                     <div className="card" key={data.id}>
                       {" "}
                       {/* Added a unique key */}

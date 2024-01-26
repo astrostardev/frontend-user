@@ -7,7 +7,7 @@ import PhoneInput from "react-phone-input-2";
 import { toast } from 'react-toastify'
 import "react-phone-input-2/lib/style.css";
 import { useEffect, useReducer, useState } from "react";
-import {userRegister} from '../action/userAction';
+import {userRegister,clearAuthError,} from '../action/userAction';
 import MetaData from "./MetaData";
 
 
@@ -34,7 +34,7 @@ function Login() {
   const handleClick = (num) => {
     setShowtab(num);
   };
-const {isAuthendicated} = useSelector(state=>state.authState)
+const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
   //step-1
   const [phoneNumber, setPhoneNumber] = useState("");
   const [name, setUserName] = useState("");
@@ -84,12 +84,26 @@ const {isAuthendicated} = useSelector(state=>state.authState)
       return;
     }
     setDisable(true)
+    dispatch(userRegister(phoneNo,name))
+
+      handleOTP()
     
-dispatch(userRegister(phoneNo,name))
-handleOTP()
 
   };
   
+  useEffect(()=>{
+    if(error){
+       toast(error, {
+         position:toast.POSITION.TOP_RIGHT,
+         type:'error',
+         onOpen:()=>{dispatch(clearAuthError);
+             navigate('/');},
+      
+       })
+        return
+
+    }
+  },[error, isAuthenticated,dispatch])
 
   function handleOTP() {
     if (valid) {

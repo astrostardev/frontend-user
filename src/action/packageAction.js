@@ -18,7 +18,7 @@ export const showPackages = () => async (dispatch) => {
     try {
         dispatch(rechargeRequest())
       
-        const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/package/getRechargePackage/${id}`);
+        const { data } = await axios.get(`${process.env.REACT_APP_URL}/api/v1/package/getPackage/${id}`);
         dispatch(rechargeSuccess(data))
         // console.log('rechargedata',data);
     } catch (error) {

@@ -13,10 +13,13 @@ import {
     callDurationSuccess,
     postRechargeRequest,
     postRechargeSuccess,
-    postRechargeFail
+    postRechargeFail,
+    setErrorMessage
 } from '../slice/authSlice'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+
+// export const setErrorMessage = (errorMessage) => ({payload: errorMessage });
 
 export const login = (phoneNo,token) => async (dispatch, getState) => {
     try {
@@ -28,10 +31,17 @@ export const login = (phoneNo,token) => async (dispatch, getState) => {
       dispatch(loginSuccess(data));
       console.log(response.status);
     } catch (error) {
-  if (error.response === 404) {
-    toast.error("User not registered. Please register");
-  }
-      dispatch(loginFail(error?.response?.data?.message));
+      let errorMessage = error?.response?.data?.message || 'An error occurred during login';
+
+      if (error.response && error.response.status === 404) {
+        errorMessage = "User not registered. Please register";
+        // Dispatch the action to store the error message
+        dispatch(setErrorMessage(errorMessage));
+      }
+  // if (error.response === 404) {
+  //   toast.error("User not registered. Please register");
+  // }
+     dispatch(loginFail(error?.response?.data?.message));
       console.error(error.response?.data?.message);
     }
   };
@@ -49,9 +59,9 @@ export const userRegister = (phoneNo, name) => async (dispatch) => {
 
   }
   catch(error){
-    if (error.response && error.response.status === 409) {
-      toast.error("User already registered. Please login");
-    }
+    // if (error.response && error.response.status === 409) {
+    //   toast.error("User already registered. Please login");
+    // }
     dispatch(registerFail(error?.response?.data?.message));
     console.error(error.response?.data?.message);
   }

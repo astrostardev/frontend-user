@@ -7,10 +7,11 @@ import PhoneInput from "react-phone-input-2";
 import { toast } from 'react-toastify'
 import "react-phone-input-2/lib/style.css";
 import { useEffect, useState } from "react";
-import { clearAuthError, login } from '../action/userAction';
+import { clearAuthError, login,} from '../action/userAction';
 import { useRef } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import MetaData from "./MetaData";
+
 
 import {
   Form,
@@ -27,9 +28,6 @@ import { useNavigate,Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
-
-  // const [user, setUser] = useState();
-  const { user =[]} = useSelector(state=>state.authState);
   const {loading, error, isAuthenticated} = useSelector(state=>state.authState)
 
 
@@ -41,43 +39,13 @@ function Login() {
   };
 
 
-  // const [width, setWidth] = useState(window.innerWidth)
-
-  // function closeSide() {
-  //     let logoImg = document.querySelector("#logoImg")
-  //     logoImg.classList.add("close")
-  //     logoImg.classList.remove("loginImgContainer")
-  // }
-
-  // function openSide() {
-  //     let logoImg = document.querySelector("#logoImg")
-  //     logoImg.classList.remove("close")
-  //     logoImg.classList.add("loginImgContainer")
-  // }
-  // function detectWidth() {
-  //     setWidth(window.innerWidth)
-  //     console.log(width);
-  //     if (width < 700) {
-  //         closeSide()
-  //     } else {
-  //         openSide()
-  //     }
-  // }
-  // useEffect(() => {
-  //     window.addEventListener('resize', detectWidth)
-
-  //     return () => {
-  //         window.removeEventListener('resize', detectWidth)
-  //     }
-  // }, [width])
-
+  
   //step-1
   const [phoneNumber, setPhoneNumber] = useState("");
   const [valid, setValid] = useState(false);
   const [alert, setAlert] = useState(false);
   const [disable, setDisable] = useState(false);
-
-
+  const [setloading, setLoading] = useState(false);
   const handleChange = (value) => {
     setAlert(false);
     setPhoneNumber(value);
@@ -92,28 +60,49 @@ function Login() {
   let mobile = phoneNumber.replace(/\D/g, "");
   const phoneNo = mobile.slice(2);
   //check the  registered user
-  const isEffectExecuted = useRef(false);
+
  
-  const submitHandler =  (e) => {
-    e.preventDefault();
+  const submitHandler = async () => {
+    if (loading || disable) {
+      return; // Prevent multiple clicks while the login is in progress
+    }
+
     console.log(phoneNo);
-    dispatch(login(phoneNo)); 
+     setLoading(true); // Set loading to true when login process starts
+
+    try {
+      await dispatch(login(phoneNo));
+
+     
+
+        // Handle OTP logic here
+        handleOTP();
+
+        // Disable the button after successful login
+        setDisable(true);
+      
+    } catch (error) {
+      // Handle error if needed
+      console.error(error);
+    } finally {
+      setLoading(false); // Reset loading state when login process is complete
+    }
   };
+  useEffect(()=>{
+    if(error){
+       toast(error, {
+         position:toast.POSITION.TOP_RIGHT,
+         type:'error',
+         onOpen:()=>{dispatch(clearAuthError);
+             navigate('/register');},
+      
+       })
+        return
 
+    }
+  },[error, isAuthenticated,dispatch])
 
-  useEffect(() => {
-    console.log('lodAuth',isAuthenticated);
-    // Check if the isAuthenticated state has changed and the logic hasn't been executed
-    if (isAuthenticated && !isEffectExecuted.current) {
-    
-        toast('Successfully LogIn', {
-          type: 'success',
-          position: toast.POSITION.TOP_RIGHT,
-        });
-       navigate('/home');
-      }
-       
-  }, [isAuthenticated, navigate ]);
+  
 
   // const submitHandler = async () => {
     
@@ -160,6 +149,7 @@ function Login() {
       handleClick(2);
     } else {
       setAlert(true);
+  
     }
   }
 
@@ -274,10 +264,13 @@ function Login() {
             </Form.Group>
             <div style={{display:"flex", marginTop:"1rem",alignItems:"center"}}>
             <Button
-              onClick={submitHandler}
+               onClick={(e) => {
+                e.preventDefault();
+                submitHandler();
+              }}
               className="otpBtn"
               style={{ marginTop: "px" }}
-               disabled={loading}
+              disabled={setloading || disable} 
 
             >
               Get OTP

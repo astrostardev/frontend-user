@@ -156,7 +156,7 @@
 .about_astrologer div button {
   border: none;
   background-color: #f2f2f2;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .about_astrologer div .add {
   width: 38px;
@@ -175,15 +175,14 @@
 .about_astro {
   display: flex;
   padding: auto 10px;
-  gap: 10%;
+  gap: 4%;
   align-items:center;
   justify-content: center;
 
 }
 
 .about_astro span {
-
- 
+  padding: 0px 5px;
   height: 38px;
   font-size: 15px;
 }
@@ -196,7 +195,7 @@
   margin-bottom: 10px;
 }
 .charge_btns button {
-  padding: 0px 18px;
+  padding: 0px 10px;
   min-height: 4vh;
 
   border-radius: 10px;
