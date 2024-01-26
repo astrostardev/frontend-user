@@ -194,6 +194,9 @@
   justify-content: space-around;
   margin-bottom: 10px;
 }
+#card_width{
+  width:300px;
+}
 .charge_btns button {
   padding: 0px 10px;
   min-height: 4vh;
