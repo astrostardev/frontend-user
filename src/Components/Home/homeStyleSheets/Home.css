@@ -109,10 +109,12 @@
   gap: 1rem;
   flex-grow: 1;
   flex-direction: column;
-  align-items: flex-start;
+  align-items:flex-start;
   overflow-y: scroll;
 }
-
+.astrologer_container{
+margin:0 px;
+}
 .astro_detail {
   min-height: 100px;
   display: flex;
@@ -189,13 +191,14 @@
 .charge_btns {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   /* gap:10%; */
+  color: black !important;
   justify-content: space-around;
   margin-bottom: 10px;
 }
 #card_width{
-  width:300px;
+  /* width:320px; */
 }
 .charge_btns button {
   padding: 0px 10px;
@@ -219,7 +222,7 @@
     width: 60%;
  
   }
-  
+
   .filter_btn button {
     padding: 10px 15px;
 
@@ -237,9 +240,14 @@
   
   }
   .about_astro {
-
-    gap: 5%;
+    padding: px 10px;  
+    gap: 20%;
  
+  }
+  .charge_btns {
+    gap:3%;
+    justify-content: flex-start !important;
+    margin:0 10px 10px 10px;
   }
 
 }

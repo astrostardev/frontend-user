@@ -183,15 +183,7 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
         <img src={logo} alt="navLogo" />
         <h2>
           Register{" "}
-          <div
-            style={{
-              height: "3px",
-              width: "75px",
-              backgroundColor: "#229e48",
-              borderRadius: "10px",
-              marginTop: "8px",
-            }}
-          ></div>
+          <div className="title_underline"></div>
         </h2>
        <p>Welcome to Astro 5! Begin your journey to self-discovery by creating an account. Gain access to expert astrologers, personalized horoscopes, and insightful consultations.</p>
         <div className={showTab === 1 ? "active" : "disable"}>
@@ -247,9 +239,9 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
             )}
             <div
               className="conditions"
-              style={{ marginBottom: "1rem", marginTop: "0.5rem" }}
+          
             >
-              <h4 style={{ color: "#229e48"}}>Terms and Conditions</h4>
+              <h4>Terms and Conditions</h4>
               <p>
                <ul>
                 <li>Maintain the confidentiality of your account and password</li>
@@ -264,9 +256,10 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
             <p className="terms">
               <input
                 type="checkbox"
+                className="check-box"
                 required
                 onChange={(e)=>setCheck(e.target.value)}
-                style={{ marginLeft: "3px", marginRight: "10px" }}
+              
               />
               By signing up, you agree to our <a href="#">Terms of use</a> and{" "}
               <a href="#">Privacy policy</a>
@@ -300,9 +293,9 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
               >
                 Get OTP
               </Button>
-              <p style={{ fontSize: "16px", marginLeft:"1rem", marginTop:"1rem"}}>
+              <p className="new_user">
                 Already Registered?{" "}
-                <Link to="/" style={{ color: "#229e48", marginLeft:"0.2rem"}}>
+                <Link to="/" className="reg_link">
                   Login
                 </Link>
               </p>

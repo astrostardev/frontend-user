@@ -32,7 +32,16 @@
 
 
 }
-
+.icon_size{
+  font-size: 20px;
+}
+.header_icon{
+  font-size: 25px;
+}
+.arr_drop{
+  font-size: 20px; 
+  margin-left:40px
+}
 #side > .divider {
   height: 1px;
   background-color: white;
@@ -56,6 +65,7 @@
   border: none;
   outline: none;
   cursor: pointer;
+  font-weight:600;
 }
 
 #side > .side-menu > .historydrop-container > .history-link {
@@ -163,6 +173,11 @@
   display: flex;
   gap: 10px;
   align-items: center;
+
+
+}
+.link{
+  color:black;
 }
 .earning button {
   padding: 10px 13px;

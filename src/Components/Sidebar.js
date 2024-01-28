@@ -165,39 +165,39 @@ function Sidebar() {
         <div className="divider"></div>
         <section className="side-menu">
           <Link className="side-link" to="/home">
-            <RiHomeLine style={{ fontSize: "20px" }} />
+            <RiHomeLine className="icon_size" />
             <span>Home</span>
           </Link>
           <Link className="side-link" to="/chat">
-            <BsChatLeftText style={{ fontSize: "20px" }} />
+            <BsChatLeftText  className="icon_size" />
             <span>Chat </span>
           </Link>
           <Link className="side-link" to="/call">
-            <MdOutlineCall style={{ fontSize: "20px" }} />
+            <MdOutlineCall  className="icon_size" />
             <span>Call</span>
           </Link>
           <button className="side-link" onClick={toggleHistory}>
-            <RiHistoryFill style={{ fontSize: "20px" }} />
+            <RiHistoryFill  className="icon_size" />
             History
-            <MdArrowDropDown style={{ fontSize: "20px", marginLeft: "40px" }} />
+            <MdArrowDropDown className="arr_drop" />
           </button>
           <div className="historydrop-container">
             <Link className="history-link" to="/chat_history">
-              <BsChatLeftText style={{ fontSize: "20px" }} />
+              <BsChatLeftText  className="icon_size" />
               <span>Chat</span>
             </Link>
             <Link className="history-link" to="/call_history">
-              <MdOutlineCall style={{ fontSize: "20px" }} />
+              <MdOutlineCall  className="icon_size" />
               <span>Call</span>
             </Link>
           </div>
 
           <Link className="side-link" to="/settings">
-            <AiOutlineSetting style={{ fontSize: "20px" }} />
+            <AiOutlineSetting  className="icon_size" />
             <span>Settings</span>
           </Link>
           <Link className="side-link">
-            <FiHelpCircle style={{ fontSize: "20px" }} />
+            <FiHelpCircle  className="icon_size"/>
             <span>Help</span>
           </Link>
         </section>
@@ -223,8 +223,8 @@ function Sidebar() {
           <div>
             {/* Earning */}
             <div className="earning">
-              <Link to="/wallet" style={{ color: "black" }}>
-                <PiWalletBold style={{ fontSize: "25px" }} />
+              <Link to="/wallet" className="link">
+                <PiWalletBold  className="header_icon" />
               </Link>
               <span>
                 ₹{user?.packages ? user?.packages?.totalAmount : "0"}
@@ -233,14 +233,14 @@ function Sidebar() {
                 Recharge
               </Button>
             </div>
-            <IoMdNotificationsOutline style={{ fontSize: "25px" }} />
+            <IoMdNotificationsOutline className="header_icon" />
 
             {/* Profile */}
             <div className="profileDrop">
               <button className="dropbtn" onClick={toggledropdown}>
                 <img src={astrologer} alt="astrologer" className="astrologer" />
                 <div style={{ marginTop: "5px" }}>
-                  <RiArrowDropDownLine style={{ fontSize: "25px" }} />
+                  <RiArrowDropDownLine className="header_icon" />
                 </div>
               </button>
               <div className="drop-content">

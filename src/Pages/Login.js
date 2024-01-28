@@ -1,4 +1,3 @@
-import loginBG from "../assests/LoginBG.png";
 import loginStar from "../assests/a1.jpg";
 import "../Stylesheets/Login.css";
 import logo from "../assests/logo green.png";
@@ -8,7 +7,6 @@ import { toast } from 'react-toastify'
 import "react-phone-input-2/lib/style.css";
 import { useEffect, useState } from "react";
 import { clearAuthError, login,} from '../action/userAction';
-import { useRef } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import MetaData from "./MetaData";
 
@@ -17,10 +15,7 @@ import {
   Form,
   Button,
   Toast,
-  Alert,
   ToastContainer,
-  FloatingLabel,
-  InputGroup,
 } from "react-bootstrap";
 import OtpInput from "react-otp-input";
 import { useForm } from "react-hook-form";
@@ -29,23 +24,19 @@ import { useNavigate,Link } from "react-router-dom";
 function Login() {
   const navigate = useNavigate();
   const {loading, error, isAuthenticated} = useSelector(state=>state.authState)
-
-
   const dispatch = useDispatch()
-
   const [showTab, setShowtab] = useState(1);
-  const handleClick = (num) => {
-    setShowtab(num);
-  };
-
-
-  
   //step-1
   const [phoneNumber, setPhoneNumber] = useState("");
   const [valid, setValid] = useState(false);
   const [alert, setAlert] = useState(false);
   const [disable, setDisable] = useState(false);
   const [setloading, setLoading] = useState(false);
+
+  const handleClick = (num) => {
+    setShowtab(num);
+  };
+
   const handleChange = (value) => {
     setAlert(false);
     setPhoneNumber(value);
@@ -72,11 +63,7 @@ function Login() {
 
     try {
       await dispatch(login(phoneNo));
-
-     
-
-        // Handle OTP logic here
-        handleOTP();
+              handleOTP();
 
         // Disable the button after successful login
         setDisable(true);
@@ -100,46 +87,8 @@ function Login() {
         return
 
     }
-  },[error, isAuthenticated,dispatch])
-
-  
-
-  // const submitHandler = async () => {
-    
-  
-  //   try {
-  //   setDisable(true)
-  //     const response = await fetch("https://shy-gold-sawfish-robe.cyclic.app/api/v1/user/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ phoneNo: phoneNo}),
-  //     });
-    
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       const errorMessage = errorData.message || "Unknown error";
-    
-  //       if (response.status === 404) {
-  //         toast.error("User Not Found. Please register");
-  //         navigate("/register");
-  //       } else {
-  //         toast.error(`Login failed: ${errorMessage}`);
-  //       }
-  //     } else {
-  //       // handleOTP();
-  //       navigate('/timer')
-  //     }
-
-  //   } catch (error) {
-  //     console.error("Error during registration:", error);
-  //     toast.error("Login Failed. Please try again.");
-  //   }
-
-  // };
-  // ...
-
+  },[error, isAuthenticated,dispatch, navigate])
+ 
   function handleOTP() {
 
     if (valid) {
@@ -227,15 +176,7 @@ function Login() {
         <img src={logo} alt="navLogo" />
         <h2>
           Login
-          <div
-            style={{
-              height: "3px",
-              width: "75px",
-              backgroundColor: "#229e48",
-              borderRadius: "10px",
-              marginTop: "8px",
-            }}
-          ></div>
+          <div className="title_underline"></div>
         </h2>
 
         <p>
@@ -262,7 +203,7 @@ function Login() {
                 disableDropdown={true}
               />
             </Form.Group>
-            <div style={{display:"flex", marginTop:"1rem",alignItems:"center"}}>
+            <div className="submit-btn">
             <Button
                onClick={(e) => {
                 e.preventDefault();
@@ -275,9 +216,9 @@ function Login() {
             >
               Get OTP
             </Button>
-            <p style={{ fontSize: "16px", marginLeft:"1.4rem",marginTop:"15px"}}>
+            <p className="new_user">
                 New User Please?{" "}
-                <Link to="/register" style={{ color: "#229e48", marginLeft:"0.2rem"}}>
+                <Link className="reg_link" to="/register" style={{}}>
                   Register
                 </Link>
               </p>

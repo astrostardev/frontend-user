@@ -1,14 +1,6 @@
-import { useState } from "react";
 import "./App.css";
-import Footer from "./Components/Footer";
-import Navbar from "./Components/Navbar";
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';import "bootstrap/dist/css/bootstrap.min.css";
+import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
-import About from "./Components/About";
-import Contact from "./Components/Contact";
-import Services from "./Components/Services";
-import Home from "./Pages/Home";
-import Layout from "./Layout";
 import Login from "./Pages/Login";
 import Register from './Pages/Register'
 import UserProfile from "./Components/UserProfile";
@@ -23,8 +15,12 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Timer from "./Components/Timer";
 import { HelmetProvider } from 'react-helmet-async'
+import { useSelector } from "react-redux";
+
+
 function App() {
 
+  const { loading, error, isAuthenticated } = useSelector(state => state.authState)
 
   return (
     <div className="App">
@@ -38,17 +34,18 @@ function App() {
         </Routes> */}
  
            <Routes>
+
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/timer" element={<Timer />} />
-            <Route path="/home" element={<MeetAstrologers />} />
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/chat_page" element={<Chats />} />
-            <Route path="/chat_history" element={<ChatHistory />} />
-            <Route path="/call_history" element={<CallHistory />} />
-            <Route path="/wallet" element={<Wallet />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/call" element={<Call />} />
+            <Route path="/home" element={isAuthenticated ? <MeetAstrologers /> : <Login />} />
+            <Route path="/profile" element={isAuthenticated ? <UserProfile /> : <Login />} />
+            <Route path="/chat_page" element={isAuthenticated ? <Chats /> : <Login />} />
+            <Route path="/chat_history" element={isAuthenticated ? <ChatHistory /> : <Login />} />
+            <Route path="/call_history" element={isAuthenticated ? <CallHistory /> : <Login />} />
+            <Route path="/wallet" element={isAuthenticated ? <Wallet />  : <Login />} />
+            <Route path="/chat" element={isAuthenticated ?<Chat /> : <Login />} />
+            <Route path="/call" element={isAuthenticated ?<Call />  : <Login />} />
             </Routes>
       
 

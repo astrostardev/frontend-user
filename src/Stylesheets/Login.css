@@ -115,6 +115,10 @@
 .loginContainer .terms a {
     color: #229e48;
 }
+ .check-box{
+    margin: 3px !important;
+
+}
 
 .otpBtn {
     background-color: #229e48 !important;
@@ -180,11 +184,15 @@
     padding: 0 20px;
     overflow: auto;
     border-radius: 6px;
+    margin-bottom: 1rem;
+     margin-top: 0.5rem;
+
 }
 
 
 .conditions>h4 {
     margin: 20px 0;
+    color: #229e48;
 }
 
 .conditions>p {
@@ -205,6 +213,20 @@
     height: 30vh;
     display: flex;
     align-items: flex-end;
+}
+.submit-btn{
+    display:flex;
+    margin-top:1rem;
+    align-items:center;
+}
+.new_user{
+    font-size: 16px !important; 
+    margin-left:1.4rem;
+    margin-top:15px
+}
+.reg_link{
+    color: #229e48; 
+    margin-left:.2rem;
 }
 @media screen and  ((min-width:736px)and (max-width:1200px)){
     .register_feild{

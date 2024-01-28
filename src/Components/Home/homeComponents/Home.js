@@ -192,7 +192,7 @@ function MeetAstrologers(props) {
               <h4 className="top_astro">Top Astrologers</h4>
             </div>
            
-              <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-2 astrologer_container">
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3  row-cols-md-2 row-cols-xl-4 g-2 astrologer_container">
                 {astrologers?.map((data) => (
                   <div className="col" key={data.id} id="card_width">
                     <div className="card">
@@ -227,7 +227,6 @@ function MeetAstrologers(props) {
                           <Link
                             className=""
                             to="/chat_page"
-                            style={{ color: "black" }}
                           >
                             <button>
                               chat <span>&#8377;</span>
@@ -237,7 +236,7 @@ function MeetAstrologers(props) {
                           <Link
                             className=""
                             to="/call"
-                            style={{ color: "black" }}
+                          
                           >
                             <button>
                               call <span>&#8377;</span>
