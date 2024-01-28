@@ -32,24 +32,19 @@ function App() {
             <Route path="/" element={<Home />} />
           </Route>
         </Routes> */}
- 
            <Routes>
-
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/timer" element={<Timer />} />
-            <Route path="/home" element={isAuthenticated ? <MeetAstrologers /> : <Login />} />
-            <Route path="/profile" element={isAuthenticated ? <UserProfile /> : <Login />} />
-            <Route path="/chat_page" element={isAuthenticated ? <Chats /> : <Login />} />
-            <Route path="/chat_history" element={isAuthenticated ? <ChatHistory /> : <Login />} />
-            <Route path="/call_history" element={isAuthenticated ? <CallHistory /> : <Login />} />
-            <Route path="/wallet" element={isAuthenticated ? <Wallet />  : <Login />} />
-            <Route path="/chat" element={isAuthenticated ?<Chat /> : <Login />} />
-            <Route path="/call" element={isAuthenticated ?<Call />  : <Login />} />
+            <Route path="/home" element={isAuthenticated ? <MeetAstrologers /> : <Navigate to="/" />} />
+            <Route path="/profile" element={isAuthenticated ? <UserProfile /> : <Navigate to="/" />} />
+            <Route path="/chat_page" element={isAuthenticated ? <Chats /> : <Navigate to="/" />} />
+            <Route path="/chat_history" element={isAuthenticated ? <ChatHistory /> : <Navigate to="/" />} />
+            <Route path="/call_history" element={isAuthenticated ? <CallHistory /> : <Navigate to="/" />} />
+            <Route path="/wallet" element={isAuthenticated ? <Wallet />  : <Navigate to="/" />} />
+            <Route path="/chat" element={isAuthenticated ?<Chat /> : <Navigate to="/" />} />
+            <Route path="/call" element={isAuthenticated ?<Call />  : <Navigate to="/" />} />
             </Routes>
-      
-
-    
       </Router>
       </HelmetProvider>
     </div>
