@@ -12,7 +12,7 @@ import { MdAddToQueue, MdArrowDropDown, MdOutlineCall } from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
 import { FiHelpCircle } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import facebook from "../assests/Facebook.svg";
 import twitter from "../assests/Twitter.svg";
@@ -20,8 +20,12 @@ import insta from "../assests/Instagram.svg";
 import youtube from "../assests/YouTube.svg";
 import whatsapp from "../assests/WhatsApp.svg";
 import { RiHomeLine } from "react-icons/ri";
+import { logout} from "../action/userAction";
+import { useDispatch} from "react-redux";
 
 function Offcanvas() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
   function openCanvas() {
     let canvas = document.querySelector(".canvas");
     canvas.classList.add("openCanvas");
@@ -44,7 +48,10 @@ function Offcanvas() {
     let historydrop = document.querySelector(".history-container");
     historydrop.classList.toggle("open-hist");
   }
-
+  const logoutHandler = () => {
+    dispatch(logout);
+    navigate('/')
+  };
   // const refCanvas = useRef(null)
 
   // const handleClickOutside = (e) => {
@@ -167,9 +174,10 @@ function Offcanvas() {
                   Your Profile
                 </Link>
                 <hr />
-                <Link href="#" onClick={closedropdown}>
+                <p onClick={logoutHandler}>Logout</p>
+                {/* <Link href="#" onClick={closedropdown}>
                   Logout
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>

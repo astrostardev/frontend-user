@@ -76,8 +76,8 @@
   transition: all 3s;
   z-index:999;
 }
-
-.drop a {
+.drop a,
+.drop p {
   float: none;
   color: black;
   padding: 10px 12px;
@@ -88,10 +88,12 @@
   transition: all 50ms ease-in 5ms;
 }
 
-.drop a:hover {
+.drop a:hover,
+.drop p:hover {
   background-color: #229e48;
   border-radius: 5px;
   color: white;
+  cursor: pointer;
 }
 
 .profileDrop > .show-content {

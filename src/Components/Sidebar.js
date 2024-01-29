@@ -5,7 +5,7 @@ import { RiHistoryFill } from "react-icons/ri";
 import { MdAddToQueue, MdArrowDropDown, MdOutlineCall } from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
 import { FiHelpCircle } from "react-icons/fi";
-import { Link} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { PiWalletBold } from "react-icons/pi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -125,7 +125,7 @@ function MyVerticallyCenteredModal(props) {
 }
 function Sidebar() {
   const { user } = useSelector((state) => state.authState);
-
+const navigate = useNavigate()
   const dispatch = useDispatch();
   const [modalShow, setModalShow] = useState(false);
   function toggledropdown() {
@@ -155,6 +155,7 @@ function Sidebar() {
 
   const logoutHandler = () => {
     dispatch(logout);
+    navigate('/')
   };
   return (
     <>
@@ -251,10 +252,8 @@ function Sidebar() {
                 >
                   Your Profile
                 </Link>
-
-                <Link to="/login" className="drop-link" onClick={logoutHandler}>
-                  Logout
-                </Link>
+              <p  className="drop-link" onClick={logoutHandler}> Logout </p>
+               
               </div>
             </div>
 

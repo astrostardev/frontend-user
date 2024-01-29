@@ -198,7 +198,7 @@ margin:0 px;
   margin-bottom: 10px;
 }
 #card_width{
-  /* width:320px; */
+  width:20rem;
 }
 .charge_btns button {
   padding: 0px 10px;
@@ -239,7 +239,7 @@ margin:0 px;
     height: 35vh;
   
   }
-  .about_astro {
+  /* .about_astro {
     padding: px 10px;  
     gap: 20%;
  
@@ -248,6 +248,6 @@ margin:0 px;
     gap:3%;
     justify-content: flex-start !important;
     margin:0 10px 10px 10px;
-  }
+  } */
 
 }
