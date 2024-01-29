@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.fa660976.css",
-    "main.js": "/static/js/main.971ba8b5.js",
+    "main.css": "/static/css/main.cd20baf9.css",
+    "main.js": "/static/js/main.db106d7c.js",
     "static/js/787.4b9a6eb5.chunk.js": "/static/js/787.4b9a6eb5.chunk.js",
     "static/media/astro3.svg": "/static/media/astro3.a9a0c3a962c7aa8b77831b2c2b16c505.svg",
     "static/media/astro2.svg": "/static/media/astro2.830cedfea6cee3ee2136d28fa4bbf698.svg",
@@ -23,12 +23,12 @@
     "static/media/arrow_forward_ios.svg": "/static/media/arrow_forward_ios.de1a0fea42076c6b40138973c7f52736.svg",
     "static/media/Facebook.svg": "/static/media/Facebook.87aaefd58091cb0e2f66edd858b1c02a.svg",
     "static/media/Group.svg": "/static/media/Group.67a62290f846541f48bbe8237845ec69.svg",
-    "main.fa660976.css.map": "/static/css/main.fa660976.css.map",
-    "main.971ba8b5.js.map": "/static/js/main.971ba8b5.js.map",
+    "main.cd20baf9.css.map": "/static/css/main.cd20baf9.css.map",
+    "main.db106d7c.js.map": "/static/js/main.db106d7c.js.map",
     "787.4b9a6eb5.chunk.js.map": "/static/js/787.4b9a6eb5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fa660976.css",
-    "static/js/main.971ba8b5.js"
+    "static/css/main.cd20baf9.css",
+    "static/js/main.db106d7c.js"
   ]
 }
