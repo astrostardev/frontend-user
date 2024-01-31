@@ -17,7 +17,7 @@ function MeetAstrologers(props) {
   const [astrologers, setAstrologers] = useState();
   const [categories, setCategories] = useState(null);
   const [languages, setLanguages] = useState(null);
-  
+
   // get methods from server
 
   useEffect(() => {
@@ -154,10 +154,10 @@ function MeetAstrologers(props) {
         <div className="container-fluid ">
           {/* filtering astrologers */}
           <div className="meet_astro_option">
-              <h4> Meet Astrologers</h4>
+            <h4> Meet Astrologers</h4>
             <div className="astro_drop_btn button_container">
               <button className="all" onClick={fetchData}>
-                All <img src={arrow_ios} alt="" styl />
+                All <img src={arrow_ios} alt="" />
               </button>
               <DropdownButton id="dropdown-item-button" title="Methodology">
                 {categories?.map((cat) => (
@@ -191,65 +191,59 @@ function MeetAstrologers(props) {
             <div className="meet_header">
               <h4 className="top_astro">Top Astrologers</h4>
             </div>
-           
-              <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3  row-cols-md-2 row-cols-xl-4 g-2 astrologer_container">
-                {astrologers?.map((data) => (
-                  <div className="col" key={data.id} id="card_width">
-                    <div className="card">
-                      {" "}
-                      {/* Added a unique key */}
-                      <div>
-                        <div className="astro_detail">
-                          <div className="astro_img">
-                            <LazyLoad height={85}>
-                              <img src={data?.profilePic[0]?.pic} alt="" />
-                            </LazyLoad>
-                          </div>
-                          <div className="about_astrologer">
-                            <h4>{data.displayname}</h4>
-                            <div>
-                              <button className="add">
-                                <img src={plus} alt="" />
-                              </button>
-                              <button className="rating">
-                                <img src={star} alt="" /> 4.2
-                              </button>
-                            </div>
-                          </div>
-                        </div>
 
-                        <div className="about_astro">
-                          <span>Vedic, Nadi</span>
-                          <span>Tamil, Eng</span>
-                          <span>Exp:{data.experience} years</span>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3  row-cols-md-2 row-cols-xl-4 g-2 astrologer_container">
+              {astrologers?.map((data) => (
+                <div className="col" key={data.id} id="card_width">
+                  <div className="card">
+                    <div>
+                      <div className="astro_detail">
+                        <div className="astro_img">
+                        
+                          <LazyLoad height={85}>
+                            <img src={data?.profilePic[0]?.pic} alt="" /> 
+                          </LazyLoad>
+                       
                         </div>
-                        <div className="charge_btns">
-                          <Link
-                            className=""
-                            to="/chat_page"
-                          >
-                            <button>
-                              chat <span>&#8377;</span>
-                              {data.displaychat}/min
+                        <div className="about_astrologer">
+                          <h4 className="name"> {data.displayname}</h4>
+                          <div>
+                            <button className="add">
+                              <img src={plus} alt="" />
                             </button>
-                          </Link>
-                          <Link
-                            className=""
-                            to="/call"
+                            <button className="rating">
+                              <img src={star} alt="" /> 4.2
+                            </button>
+                          </div>
                           
-                          >
-                            <button>
-                              call <span>&#8377;</span>
-                              {data.displaycall}/min
-                            </button>
-                          </Link>
                         </div>
                       </div>
+
+                      <div className="about_astro">
+                        <span>{data.category}</span>
+                        <span>{data.language}</span>
+                        <span>Exp: {data.experience} years</span>
+                      </div>
+                      <div className="charge_btns">
+                        <Link to="/chat_page">
+                          <button>
+                            Chat <span>&#8377;</span>
+                            {data.displaychat}/min
+                          </button>
+                        </Link>
+                        <Link to="/call">
+                          <button>
+                            Call <span>&#8377;</span>
+                            {data.displaycall}/min
+                          </button>
+                        </Link>
+                      </div>
+                      
                     </div>
                   </div>
-                ))}
-              </div>
-            
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </main>

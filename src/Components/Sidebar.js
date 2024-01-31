@@ -30,7 +30,7 @@ function MyVerticallyCenteredModal(props) {
   const { user } = useSelector((state) => state.authState);
   const { packages } = useSelector((state) => state.packageState);
   const { updatedPackage } = useSelector((state) => state.packageState);
-  console.log("single", updatedPackage);
+
   const dispatch = useDispatch();
 
 
@@ -94,10 +94,9 @@ function MyVerticallyCenteredModal(props) {
           </thead>
           <tbody>
             {packages?.map((data, index) => (
-              <>
+            
                 <tr key={data._id}>
                   <td>{index + 1}</td>
-
                   <td>{data?.fixedPrice}</td>
                   <td>{data?.packageName}</td>
                   <td>{data?.packageDetail}</td>
@@ -112,7 +111,7 @@ function MyVerticallyCenteredModal(props) {
                     </Button>
                   </td>
                 </tr>
-              </>
+              
             ))}
           </tbody>
         </Table>
@@ -218,7 +217,7 @@ const navigate = useNavigate()
         <header id="head">
           <article>
             <h4>
-              Hello <span style={{ color: "#229e48" }}>Raghavendraswamyar</span>
+              Hello <span style={{ color: "#229e48" }}>{user?.name ? user?.name : 'User'}</span>
             </h4>
           </article>
           <div>

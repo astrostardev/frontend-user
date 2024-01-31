@@ -14,7 +14,7 @@ function Chats(props) {
     </div>
         </div>
        
-        <div className='__main' style={{margin:"auto 17.7rem"}}>
+        <div className='__main'>
        
           <ChatBody/> 
         </div>
