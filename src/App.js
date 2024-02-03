@@ -1,5 +1,6 @@
 import "./App.css";
 import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';import "bootstrap/dist/css/bootstrap.min.css";
+
 import "bootstrap/dist/js/bootstrap.js";
 import Login from "./Pages/Login";
 import Register from './Pages/Register'
@@ -36,9 +37,11 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/timer" element={<Timer />} />
-            <Route path="/home" element={isAuthenticated ? <MeetAstrologers /> : <Navigate to="/" />} />
-            <Route path="/profile" element={isAuthenticated ? <UserProfile /> : <Navigate to="/" />} />
-            <Route path="/chat_page" element={isAuthenticated ? <Chats /> : <Navigate to="/" />} />
+            <Route path="/home" element={isAuthenticated ?  <MeetAstrologers /> : <Navigate to="/"/>} />
+            <Route path="/profile" element={isAuthenticated ?  <UserProfile/> : <Navigate to="/"/>} />
+
+            {/* <Route path="/profile" element={isAuthenticated ? <UserProfile /> : <Navigate to="/" />} /> */}
+            <Route path="/chat_page" element={ isAuthenticated ?<Chats /> : <Navigate to="/" /> } />
             <Route path="/chat_history" element={isAuthenticated ? <ChatHistory /> : <Navigate to="/" />} />
             <Route path="/call_history" element={isAuthenticated ? <CallHistory /> : <Navigate to="/" />} />
             <Route path="/wallet" element={isAuthenticated ? <Wallet />  : <Navigate to="/" />} />

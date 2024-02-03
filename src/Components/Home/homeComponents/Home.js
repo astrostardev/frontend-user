@@ -217,6 +217,7 @@ function MeetAstrologers(props) {
                           </div>
                           
                         </div>
+                       {data?.callAvailable == true || data?.chatAvailable == true ? <div className="availableDot"></div> : ''}
                       </div>
 
                       <div className="about_astro">

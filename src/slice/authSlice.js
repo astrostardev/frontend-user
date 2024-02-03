@@ -36,6 +36,12 @@ const authSlice = createSlice({
                 error: null
             }
         },
+        setErrorMessage(state,action){
+return{
+    ...state,
+    errorMessage: action.payload,
+}
+        },
         registerRequest(state, action) {
             return {
                 ...state,
@@ -133,6 +139,7 @@ export const {
     callDurationSuccess,
     postRechargeRequest,
     postRechargeFail,
-    postRechargeSuccess
+    postRechargeSuccess,
+    setErrorMessage
 } = actions;
 export default reducer
