@@ -18,6 +18,7 @@ function MeetAstrologers(props) {
   const [astrologers, setAstrologers] = useState();
   const [categories, setCategories] = useState(null);
   const [languages, setLanguages] = useState(null);
+  const[searchAstrologer,setSearchAstrologer]=useState(null)
   const navigate = useNavigate()
   // get methods from server
 
@@ -86,6 +87,26 @@ function MeetAstrologers(props) {
     console.log(astrologers);
   }
 
+  //display astrologer searched by name
+
+
+  async function fetchAstrologerByName() {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_URL}/api/v1/astrologer/name?search=${searchAstrologer}`,
+        {
+          method: "GET", // Use GET method
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      setAstrologers(data.astrologer);
+      console.log('filterBy name',astrologers);
+    } catch (error) {
+      console.error("Error fetching astrologers:", error);
+    }
+  }
+  
   // filtering astrologers by category
 
   const filterCategoryAstrologer = async (selectedCategory) => {
@@ -136,7 +157,7 @@ function MeetAstrologers(props) {
         <div className="search_space">
           <div className="search_div">
             <img src={search} alt="" />
-            <input type="text" placeholder="search" />
+            <input type="text" onChange={(e)=>{setSearchAstrologer(e.target.value); fetchAstrologerByName()}} placeholder="search" />
           </div>
 
           <div className="filter_btn">
