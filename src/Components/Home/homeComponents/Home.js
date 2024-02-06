@@ -6,18 +6,19 @@ import star from "../../../assests/Star 1.svg";
 import search from "../../../assests/search.svg";
 import group from "../../../assests/Group.svg";
 import line from "../../../assests/horizontalLine.svg";
-import OffCanvasNav from "../../OffCanvasNav";
+import OffCanvasNav from "../../../Pages/OffCanvasNav";
 import { Link } from "react-router-dom";
-import Sidebar from "../../Sidebar";
+import Sidebar from "../../../Pages/Sidebar";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import MetaData from "../../../Pages/MetaData";
 import LazyLoad from "react-lazy-load";
+import { useNavigate } from "react-router-dom";
 function MeetAstrologers(props) {
   const [astrologers, setAstrologers] = useState();
   const [categories, setCategories] = useState(null);
   const [languages, setLanguages] = useState(null);
-
+  const navigate = useNavigate()
   // get methods from server
 
   useEffect(() => {
@@ -194,7 +195,7 @@ function MeetAstrologers(props) {
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3  row-cols-md-2 row-cols-xl-4 g-2 astrologer_container">
               {astrologers?.map((data) => (
-                <div className="col" key={data.id} id="card_width">
+                <div onClick={()=> navigate(`/astrologer_profile/${data?._id}`)} className="col" key={data.id} id="card_width">
                   <div className="card">
                     <div>
                       <div className="astro_detail">

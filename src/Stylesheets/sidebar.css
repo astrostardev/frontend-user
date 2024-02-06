@@ -146,13 +146,40 @@
   gap: 5px;
   align-items: center;
 }
+#head > article > h4 > span{
+  text-transform: capitalize;
+}
+.package_name{
+  text-transform: capitalize;
+}
+.td_width{
+  width:200px;
 
+}
+.check-box{
+  text-align: left;
+}
 #head .welcome {
   width: 25px;
   height: 25px;
   animation: mymove infinite 3s linear;
 }
+.alert-msg{
+  text-align: center;
+  margin:10px;
+  font-size:18px;
 
+}
+#pckg_header{
+  display: flex;
+  position:relative;
+gap:1rem;
+  /* justify-content: space-between !important; */
+}
+.modal_btn{
+  background-color:#229e48 !important;
+  border:#229e48;
+}
 @keyframes mymove {
   from {
     transform: rotate(0deg);

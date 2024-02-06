@@ -207,6 +207,9 @@ margin:0 px;
   width:20rem;
 
 }
+#card_width:hover{
+  cursor: pointer;
+}
 .charge_btns button {
   padding: 0px 10px;
   min-height: 4vh;

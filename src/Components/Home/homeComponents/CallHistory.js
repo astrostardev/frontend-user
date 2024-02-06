@@ -1,8 +1,8 @@
 import "../homeStyleSheets/ChatHistory.css";
 import Table from "react-bootstrap/Table";
 import { callHistory } from "../../../data";
-import Sidebar from "../../Sidebar";
-import OffCanvasNav from "../../OffCanvasNav";
+import Sidebar from "../../../Pages/Sidebar";
+import OffCanvasNav from "../../../Pages/OffCanvasNav";
 import MetaData from "../../../Pages/MetaData";
 function CallHistory() {
   return (

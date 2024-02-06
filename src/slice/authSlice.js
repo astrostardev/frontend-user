@@ -110,12 +110,13 @@ return{
                 token:action.payload.token
             }
         },
+
         postRechargeFail(state, action) {
             console.log("Error in login:", action.payload);
             return {
                 ...state,
                 loading: false,
-                error: action.payload,
+                error: action.payload.error,
             }
     }
 }
@@ -140,6 +141,8 @@ export const {
     postRechargeRequest,
     postRechargeFail,
     postRechargeSuccess,
-    setErrorMessage
+    setErrorMessage,
+
+
 } = actions;
 export default reducer

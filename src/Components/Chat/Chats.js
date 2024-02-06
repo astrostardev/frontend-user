@@ -1,7 +1,7 @@
 import React from 'react';
 import ChatBody from './chatBody/ChatBody';
-import Sidebar from '../Sidebar';
-import OffCanvasNav from '../OffCanvasNav';
+import Sidebar from '../../Pages/Sidebar';
+import OffCanvasNav from '../../Pages/OffCanvasNav';
 function Chats(props) {
     return (
       <div  style={{ display:"flex",flexDirection:"column"}}>

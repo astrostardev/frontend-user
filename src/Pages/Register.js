@@ -15,21 +15,16 @@ import {
   Form,
   Button,
   Toast,
-  Alert,
   ToastContainer,
-  FloatingLabel,
-  InputGroup,
 } from "react-bootstrap";
 import OtpInput from "react-otp-input";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { Checkbox } from "@mui/material";
 import { useDispatch,useSelector } from "react-redux";
 
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const [userDetail, setUserDetail] = useState("");
   const [showTab, setShowtab] = useState(1);
   const handleClick = (num) => {
     setShowtab(num);

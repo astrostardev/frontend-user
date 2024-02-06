@@ -1,0 +1,228 @@
+.wrapper{
+    padding:5px 10px;
+    border-radius:10px;
+    border:1px solid gray;
+    display: flex;
+    margin:20px 15px ;
+    flex-direction: column;
+    gap:10px;
+}
+.profile_container{
+    display: flex;
+    margin:10px;
+    justify-content: space-evenly;
+}
+@media screen and (max-width:936px) {
+    .profile_container{
+ 
+        flex-direction: column;
+    }
+}
+.profile_img{
+    display:flex;
+    flex:0.3;
+    flex-direction: column;
+    gap:10px;
+    align-items: center;
+
+}
+.profile_img > .astrologer_img{
+    width:250px;
+    height:250px;
+    border-radius: 50%;
+    background-color: gray;
+
+}
+.profile_img > .astrologer_img > img{
+    max-width: 100%;
+    border-radius: 50%;
+
+}
+.profile_details{
+    flex:0.7;
+}
+.profile_details>h1{
+    text-transform: capitalize;
+}
+._items{
+    display:flex;
+    align-items: center;
+    gap:15px;
+}
+.costs{
+    display: flex;
+    gap:2rem;
+}
+@media screen and (max-width:480px) {
+    .costs{
+        
+ flex-direction: column;
+ gap:0;
+  
+    }
+    .time_taken{
+   
+        flex-direction: column;
+        gap: 0 !important;
+
+    }
+}
+.time_taken{
+    display: flex;
+    gap:5rem;
+}
+.start_activity{
+    gap:20px;
+    display: flex;
+}
+@media screen and (max-width:736px) {
+    .start_activity{
+        
+ flex-direction: column;
+  
+    }
+}
+.start_activity>button{
+    padding:0.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap:2rem;
+    border:1px solid #229e48;
+    background-color: white;
+    border-radius:20px;
+}
+.start_activity>button>p{
+    font-size:18px;
+    margin:0.5rem 0;
+ color:#229e48;   
+
+}
+
+.astrologer_bio{
+    flex:1;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.text_bio{
+    text-align: justify;
+}
+.rating_wrapper{
+    margin:20px 15px ;
+    display: flex;
+    gap:1rem;
+}
+@media screen and (max-width:736px) {
+    .rating_wrapper{
+ 
+        flex-direction: column;
+    }
+}
+
+@media screen and  ((min-width:736px)and (max-width:936px)){
+    .rating_wrapper{
+ 
+        flex-direction: column;
+    }
+    
+    
+}
+.ratings{
+    flex:0.7;
+    padding:10px;
+    border:1px solid gray;
+    border-radius: 10px;
+    height:15rem;
+}
+
+.similar_consultannt{
+    flex:1;
+    gap:1rem;
+    display: flex;
+    flex-direction: column;
+}
+.rates{
+    display: flex;
+    align-items: center;
+    gap:3rem;
+    padding:1rem 2rem;
+}
+@media screen and (max-width:500px) {
+    .rates{
+ flex-direction: column;
+ padding:0 0;
+ align-items: flex-start;
+ gap:0;
+
+  
+    }
+ 
+}
+.rating_points{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+.rate_icons{
+    color:gray;
+
+}
+.ratiing_bars{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+
+}
+.ratiing_bars>h3{
+    font-size:20px;
+}
+
+.bar{
+    width:200px;
+    height:10px;
+    border-radius: 20px;
+    background-color: rgb(211, 211, 211);
+}
+.header_container{
+    display: flex;
+    border:1px solid gray;
+    border-radius: 10px;
+    padding:0.5rem 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+.list_consultants{
+    border:1px solid gray;
+    border-radius: 10px;
+    padding:0.5rem 0.5rem;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+    height: 17rem;
+    text-wrap: wrap;
+}
+.cons_details{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap:5px;
+    border:1px solid gray;
+    border-radius: 10px;
+    padding:0.5rem 1rem;
+}
+.cons_profile{
+    display: flex;
+    gap:10px;
+    align-items: center;
+    
+}
+.cons_img{
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    background-color: gray;
+}

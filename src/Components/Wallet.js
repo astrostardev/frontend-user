@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Sidebar from "./Sidebar";
-import OffCanvasNav from "./OffCanvasNav";
+import Sidebar from "../Pages/Sidebar";
+import OffCanvasNav from "../Pages/OffCanvasNav";
 import "../Stylesheets/wallet.css";
 import astro1 from "../assests/astro1.svg";
 import cardbg from "../assests/bg-orange.jpeg";

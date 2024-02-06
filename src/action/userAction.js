@@ -14,10 +14,12 @@ import {
     postRechargeRequest,
     postRechargeSuccess,
     postRechargeFail,
-    setErrorMessage
+    setErrorMessage,
+
 } from '../slice/authSlice'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { useSelector } from 'react-redux';
 
 // export const setErrorMessage = (errorMessage) => ({payload: errorMessage });
 
@@ -78,12 +80,14 @@ export const userCall = (id,recordedTime) => async (dispatch) => {
   }
 
 }
-export const userRecharge = (packid,packages) => async (dispatch) => {
+export const userRecharge = (userid,packages) => async (dispatch) => {
 
   try {
       dispatch(postRechargeRequest())
-      const { data } = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/recharge/${packid}`,packages);
-      dispatch(postRechargeSuccess(data))
+      const { data } = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/recharge/${userid}`,packages);
+     
+      console.log('After axios.post'); dispatch(postRechargeSuccess(data))
+
   } catch (error) {
       dispatch(postRechargeFail(error.response.data.message))
       console.log(error);
