@@ -51,10 +51,10 @@ export const clearAuthError = dispatch => {
     dispatch(clearError())
 }
 
-export const userRegister = (phoneNo, name) => async (dispatch) => {
+export const userRegister = (phoneNo, name,userID,referralCode,welcomeBonus,welcomerefBonus) => async (dispatch) => {
   try {
     dispatch(registerRequest());
-    const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/register`, { phoneNo, name });
+    const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/register`, { phoneNo, name, userID,referralCode,welcomeBonus, welcomerefBonus});
     const {data} = response;
     console.log(data);
     dispatch(registerSuccess(data));

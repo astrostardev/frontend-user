@@ -9,8 +9,7 @@ import "react-phone-input-2/lib/style.css";
 import { useEffect, useReducer, useState } from "react";
 import {userRegister,clearAuthError,} from '../action/userAction';
 import MetaData from "./MetaData";
-
-
+import { v4 as uuid } from "uuid";
 import {
   Form,
   Button,
@@ -18,7 +17,7 @@ import {
   ToastContainer,
 } from "react-bootstrap";
 import OtpInput from "react-otp-input";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
 
@@ -34,8 +33,9 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
   const [phoneNumber, setPhoneNumber] = useState("");
   const [name, setUserName] = useState("");
   const [namealert, setNameAlert] = useState(false);
+  const [referralCode,setRefCode]=useState("")
 
-  const [valid, setValid] = useState(false);
+  const [valid, setValid] = useState(true);
   const [alert, setAlert] = useState(false);
   const[check,setCheck]=useState(false)
   const [checkAlert, setCheckAlert] = useState(false);
@@ -46,7 +46,8 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
     setCheckAlert(false);
     setPhoneNumber(value);
     setValid(validatePhoneNumber(value));
-  
+    
+ 
 
   };
 
@@ -58,20 +59,21 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
     const phoneNumberPattern = /^[6-9]\d{9}$/;
     return phoneNumberPattern.test(removeCountryCode);
   };
-  const validation = {
-    username: {
-      required: {
-        value: true,
-        message: "Fill the details",
-      },
-    },
-  };
- 
+
 
 
    
   const checkUser =  () => {
     // e.preventDefault();
+    if(!valid){
+      setAlert(true)
+    }
+    const bonus = 50;
+    const welcomeBonus = referralCode === '' ? bonus : null;
+  
+    const welcomerefBonus = referralCode !== '' ? bonus + 20 :null;
+
+    console.log('number',valid);
     if (!phoneNo || !name || check === false) {
       toast.error("Please fill all the fields and check the box", {
         position: toast.POSITION.TOP_RIGHT,
@@ -79,7 +81,9 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
       return;
     }
     setDisable(true)
-    dispatch(userRegister(phoneNo,name))
+    const userID = uuid().slice(0, 6).toUpperCase();
+    // console.log('code',userRefCode);
+    dispatch(userRegister(phoneNo,name,userID,referralCode, welcomeBonus, welcomerefBonus))
 
       handleOTP()
     
@@ -121,6 +125,7 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
   const [minutes, setMinutes] = useState();
   const [seconds, setSeconds] = useState();
   const [otpAlert, setOtpalert] = useState(false);
+
 
   useEffect(() => {
     const interval = setInterval(function () {
@@ -185,7 +190,7 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
           <Form className="mt-4" id="form">
             <div className="register_feild">
               <Form.Group controlId="formFile" className="mb-3 me-3">
-                <Form.Label>Enter your mobile number:</Form.Label>
+                <Form.Label> Mobile number:</Form.Label>
                 <PhoneInput
                   country={"in"}
                   value={phoneNumber}
@@ -198,10 +203,29 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
                   onlyCountries={["in"]}
                   disableDropdown={true}
                 />
+                
               </Form.Group>
+              {alert && (
+            <ToastContainer
+              position="top-end"
+              className="p-3"
+              style={{ zIndex: 1 }}
+            >
+              <Toast
+                className="d-inline-block m-1"
+                bg="danger"
+                delay={3000}
+                autohide={true}
+              >
+                <Toast.Body className="dark">
+                  Enter valid mobile number
+                </Toast.Body>
+              </Toast>
+            </ToastContainer>
+          )}
               <div className="mb-3 me-3">
                 <label htmlFor="username" className="form-label">
-                  Enter Your Name
+                   Name
                 </label>
                 <input
                   type="text"
@@ -214,6 +238,22 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
                   required
                   //  {...register("username", validation.username)}
                 />
+              </div>
+              <div className="mb-3 me-3">
+                <label htmlFor="referralCode" className="form-label">
+                  Referal Code
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="referralCode"
+                  placeholder="Referal code"
+                  name="referralCode"
+                  onChange={(e) => setRefCode(e.target.value)}
+                  value={referralCode}
+            
+                />
+
               </div>
             </div>
             {namealert && (
@@ -232,6 +272,7 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
                 </Toast>
               </ToastContainer>
             )}
+            
             <div
               className="conditions"
           
@@ -296,24 +337,7 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
               </p>
             </div>
           </Form>
-          {alert && (
-            <ToastContainer
-              position="top-end"
-              className="p-3"
-              style={{ zIndex: 1 }}
-            >
-              <Toast
-                className="d-inline-block m-1"
-                bg="danger"
-                delay={3000}
-                autohide={true}
-              >
-                <Toast.Body className="dark">
-                  Enter valid mobile number
-                </Toast.Body>
-              </Toast>
-            </ToastContainer>
-          )}
+         
         </div>
         <div className={showTab === 2 ? "active" : "disable"}>
           <Form className="mt-4" id="form">
