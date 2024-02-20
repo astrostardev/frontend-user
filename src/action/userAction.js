@@ -64,7 +64,7 @@ export const userRegister = (phoneNo, name,userID,referralCode,welcomeBonus,welc
     // if (error.response && error.response.status === 409) {
     //   toast.error("User already registered. Please login");
     // }
-    dispatch(registerFail(error?.response?.data?.message));
+    dispatch(registerFail(error?.response?.data?.messag ));
     console.error(error.response?.data?.message);
   }
   

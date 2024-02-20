@@ -5,9 +5,7 @@ import Login from "./Pages/Login";
 import Register from './Pages/Register'
 import UserProfile from "./Components/Profiles/UserProfile";
 import AstrologerProfile from "./Components/Profiles/AstrologerProfile";
-
 import MeetAstrologers from "./Components/Home/homeComponents/Home";
-import Chats from "./Components/Chat/Chats";
 import Wallet from "./Components/Wallet";
 import Chat from "./Components/Home/homeComponents/Chat";
 import Call from "./Components/Home/homeComponents/Call";
@@ -18,6 +16,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Timer from "./Components/Timer";
 import { HelmetProvider } from 'react-helmet-async'
 import { useSelector } from "react-redux";
+import ChatContent from "./Components/Chat/chatContent/ChatContent";
+import ChatBody from "./Components/Chat/chatBody/ChatBody";
+import Welcome from "./Components/Chat/chatPages/Welcome";
 
 
 function App() {
@@ -43,12 +44,18 @@ function App() {
             <Route path="/astrologer_profile/:id" element={ isAuthenticated ? <AstrologerProfile/>  : <Navigate to="/"/> } />
 
             {/* <Route path="/profile" element={isAuthenticated ? <UserProfile /> : <Navigate to="/" />} /> */}
-            <Route path="/chat_page" element={ isAuthenticated ?<Chats /> : <Navigate to="/" /> } />
+            <Route path="chats" element={<ChatBody/>} >
+            <Route path="chat_content" element={<ChatContent />} />
+            <Route path="welcome" element={<Welcome />} />
+            </Route>
+
+
             <Route path="/chat_history" element={isAuthenticated ? <ChatHistory /> : <Navigate to="/" />} />
             <Route path="/call_history" element={isAuthenticated ? <CallHistory /> : <Navigate to="/" />} />
             <Route path="/wallet" element={isAuthenticated ? <Wallet />  : <Navigate to="/" />} />
             <Route path="/chat" element={isAuthenticated ?<Chat /> : <Navigate to="/" />} />
             <Route path="/call" element={isAuthenticated ?<Call />  : <Navigate to="/" />} />
+
             </Routes>
       </Router>
       </HelmetProvider>

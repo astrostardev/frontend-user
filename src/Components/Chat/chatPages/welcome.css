@@ -1,0 +1,17 @@
+.welcome-logo{
+    height:20vw;
+}
+.welcome-container{
+    display:flex;
+    flex:0.7;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:20px;
+    font-family:  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-bottom:5px solid #ccf9ea;
+}
+.welcome-container > p{
+    color:rgba(0,0,0,0.54);
+
+}

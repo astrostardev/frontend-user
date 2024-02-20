@@ -1,19 +1,22 @@
 import React, { Component, useState, createRef, useEffect } from "react";
-import ChatItem from "./ChatItem";
+import MessageSelf from "./MessageSelf";
+import MessageOthers from "./MessageOthers";
 import "./chatContent.css";
 import { IconButton } from "@mui/material";
 import { IoAddOutline } from "react-icons/io5";
+import { AiOutlineSend } from "react-icons/ai";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 function ChatContent(props) {
   const messagesEndRef = createRef(null);
   const [msg, setMsg] = useState("");
   const [chatItms, setChatItms] = useState([]);
-  const [conversation,setConversation] = useState([
+  const [conversation, setConversation] = useState([
     {
-      name:"Test #1",
-      lastMessage:"Last Message #1",
-      timeStamp:"today"
+      name: "Test #1",
+      lastMessage: "Last Message #1",
+      timeStamp: "today",
     },
-    
   ]);
   const chatItems = [
     {
@@ -99,48 +102,47 @@ function ChatContent(props) {
   };
   return (
     <div className="main__chatcontent">
-      <div className="content__header">
-        <div className="blocks">
+
+<AnimatePresence>
+   <motion.div 
+   initial ={{opacity:0, scale:1}}
+   animate={{opacity:1, scale:1}}
+   exit = {{opacity:0, scale:0}} 
+   transition={{ease:"anticipate",
+   duration:"0.3"}}>
           <div className="current-chatting-user">
             <p className="con-icon">T</p>
             <div className="header-text">
               <p className="con-title">Test#1</p>
               <p className="con-timeStamp">online</p>
             </div>
-            <IconButton>End</IconButton>
+            <IconButton style={{ background: "#F3F3F3" }}>End</IconButton>
           </div>
-        </div>
 
-        {/* <div className="blocks">
-            <div className="settings">
-              <button className="btn-nobg">
-                <i className="fa fa-cog"></i>
-              </button>
-            </div>
-          </div> */}
-      </div>
+
+    
       <div className="content__body">
         <div className="chat__items">
-          {chatItems.map((itm, index) => {
-            return (
-              <ChatItem
-                animationDelay={index + 2}
-                key={itm.key}
-                user={itm.type ? itm.type : "me"}
-                msg={itm.msg}
-                image={itm.image}
-              />
-            );
-          })}
-          <div ref={messagesEndRef} />
-        </div>
+          <MessageSelf/>
+          <MessageOthers/>
+          <MessageSelf/>
+          <MessageOthers/>
+          <MessageSelf/>
+          <MessageOthers/>
+          <MessageSelf/>
+          <MessageOthers/>
+          <MessageSelf/>
+          <MessageOthers/>
+          <MessageSelf/>
+          <MessageOthers/>
+      </div>
       </div>
       <div className="content__footer">
         <div className="sendNewMessage">
           <IconButton>
-          <IoAddOutline />
+            <IoAddOutline />
           </IconButton>
-         
+
           <input
             type="text"
             placeholder="Type a message here"
@@ -148,10 +150,12 @@ function ChatContent(props) {
             value={msg}
           />
           <button className="btnSendMsg" id="sendMsgBtn">
-            <i className="fa fa-paper-plane"></i>
+            <AiOutlineSend />
           </button>
         </div>
       </div>
+      </motion.div>
+    </AnimatePresence>
     </div>
   );
 }

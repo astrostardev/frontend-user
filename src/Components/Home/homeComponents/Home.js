@@ -216,11 +216,11 @@ function MeetAstrologers(props) {
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3  row-cols-md-2 row-cols-xl-4 g-2 astrologer_container">
               {astrologers?.map((data) => (
-                <div onClick={()=> navigate(`/astrologer_profile/${data?._id}`)} className="col" key={data.id} id="card_width">
+                <div className="col" key={data.id} id="card_width">
                   <div className="card">
                     <div>
                       <div className="astro_detail">
-                        <div className="astro_img">
+                        <div className="astro_img" onClick={()=> navigate(`/astrologer_profile/${data?._id}`)} >
                         
                           <LazyLoad height={85}>
                             <img src={data?.profilePic[0]?.pic} alt="" /> 

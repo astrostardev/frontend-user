@@ -33,7 +33,7 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
   const [phoneNumber, setPhoneNumber] = useState("");
   const [name, setUserName] = useState("");
   const [namealert, setNameAlert] = useState(false);
-  const [referralCode,setRefCode]=useState("")
+  const [referralCode,setRefCode]=useState(null)
 
   const [valid, setValid] = useState(true);
   const [alert, setAlert] = useState(false);
@@ -68,12 +68,12 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
     if(!valid){
       setAlert(true)
     }
-    const bonus = 50;
-    const welcomeBonus = referralCode === '' ? bonus : null;
+    // const bonus = 50;
+    // const welcomeBonus = referralCode === '' ? bonus : null;
   
-    const welcomerefBonus = referralCode !== '' ? bonus + 20 :null;
+    // const welcomerefBonus = referralCode !== '' ? bonus + 20 :null;
 
-    console.log('number',valid);
+    // console.log('number',valid);
     if (!phoneNo || !name || check === false) {
       toast.error("Please fill all the fields and check the box", {
         position: toast.POSITION.TOP_RIGHT,
@@ -83,7 +83,7 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
     setDisable(true)
     const userID = uuid().slice(0, 6).toUpperCase();
     // console.log('code',userRefCode);
-    dispatch(userRegister(phoneNo,name,userID,referralCode, welcomeBonus, welcomerefBonus))
+    dispatch(userRegister(phoneNo,name,userID,referralCode))
 
       handleOTP()
     

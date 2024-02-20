@@ -1,18 +1,23 @@
 import React from "react";
-import Nav from "../navBar/Nav";
-import ChatContent from "../chatContent/ChatContent";
-import AstroProfile from "../profile/AstrologerProfile";
-import './chatBody.css'
+import "./chatBody.css";
 import Sidebar from "../SideBar/Sidebar";
+import AppSiderbar from "../../../../src/Pages/Sidebar";
+import OffCanvasNav from "../../../../src/Pages/OffCanvasNav";
+import { Outlet } from "react-router-dom";
 function ChatBody(props) {
   return (
-
-    <div className="main__chatbody">
-      <Sidebar />
-      <ChatContent />
-      
-    </div>
-
+    <>
+      <div id="fixedbar">
+        <AppSiderbar />
+      </div>
+      <div id="offcanvas">
+        <OffCanvasNav />
+      </div>
+      <div className="main__chatbody">
+        <Sidebar />
+        <Outlet />
+      </div>
+    </>
   );
 }
 

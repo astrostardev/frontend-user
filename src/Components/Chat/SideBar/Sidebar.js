@@ -7,7 +7,9 @@ import { MdOutlineNightlight } from "react-icons/md";
 import { IconButton } from "@mui/material";
 import { IoMdSearch } from "react-icons/io";
 import ConversationItem from "../ConversationItem/ConversationItem";
+import { useNavigate } from "react-router-dom";
 function Sidebar() {
+  const navigate = useNavigate()
   const [conversation,setConversation] = useState([
     {
       name:"Test #1",
