@@ -2,8 +2,10 @@
   /* flex-grow: 1; */
   display: flex;
   flex-direction: column;
-  padding: 10px 40px;
+  padding: 10px 10px;
   flex: 0.7;
+  background-color: rgb(240, 255, 248);
+
   border-right: 1px solid #ebe7fb;
 }
 
@@ -34,7 +36,7 @@
   padding: 5px 10px;
   border-radius: 5px;
 }
-.settings .btn-nobg {
+ .btn-nobg {
   color: #000;
   border: none;
   background-color: transparent;
@@ -49,17 +51,20 @@
 
   transition: all 0.3s ease-in-out;
 }
-.settings .btn-nobg:hover {
+ .btn-nobg:hover {
   transform: scale(1.07);
+  background-color: rgb(240, 255, 248) !important;
+  
 }
 .content__body {
-  max-height: calc(100vh - calc(100vh / 2.5));
   overflow: scroll;
   padding: 20px 30px;
   scrollbar-width: none;
-  margin: 15px 0px;
+  height:65vh;
+  background-color: white;
+  margin: 15px 0px ;
+  margin-bottom: 10px;
   border-radius: 10px;
-  flex: 1;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
@@ -147,6 +152,7 @@
 .content__footer {
   border-radius:10px;
   padding:5px 10px;
+  background-color: white;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }

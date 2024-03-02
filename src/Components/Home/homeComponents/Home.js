@@ -14,11 +14,14 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import MetaData from "../../../Pages/MetaData";
 import LazyLoad from "react-lazy-load";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 function MeetAstrologers(props) {
   const [astrologers, setAstrologers] = useState();
   const [categories, setCategories] = useState(null);
   const [languages, setLanguages] = useState(null);
   const[searchAstrologer,setSearchAstrologer]=useState(null)
+  const { user, token } = useSelector((state) => state.authState);
+
   const navigate = useNavigate()
   // get methods from server
 
@@ -86,6 +89,23 @@ function MeetAstrologers(props) {
     setAstrologers(data.astrologers);
     console.log(astrologers);
   }
+  //sending userId
+  async function sendUserId() {
+    console.log('userId', user?._id);
+    let response = await fetch(
+        `${process.env.REACT_APP_URL}/api/v1/user/getuser`,
+        {
+            headers: {
+                "Content-Type": "application/json", // Corrected Content-Type
+                Authorization: `Bearer ${token}`
+            },
+            method: "POST",
+            body: JSON.stringify({ id: user._id }) // Pass user ID as an object
+        }
+    );
+    console.log(response);
+}
+
 
   //display astrologer searched by name
 
@@ -142,6 +162,7 @@ function MeetAstrologers(props) {
     setAstrologers(data.astrologer);
     console.log(astrologers);
   };
+
   return (
     <>
       <MetaData title={"Astro5Star"} />
@@ -248,8 +269,8 @@ function MeetAstrologers(props) {
                         <span>Exp: {data.experience} years</span>
                       </div>
                       <div className="charge_btns">
-                        <Link to="/chat_page">
-                          <button>
+                        <Link to={`/chats/${data?._id}`} >
+                          <button onClick={sendUserId}>
                             Chat <span>&#8377;</span>
                             {data.displaychat}/min
                           </button>

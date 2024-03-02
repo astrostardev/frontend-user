@@ -1,6 +1,9 @@
 import React from "react";
+import { extractTime } from "../../../utils/extractTime";
 
 function MessageOthers(props) {
+  const formatedTime = extractTime(props?.props?.createdAt);
+
   return (
     <div
       style={{ animationDelay: `0.8s` }}
@@ -12,8 +15,9 @@ function MessageOthers(props) {
       </p>
 
       <div className="chat__item__content other">
-        <p className="msg-title">Hello gaythri</p>
-        <p className="chat__time">12:00pm</p>
+        <p className="msg-title">{props?.props?.message}</p>
+        <p className="chat__time">{formatedTime}</p>
+
       </div>
     </div>
   );

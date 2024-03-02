@@ -53,10 +53,31 @@ return{
                 loading: false,
                 isAuthenticated: true,
                 user: action.payload.user,
-                // token:action.payload.token
+                 token:action.payload.token
             }
         },
         registerFail(state, action) {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        },
+        getAllUserRequest(state, action) {
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        getAllUserSuccess(state, action) {
+            return {
+                loading: false,
+                isAuthenticated: true,
+                user: action.payload.user,
+                token:action.payload.token
+            }
+        },
+        getAllUserFail(state, action) {
             return {
                 ...state,
                 loading: false,
@@ -142,7 +163,9 @@ export const {
     postRechargeFail,
     postRechargeSuccess,
     setErrorMessage,
-
+  getAllUserFail,
+  getAllUserRequest,
+  getAllUserSuccess
 
 } = actions;
 export default reducer

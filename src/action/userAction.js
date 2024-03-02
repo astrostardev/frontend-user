@@ -15,6 +15,9 @@ import {
     postRechargeSuccess,
     postRechargeFail,
     setErrorMessage,
+    getAllUserRequest,
+    getAllUserSuccess,
+    getAllUserFail,
 
 } from '../slice/authSlice'
 import { toast } from 'react-toastify'
@@ -23,11 +26,12 @@ import { useSelector } from 'react-redux';
 
 // export const setErrorMessage = (errorMessage) => ({payload: errorMessage });
 
-export const login = (phoneNo,token) => async (dispatch, getState) => {
+export const login = (phoneNo) => async (dispatch, getState) => {
     try {
       dispatch(loginRequest());
-  
+ 
       const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/login`,{ phoneNo });
+
       const {data} = response;
       console.log(data);
       dispatch(loginSuccess(data));
@@ -65,6 +69,24 @@ export const userRegister = (phoneNo, name,userID,referralCode,welcomeBonus,welc
     //   toast.error("User already registered. Please login");
     // }
     dispatch(registerFail(error?.response?.data?.messag ));
+    console.error(error.response?.data?.message);
+  }
+  
+};
+export const getAllUser = async (dispatch) => {
+  try {
+    dispatch(getAllUserRequest());
+    const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/user/users`);
+    const {data} = response;
+    console.log(data);
+    dispatch(getAllUserSuccess(data));
+
+  }
+  catch(error){
+    // if (error.response && error.response.status === 409) {
+    //   toast.error("User already registered. Please login");
+    // }
+    dispatch(getAllUserFail(error?.response?.data?.messag ));
     console.error(error.response?.data?.message);
   }
   

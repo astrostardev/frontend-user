@@ -6,7 +6,7 @@ import PhoneInput from "react-phone-input-2";
 import { toast } from 'react-toastify'
 import "react-phone-input-2/lib/style.css";
 import { useEffect, useState } from "react";
-import { clearAuthError, login,} from '../action/userAction';
+import { clearAuthError, login,getAllUser} from '../action/userAction';
 import { useSelector,useDispatch } from "react-redux";
 import MetaData from "./MetaData";
 
@@ -20,7 +20,6 @@ import {
 import OtpInput from "react-otp-input";
 import { useForm } from "react-hook-form";
 import { useNavigate,Link } from "react-router-dom";
-
 function Login() {
   const navigate = useNavigate();
   const {loading, error, isAuthenticated} = useSelector(state=>state.authState)
@@ -52,7 +51,10 @@ function Login() {
   const phoneNo = mobile.slice(2);
   //check the  registered user
 
- 
+ //getAll users for finding registered user 
+ useEffect(()=>{
+dispatch(getAllUser)
+ },[])
   const submitHandler = async () => {
     if (loading || disable) {
       return; // Prevent multiple clicks while the login is in progress

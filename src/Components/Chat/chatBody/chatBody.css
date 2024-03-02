@@ -14,13 +14,12 @@
 }
 .main__chatcontent {
   flex: 0.7;
+
 }
 @media screen and (max-width: 900px) {
   .main__chatbody {
     /* flex-direction: column; */
     gap: 2rem;
   }
-  .main__chatcontent {
-    /* display: none; */
-  }
+
 }
