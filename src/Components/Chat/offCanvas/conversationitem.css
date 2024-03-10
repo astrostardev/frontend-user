@@ -39,7 +39,6 @@
 .con-title{
     grid-area:1/2/2/4;
     font-weight: bold;
-    text-transform: capitalize;
     color:rgba(0,0,0,0,0.54)
 }
 .con-timeStamp{

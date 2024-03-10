@@ -5,7 +5,7 @@
   padding: 10px 10px;
   flex: 0.7;
   background-color: rgb(240, 255, 248);
-
+/* background-color: red !important; */
   border-right: 1px solid #ebe7fb;
 }
 
@@ -198,11 +198,17 @@
   color: #fff;
   font-size: 20px;
 }
-
-@media screen and (max-width: 736px) {
+@media screen and (max-width: 500px){
+  .main__chatcontent {
+ /* display: none; */
+    margin-left:-30px;
+  }
+}
+/* @media screen and (max-width: 736px) {
   .main__chatcontent {
     width: 95vw;
     border: none;
+
   }
   .chat__item__content {
     background: #f3f3f3;
@@ -225,14 +231,14 @@
     display: flex;
     width: 80vw;
     /* padding: 10px; */
-    border-radius: 8px;
-    margin-left: -8px;
-  }
-}
+    /* border-radius: 8px; */
+    /* margin-left: -8px; */
+  /* } */
+/* } */
 
-@media screen and ((max-width: 1057px) and (min-width:700px)) {
+/* @media screen and ((max-width: 1057px) and (min-width:700px)) {
   .main__chatcontent {
     width: 58vw;
     border: none;
   }
-}
+} */ 

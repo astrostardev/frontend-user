@@ -1,5 +1,6 @@
 
 .sd-header{
+    
 background-color: white;
 border-radius:10px;
 padding : 10px 15px;
@@ -37,3 +38,16 @@ margin:10px;
 flex:1;
 box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
+@media screen and (max-width: 500px){
+    .sidebar_container {
+        position: fixed;        
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        z-index: 9999;
+      }
+   
+  }

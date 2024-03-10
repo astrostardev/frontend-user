@@ -1,8 +1,14 @@
 import "./App.css";
-import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  HashRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
 import Login from "./Pages/Login";
-import Register from './Pages/Register'
+import Register from "./Pages/Register";
 import UserProfile from "./Components/Profiles/UserProfile";
 import AstrologerProfile from "./Components/Profiles/AstrologerProfile";
 import MeetAstrologers from "./Components/Home/homeComponents/Home";
@@ -12,52 +18,81 @@ import Call from "./Components/Home/homeComponents/Call";
 import ChatHistory from "./Components/Home/homeComponents/ChatHistory";
 import CallHistory from "./Components/Home/homeComponents/CallHistory";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import Timer from "./Components/Timer";
-import { HelmetProvider } from 'react-helmet-async'
+import { HelmetProvider } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import ChatContent from "./Components/Chat/chatContent/ChatContent";
 import ChatBody from "./Components/Chat/chatBody/ChatBody";
 import Welcome from "./Components/Chat/chatPages/Welcome";
 
-
 function App() {
-
-  const { loading, error, isAuthenticated } = useSelector(state => state.authState)
+  const { loading, error, isAuthenticated } = useSelector(
+    (state) => state.authState
+  );
 
   return (
     <div className="App">
       <HelmetProvider>
-      <ToastContainer theme="dark"/>
-      <Router>
-        {/* <Routes>
+        <ToastContainer theme="dark" />
+        <Router>
+          {/* <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
           </Route>
         </Routes> */}
-           <Routes>
+          <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/timer" element={<Timer />} />
-            <Route path="/home" element={isAuthenticated ?  <MeetAstrologers /> : <Navigate to="/"/>} />
-            <Route path="/profile" element={isAuthenticated ?  <UserProfile/> : <Navigate to="/"/>} />
-            <Route path="/astrologer_profile/:id" element={ isAuthenticated ? <AstrologerProfile/>  : <Navigate to="/"/> } />
+            <Route
+              path="/home"
+              element={
+                isAuthenticated ? <MeetAstrologers /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="/profile"
+              element={isAuthenticated ? <UserProfile /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/astrologer_profile/:id"
+              element={
+                isAuthenticated ? <AstrologerProfile /> : <Navigate to="/" />
+              }
+            />
 
             {/* <Route path="/profile" element={isAuthenticated ? <UserProfile /> : <Navigate to="/" />} /> */}
-            <Route path="chats" element={<ChatBody/>} >
-            <Route path="chat_content" element={<ChatContent />} />
-            <Route path="welcome" element={<Welcome />} />
+            <Route path="chats/:id" element={<ChatBody />}>
+              <Route path="chat_content" element={<ChatContent />} />
+              <Route path="welcome" element={<Welcome />} />
             </Route>
-
-
-            <Route path="/chat_history" element={isAuthenticated ? <ChatHistory /> : <Navigate to="/" />} />
-            <Route path="/call_history" element={isAuthenticated ? <CallHistory /> : <Navigate to="/" />} />
-            <Route path="/wallet" element={isAuthenticated ? <Wallet />  : <Navigate to="/" />} />
-            <Route path="/chat" element={isAuthenticated ?<Chat /> : <Navigate to="/" />} />
-            <Route path="/call" element={isAuthenticated ?<Call />  : <Navigate to="/" />} />
-
-            </Routes>
-      </Router>
+            <Route
+              path="/off_chat_content/:id"
+              element={isAuthenticated ? <ChatContent /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/chat_history"
+              element={isAuthenticated ? <ChatHistory /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/call_history"
+              element={isAuthenticated ? <CallHistory /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/wallet"
+              element={isAuthenticated ? <Wallet /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/chat"
+              element={isAuthenticated ? <Chat /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/call"
+              element={isAuthenticated ? <Call /> : <Navigate to="/" />}
+            />
+          </Routes>
+        </Router>
       </HelmetProvider>
     </div>
   );

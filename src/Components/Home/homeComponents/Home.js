@@ -14,7 +14,9 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import MetaData from "../../../Pages/MetaData";
 import LazyLoad from "react-lazy-load";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+
+
 function MeetAstrologers(props) {
   const [astrologers, setAstrologers] = useState();
   const [categories, setCategories] = useState(null);
@@ -270,7 +272,7 @@ function MeetAstrologers(props) {
                       </div>
                       <div className="charge_btns">
                         <Link to={`/chats/${data?._id}`} >
-                          <button onClick={sendUserId}>
+                          <button>
                             Chat <span>&#8377;</span>
                             {data.displaychat}/min
                           </button>

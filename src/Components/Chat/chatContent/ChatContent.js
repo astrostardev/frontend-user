@@ -9,98 +9,166 @@ import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import io from "socket.io-client";
-const ENDPOINT = "http://localhost:8001";
-var socket;
-function ChatContent(props) {
+import { useDispatch } from "react-redux";
+import { fetchChatFail,fetchChatRequest,fetchChatSuccess, sendChatFail, sendChatRequest, sendChatSuccess } from "../../../slice/conversationSlice";
+const ENDPOINT = "ws://localhost:8001";
+
+function ChatContent() {
+
   const { user, token } = useSelector((state) => state.authState);
-  const [refresh, setRefresh] = useState(false);
-  const [astrologer, setAstrologer] = useState(null);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
-  const [allMessages, setAllMessages] = useState(null);
-  const [sendmsg, setSendMsg] = useState(null);
-  const [allMessagesCopy, setAllMessagesCopy] = useState(null);
-  const [message, setMessageContent] = useState("");
-  const [loaded, setLoaded] = useState(false);
-  const [socketConnectionStatus, setSocketConnectionStatus] = useState(false);
+  const [allMessages, setAllMessages] = useState([]);
+  const [messageContent, setMessageContent] = useState("");
+  const [socket, setSocket] = useState(null);
   const messagesEndRef = useRef();
-  const [latestMsg, setLatestMsg] = useState(null);
-  //adding automating scroll bottom
+  const [astrologer, setAstrologer] = useState(null);
+  const dispatch = useDispatch();
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  //using socket io
+//initialising WebSocket
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", user);
-    socket.on("connection", () => {
-      setSocketConnectionStatus(!socketConnectionStatus);
-    });
-  }, []);
- useEffect(()=>{
-  const getAllMsg = async () => {
+    const newSocket = new WebSocket(ENDPOINT);
+
+    newSocket.onopen = () => {
+      console.log("Connected to WebSocket server");
+
+      const setupMessage = {
+        type: "setup",
+        userId: user?._id,
+      };
+      newSocket.send(JSON.stringify(setupMessage));
+    };
+
+    newSocket.onclose = () => {
+      console.log("Disconnected from WebSocket server");
+    };
+
+
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.close();
+    };
+  }, [user?._id]);
+
+//get messages
+useEffect(() => {
+  const getChatMessages = async () => {
     try {
-      let response = await fetch(
-        `${process.env.REACT_APP_URL}/api/v1/user_messages/${splitId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      socket.emit("join chat", splitId);
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      let data = await response.json();
-
-      setAllMessages(data);
-      setLoaded(true);
-      setAllMessagesCopy(allMessages);
-      console.log('latst',latestMsg);
+      dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
+      
+      // Emit a WebSocket message to request chat messages
+      socket.send(JSON.stringify({
+        type: 'get messages',
+        room: splitId,
+        userId: user?._id
+      }));
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(fetchChatFail(error.message));
     }
   };
-
-  getAllMsg();
- },[allMessages,token,splitId])
-
-  //send message function
+  
+  const handleMessageEvent = (event) => {
+    const messageData = JSON.parse(event.data);
+    if (messageData.type === 'messages') {
+      const messages = dispatch(fetchChatSuccess(messageData.messages));
+      console.log('getMsg',messages);
+  
+      setAllMessages(messages.payload); // Dispatch action to update messages in the state
+    } else if (messageData.type === 'new message') {
+      const messages = dispatch(fetchChatSuccess((prevMessage)=>[...prevMessage,messageData])); // Dispatch action with messageData as payload
+      setAllMessages(messages.payload); // Update state with messages payload
+    }else if (messageData.type === 'error') {
+      dispatch(fetchChatFail(messageData.message));
+    }
+  };
+  
+  if (socket) {
+    socket.addEventListener("open", () => {
+      console.log("WebSocket connection is open.");
+      console.log("paramsId", splitId);
+      getChatMessages(); // Call the function to fetch chat messages
+    });
+  
+    socket.addEventListener("message", handleMessageEvent);
+  
+    socket.addEventListener("close", () => {
+      console.log("WebSocket connection is closed.");
+    });
+  } else {
+    console.error("WebSocket connection is not open.");
+  }
+  
+  // Cleanup function
+  return () => {
+    if (socket) {
+      socket.removeEventListener("message", handleMessageEvent);
+    }
+  };
+  }, [dispatch, socket, splitId,user]);
+  // send message function
   const sendMessage = async () => {
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_URL}/api/v1/message/send/astrologer/${splitId}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ message }),
-        }
+      dispatch(sendChatRequest()); // Dispatch action to indicate message sending has started
+
+      // Emit a WebSocket message to send a new chat message
+      socket.send(
+        JSON.stringify({
+          type: 'new message',
+          room: splitId,
+          userId: user?._id,
+          message: messageContent
+        })
       );
 
-      // Check if response is not ok
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      // Parse response body as JSON
-      const data = await response.json();
-
-      // Log the response data
-      console.log("response data", data);
-
-      socket.emit("new message", data);
+      // Listen for WebSocket messages containing chat messages
+      socket.addEventListener('message', (event) => {
+        const messageData = JSON.parse(event.data);
+        if (messageData.type === 'new message') {
+          // Dispatch action to update messages in the state
+          dispatch(sendChatSuccess(messageData));
+        } else if (messageData.type === 'error') {
+          dispatch(sendChatFail(messageData?.message));
+        }
+      });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(sendChatFail(error.message));
     }
   };
+  
+  useEffect(() => {
+    if (socket) {
+      socket.addEventListener("open", () => {
+        console.log("WebSocket connection is open.");
+        console.log("paramsId", splitId);
+        // No need to call any function here
+      });
+  
+      socket.addEventListener("close", () => {
+        console.log("WebSocket connection is closed.");
+      });
+    } else {
+      console.error("WebSocket connection is not open.");
+    }
+  
+    // Cleanup function
+    return () => {
+      // Remove event listeners or perform any cleanup if needed
+    };
+  }, [socket, splitId, user?._id]);
+  
+
+
+
+  
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [allMessages]);
+
 
   //header part of selected astrologer
   useEffect(() => {
@@ -122,7 +190,7 @@ function ChatContent(props) {
         let data = await response.json();
         // console.log("astrologer", data.astrologer);
         setAstrologer(data.astrologer);
-        setLoaded(true);
+        // setLoaded(true);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -130,14 +198,6 @@ function ChatContent(props) {
     getAstrologer();
   }, [splitId]);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [allMessages]);
-
-  // Scroll to bottom when window is loaded
-  useEffect(() => {
-    scrollToBottom();
-  }, []);
   return (
     <div className="main__chatcontent">
       <AnimatePresence>
@@ -147,7 +207,7 @@ function ChatContent(props) {
           exit={{ opacity: 0, scale: 0 }}
           transition={{ ease: "anticipate", duration: "0.3" }}
         >
-          <div className="current-chatting-user">
+             <div className="current-chatting-user">
             <p className="con-icon">{astrologer?.displayname[0]}</p>
             <div className="header-text">
               <p className="con-title">{astrologer?.displayname}</p>
@@ -158,18 +218,16 @@ function ChatContent(props) {
               End
             </IconButton>
           </div>
-
+          {/* Your UI elements */}
           <div className="content__body">
             <div className="chat__items">
-              {allMessages?.map((message, index) => (
-                <React.Fragment key={`message_${index}`}>
-                  {message.senderId === user?._id ? (
-                    <MessageSelf props={message} key={index} />
-                  ) : (
-                    <MessageOthers props={message} key={index} />
-                  )}
-                </React.Fragment>
-              ))}
+              {allMessages?.map((message, index) =>
+                message.senderId === user._id ? (
+                  <MessageSelf key={index} props={message} />
+                ) : (
+                  <MessageOthers key={index} props={message} />
+                )
+              )}
               <div ref={messagesEndRef} />
             </div>
           </div>
@@ -178,31 +236,23 @@ function ChatContent(props) {
               <IconButton>
                 <IoAddOutline />
               </IconButton>
-
               <input
                 type="text"
                 placeholder="Type a message here"
-                onChange={(e) => {
-                  setMessageContent(e.target.value);
-                }}
-                value={message}
+                value={messageContent}
+                onChange={(e) => setMessageContent(e.target.value)}
                 onKeyDown={(event) => {
                   if (event.code === "Enter") {
-                    sendMessage();
-                    setMessageContent("");
-                    setRefresh(!refresh);
+                  sendMessage();
+                   setMessageContent('')
+                  
                   }
                 }}
               />
-              <button
-                onClick={() => {
-                  sendMessage();
-                  setMessageContent("");
-                  setRefresh(!refresh);
-                }}
-                className="btnSendMsg"
-                id="sendMsgBtn"
-              >
+              <button onClick={() => {
+  sendMessage(splitId, user?._id, messageContent); 
+  setMessageContent('');
+}} className="btnSendMsg" id="sendMsgBtn">
                 <AiOutlineSend />
               </button>
             </div>

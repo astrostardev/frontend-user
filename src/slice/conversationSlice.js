@@ -1,43 +1,93 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const conversationSlice = createSlice({
-
-    name:'conversation',
-    initialState:{
+    name: 'conversation',
+    initialState: {
         isAuthenticated: false,
-        messages:[],
-        loading:false
+        loading: false
     },
-   reducers:{
-    getChatRequest(state, action) {
-        return {
-            ...state,
-            loading: true,
-        }
-    },
-    getChatSuccess(state, action) {
-        return {
-            loading: false,
-            isAuthenticated: true,
-            chat: action.payload.messages,
-        }
-    },
-    getChatFail(state, action) {
-        console.log("Error in login:", action.payload);
-        return {
-            ...state,
-            loading: false,
-            error: action.payload,
-        }
-    },
-   }
-})
+    reducers: {
+        fetchChatRequest(state, action) {
+            return {
+                ...state,
+                loading: true,
+            }
+        },
+        fetchChatSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: true,
+                messages: action.payload,
+            }
+        },
+        fetchChatFail(state, action) {
+            console.error("Error fetching chat messages:", action.payload);
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            }
+        },
+        sendChatRequest(state, action) {
+            return {
+                ...state,
+                loading: true,
+            }
+        },
+        sendChatSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: true,
+                messages: action.payload,
+            }
+        },
+        sendChatFail(state, action) {
+            console.error("Error fetching chat messages:", action.payload);
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            }
+        },
+        // getLatestChatRequest(state, action) {
+        //     return {
+        //         ...state,
+        //         loading: true,
+        //     }
+        // },
+        // getLatestChatSuccess(state, action) {
+        //     return {
+        //         ...state,
+        //         loading: false,
+        //         isAuthenticated: true,
+        //         messages: action.payload,
+        //     }
+        // },
+        // getLatestChatFail(state, action) {
+        //     console.error("Error fetching chat messages:", action.payload);
+        //     return {
+        //         ...state,
+        //         loading: false,
+        //         error: action.payload,
+        //     }
+        // },
+    }
+});
 
-const {actions,reducer} =  conversationSlice ;
+const { actions, reducer } = conversationSlice;
 
 export const {
- getChatRequest,
- getChatFail,
- getChatSuccess
+    fetchChatRequest,
+    fetchChatFail,
+    fetchChatSuccess,
+    getLatestChatFail,
+    getLatestChatRequest,
+    getLatestChatSuccess,
+    sendChatRequest,
+    sendChatFail,
+    sendChatSuccess
 } = actions;
-export default reducer
+
+export default reducer;

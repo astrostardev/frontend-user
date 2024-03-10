@@ -1,21 +1,26 @@
-import axios from 'axios'
 import { getChatFail, getChatRequest, getChatSuccess } from '../slice/conversationSlice';
-export const showPackages = (token,splitId) => async (dispatch) => {
 
+export const getChatMessages = (socket, roomId, userId) => async (dispatch) => {
     try {
-        dispatch(getChatRequest())
-        const config = {
-            headers: {
-                'Content-type': 'multipart/form-data',
-                'Authorization': `Bearer ${token}`
+        dispatch(getChatRequest());
+        
+        // Emit a WebSocket message to request chat messages
+        socket.send(JSON.stringify({
+            type: 'get messages',
+            room: roomId,
+            userId: userId
+        }));
+
+        // Listen for WebSocket messages containing chat messages
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'messages') {
+                dispatch(getChatSuccess(data.messages));
+            } else if (data.type === 'error') {
+                dispatch(getChatFail(data.message));
             }
-        }
-        console.log('token',token);
-        const { data } = await axios.get( `${process.env.REACT_APP_URL}/api/v1/user_messages/${splitId}`,config);
-        dispatch(getChatSuccess(data))
-        // console.log('data',data);
+        };
     } catch (error) {
-        dispatch(getChatFail(error.response.data.message))
+        dispatch(getChatFail(error.message));
     }
-  
-  }
+};
