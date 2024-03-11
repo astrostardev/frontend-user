@@ -21,13 +21,13 @@ const ENDPOINT = "ws://localhost:8001";
 
 function ChatBody({ showChat }) {
   const { user } = useSelector((state) => state.authState);
-  const [showChatarea, setShowChatArea] = useState(false);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
   const [socket, setSocket] = useState(null);
   const [recentMessage, setAllMessages] = useState([]);
 
   const dispatch = useDispatch();
+  const [showChatarea, setShowChatArea] = useState(false);
 
   useEffect(() => {
     setShowChatArea(showChat);
@@ -141,7 +141,16 @@ function ChatBody({ showChat }) {
           }
         />
 
-        <ChatOffcanvas />
+        <ChatOffcanvas   latestMsg={
+            recentMessage?.length > 0
+              ? recentMessage[recentMessage?.length - 1]?.message
+              : " "
+          }
+          time={
+            recentMessage?.length > 0
+              ? recentMessage[recentMessage?.length - 1]?.createdAt
+              : " "
+          }/>
         {showChatarea ? <ChatContent /> : ""}
         <Routes>
           <Route path="/" element={<Welcome />} />

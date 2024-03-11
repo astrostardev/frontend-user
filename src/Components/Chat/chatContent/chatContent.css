@@ -200,8 +200,13 @@
 }
 @media screen and (max-width: 500px){
   .main__chatcontent {
- /* display: none; */
-    margin-left:-30px;
+    /* display: none; */
+    background-color: rgb(240, 255, 248);
+    flex: 1;
+    width: 85%;
+    height:80%;
+    margin-left: 30px;
+    position: fixed;
   }
 }
 /* @media screen and (max-width: 736px) {
