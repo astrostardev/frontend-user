@@ -10,11 +10,17 @@ import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { fetchChatFail,fetchChatRequest,fetchChatSuccess, sendChatFail, sendChatRequest, sendChatSuccess } from "../../../slice/conversationSlice";
+import {
+  fetchChatFail,
+  fetchChatRequest,
+  fetchChatSuccess,
+  sendChatFail,
+  sendChatRequest,
+  sendChatSuccess,
+} from "../../../slice/conversationSlice";
 const ENDPOINT = "ws://localhost:8001";
 
 function ChatContent() {
-
   const { user, token } = useSelector((state) => state.authState);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
@@ -28,7 +34,7 @@ function ChatContent() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-//initialising WebSocket
+  //initialising WebSocket
   useEffect(() => {
     const newSocket = new WebSocket(ENDPOINT);
 
@@ -46,7 +52,6 @@ function ChatContent() {
       console.log("Disconnected from WebSocket server");
     };
 
-
     setSocket(newSocket);
 
     return () => {
@@ -54,61 +59,65 @@ function ChatContent() {
     };
   }, [user?._id]);
 
-//get messages
-useEffect(() => {
-  const getChatMessages = async () => {
-    try {
-      dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
-      
-      // Emit a WebSocket message to request chat messages
-      socket.send(JSON.stringify({
-        type: 'get messages',
-        room: splitId,
-        userId: user?._id
-      }));
-    } catch (error) {
-      dispatch(fetchChatFail(error.message));
-    }
-  };
-  
-  const handleMessageEvent = (event) => {
-    const messageData = JSON.parse(event.data);
-    if (messageData.type === 'messages') {
-      const messages = dispatch(fetchChatSuccess(messageData.messages));
-      console.log('getMsg',messages);
-  
-      setAllMessages(messages.payload); // Dispatch action to update messages in the state
-    } else if (messageData.type === 'new message') {
-      const messages = dispatch(fetchChatSuccess((prevMessage)=>[...prevMessage,messageData])); // Dispatch action with messageData as payload
-      setAllMessages(messages.payload); // Update state with messages payload
-    }else if (messageData.type === 'error') {
-      dispatch(fetchChatFail(messageData.message));
-    }
-  };
-  
-  if (socket) {
-    socket.addEventListener("open", () => {
-      console.log("WebSocket connection is open.");
-      console.log("paramsId", splitId);
-      getChatMessages(); // Call the function to fetch chat messages
-    });
-  
-    socket.addEventListener("message", handleMessageEvent);
-  
-    socket.addEventListener("close", () => {
-      console.log("WebSocket connection is closed.");
-    });
-  } else {
-    console.error("WebSocket connection is not open.");
-  }
-  
-  // Cleanup function
-  return () => {
+  //get messages
+  useEffect(() => {
+    const getChatMessages = async () => {
+      try {
+        dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
+
+        // Emit a WebSocket message to request chat messages
+        socket.send(
+          JSON.stringify({
+            type: "get messages",
+            room: splitId,
+            userId: user?._id,
+          })
+        );
+      } catch (error) {
+        dispatch(fetchChatFail(error.message));
+      }
+    };
+
+    const handleMessageEvent = (event) => {
+      const messageData = JSON.parse(event.data);
+      if (messageData.type === "messages") {
+        console.log("messageData Get", messageData.payload);
+        const messages = dispatch(fetchChatSuccess(messageData.messages));
+
+        setAllMessages(messages.payload); // Dispatch action to update messages in the state
+      } else if (messageData.type === "new message") {
+        const messages = dispatch(
+          fetchChatSuccess((prevMessage = []) => [...prevMessage, messageData])
+        ); // Dispatch action with messageData as payload
+        setAllMessages(messages.payload); // Update state with messages payload
+      } else if (messageData.type === "error") {
+        dispatch(fetchChatFail(messageData.message));
+      }
+    };
+
     if (socket) {
-      socket.removeEventListener("message", handleMessageEvent);
+      socket.addEventListener("open", () => {
+        console.log("WebSocket connection is open.");
+        console.log("paramsId", splitId);
+        getChatMessages(); // Call the function to fetch chat messages
+      });
+
+      socket.addEventListener("message", handleMessageEvent);
+
+      socket.addEventListener("close", () => {
+        console.log("WebSocket connection is closed.");
+      });
+    } else {
+      console.error("WebSocket connection is not open.");
     }
-  };
-  }, [dispatch, socket, splitId,user]);
+
+    // Cleanup function
+    return () => {
+      if (socket) {
+        socket.removeEventListener("message", handleMessageEvent);
+      }
+    };
+  }, [dispatch, socket, splitId, user]);
   // send message function
   const sendMessage = async () => {
     try {
@@ -117,20 +126,20 @@ useEffect(() => {
       // Emit a WebSocket message to send a new chat message
       socket.send(
         JSON.stringify({
-          type: 'new message',
+          type: "new message",
           room: splitId,
           userId: user?._id,
-          message: messageContent
+          message: messageContent,
         })
       );
 
       // Listen for WebSocket messages containing chat messages
-      socket.addEventListener('message', (event) => {
+      socket.addEventListener("message", (event) => {
         const messageData = JSON.parse(event.data);
-        if (messageData.type === 'new message') {
+        if (messageData.type === "new message") {
           // Dispatch action to update messages in the state
           dispatch(sendChatSuccess(messageData));
-        } else if (messageData.type === 'error') {
+        } else if (messageData.type === "error") {
           dispatch(sendChatFail(messageData?.message));
         }
       });
@@ -138,7 +147,7 @@ useEffect(() => {
       dispatch(sendChatFail(error.message));
     }
   };
-  
+
   useEffect(() => {
     if (socket) {
       socket.addEventListener("open", () => {
@@ -146,29 +155,23 @@ useEffect(() => {
         console.log("paramsId", splitId);
         // No need to call any function here
       });
-  
+
       socket.addEventListener("close", () => {
         console.log("WebSocket connection is closed.");
       });
     } else {
       console.error("WebSocket connection is not open.");
     }
-  
+
     // Cleanup function
     return () => {
       // Remove event listeners or perform any cleanup if needed
     };
   }, [socket, splitId, user?._id]);
-  
-
-
-
-  
 
   useEffect(() => {
     scrollToBottom();
   }, [allMessages]);
-
 
   //header part of selected astrologer
   useEffect(() => {
@@ -207,11 +210,11 @@ useEffect(() => {
           exit={{ opacity: 0, scale: 0 }}
           transition={{ ease: "anticipate", duration: "0.3" }}
         >
-             <div className="current-chatting-user">
+          <div className="current-chatting-user">
             <p className="con-icon">{astrologer?.displayname[0]}</p>
             <div className="header-text">
               <p className="con-title">{astrologer?.displayname}</p>
-      
+
               <p className="con-timeStamp">online</p>
             </div>
             <IconButton style={{ background: "#F3F3F3" }} className="btn-nobg">
@@ -225,7 +228,11 @@ useEffect(() => {
                 message.senderId === user._id ? (
                   <MessageSelf key={index} props={message} />
                 ) : (
-                  <MessageOthers key={index} props={message} />
+                  <MessageOthers
+                    key={index}
+                    props={message}
+                    astrologer={astrologer}
+                  />
                 )
               )}
               <div ref={messagesEndRef} />
@@ -243,16 +250,19 @@ useEffect(() => {
                 onChange={(e) => setMessageContent(e.target.value)}
                 onKeyDown={(event) => {
                   if (event.code === "Enter") {
-                  sendMessage();
-                   setMessageContent('')
-                  
+                    sendMessage();
+                    setMessageContent("");
                   }
                 }}
               />
-              <button onClick={() => {
-  sendMessage(splitId, user?._id, messageContent); 
-  setMessageContent('');
-}} className="btnSendMsg" id="sendMsgBtn">
+              <button
+                onClick={() => {
+                  sendMessage(splitId, user?._id, messageContent);
+                  setMessageContent("");
+                }}
+                className="btnSendMsg"
+                id="sendMsgBtn"
+              >
                 <AiOutlineSend />
               </button>
             </div>

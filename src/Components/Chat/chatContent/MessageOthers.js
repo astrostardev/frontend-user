@@ -1,8 +1,8 @@
 import React from "react";
 import { extractTime } from "../../../utils/extractTime";
 
-function MessageOthers(props) {
-  const formatedTime = extractTime(props?.props?.createdAt);
+function MessageOthers({ props, astrologer }) {
+  const formatedTime = extractTime(props?.createdAt);
 
   return (
     <div
@@ -11,13 +11,11 @@ function MessageOthers(props) {
       id="others_msg"
     >
       <p className="con-icon" id="other_user">
-        H
+        {astrologer?.displayname[0]}
       </p>
-
       <div className="chat__item__content other">
-        <p className="msg-title">{props?.props?.message}</p>
+        <p className="msg-title">{props.message}</p>
         <p className="chat__time">{formatedTime}</p>
-
       </div>
     </div>
   );
