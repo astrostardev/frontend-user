@@ -12,7 +12,6 @@ import "./offCanvas.css";
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 
-const ENDPOINT = "ws://localhost:8001";
 
 function ChatOffcanvas({latestMsg,time }) {
   const messagesArray = useSelector((state) => state?.conversationState?.messages?.message);
@@ -22,6 +21,10 @@ function ChatOffcanvas({latestMsg,time }) {
 
   const recentMsg = messagesArray ? messagesArray : latestMsg;
   const [showSidebar, setShowsidebar] = useState(false);
+  const handleItemClick = () => {
+    setShowsidebar(!showSidebar);
+  };
+
   // Show astrologer on side bar
   useEffect(() => {
     async function fetchData() {
@@ -41,7 +44,7 @@ function ChatOffcanvas({latestMsg,time }) {
     <>
       {" "}
       <div>
-        <div onClick={() => setShowsidebar(!showSidebar)}>
+        <div onClick={handleItemClick}>
           {showSidebar ? (
             <FaAngleRight className="left_angle" />
           ) : (
@@ -77,6 +80,7 @@ function ChatOffcanvas({latestMsg,time }) {
           message={messagesArray ? messagesArray : recentMsg}
           time={time}
           key={astrologer?.astrologer[0]?.firstname}
+          onClick={handleItemClick}
         />
       </div>
             </div>

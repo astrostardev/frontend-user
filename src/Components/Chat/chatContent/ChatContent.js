@@ -18,7 +18,8 @@ import {
   sendChatRequest,
   sendChatSuccess,
 } from "../../../slice/conversationSlice";
-const ENDPOINT = "ws://localhost:8001";
+const ENDPOINT = process.env.REACT_APP_SOCKET_URL ;
+
 
 function ChatContent() {
   const { user, token } = useSelector((state) => state.authState);

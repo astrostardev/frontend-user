@@ -204,7 +204,7 @@
     background-color: rgb(240, 255, 248);
     flex: 1;
     width: 85%;
-    height:80%;
+    height:80% !important;
     margin-left: 30px;
     position: fixed;
   }
