@@ -1,11 +1,9 @@
 .main__chatcontent {
-  /* flex-grow: 1; */
   display: flex;
   flex-direction: column;
   padding: 10px 10px;
   flex: 0.7;
   background-color: rgb(240, 255, 248);
-/* background-color: red !important; */
   border-right: 1px solid #ebe7fb;
 }
 
@@ -200,10 +198,11 @@
 }
 @media screen and (max-width: 500px){
   .main__chatcontent {
-    /* display: none; */
-    background-color: rgb(240, 255, 248);
+    background: none !important;
     flex: 1;
+    border: none !important;
     width: 85%;
+    margin-top:1rem;
     height:80% !important;
     margin-left: 30px;
     position: fixed;

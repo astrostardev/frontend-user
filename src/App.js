@@ -27,7 +27,7 @@ import ChatBody from "./Components/Chat/chatBody/ChatBody";
 import Welcome from "./Components/Chat/chatPages/Welcome";
 
 function App() {
-  const { loading, error, isAuthenticated } = useSelector(
+  const { isAuthenticated } = useSelector(
     (state) => state.authState
   );
 
@@ -63,9 +63,9 @@ function App() {
             />
 
             {/* <Route path="/profile" element={isAuthenticated ? <UserProfile /> : <Navigate to="/" />} /> */}
-            <Route path="chats/:id" element={<ChatBody />}>
-              <Route path="chat_content" element={<ChatContent />} />
-              <Route path="welcome" element={<Welcome />} />
+            <Route path="chats/:id" element={isAuthenticated ? <ChatBody /> : <Navigate to="/" />}>
+              <Route path="chat_content" element={isAuthenticated ? <ChatContent /> : <Navigate to="/" />} />
+              <Route path="welcome" element={isAuthenticated ? <Welcome /> : <Navigate to="/" />} />
             </Route>
             <Route
               path="/off_chat_content/:id"

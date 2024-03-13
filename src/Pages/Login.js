@@ -203,6 +203,12 @@ dispatch(getAllUser)
                 countryCodeEditable={false}
                 onlyCountries={["in"]}
                 disableDropdown={true}
+                onKeyDown={(event) => {
+                  if (event.code === "Enter") {
+                    submitHandler();
+                   
+                  }
+                }}
               />
             </Form.Group>
             <div className="submit-btn">
@@ -279,7 +285,11 @@ dispatch(getAllUser)
               onChange={setOtp}
               numInputs={6}
               renderSeparator={<span className="me-2"></span>}
-              renderInput={(props) => <input {...props} className="otpBox" />}
+              renderInput={(props) => <input {...props} className="otpBox"  onKeyDown={(event) => {
+                if (event.code === "Enter") {
+                  handleVerify()
+                }
+              }}/>}
             />
             <div className="countdown-text">
               {seconds > 0 || minutes > 0 ? (
@@ -300,7 +310,7 @@ dispatch(getAllUser)
                 Resend OTP
               </button>
             </div>
-            <Button onClick={handleVerify}>Verify</Button>
+            <Button onClick={handleVerify} >Verify</Button>
             {otpAlert && (
               <ToastContainer
                 position="top-end"

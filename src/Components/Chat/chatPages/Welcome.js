@@ -15,7 +15,7 @@ function Welcome() {
    duration:"0.3"}}>
 
     <img src={logo} alt="" className="welcome-logo" />
-      <p>View and text directly to astrologers present in the chat rooms</p>
+      <p className="text_welcome">View and text directly to astrologers present in the chat rooms</p>
   
 
        </motion.div>
