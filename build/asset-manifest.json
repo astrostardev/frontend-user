@@ -1,13 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.425895a2.css",
-    "main.js": "/static/js/main.6c7a75ef.js",
+    "main.css": "/static/css/main.3d4eb5a0.css",
+    "main.js": "/static/js/main.2bd748b7.js",
     "static/js/787.563712fa.chunk.js": "/static/js/787.563712fa.chunk.js",
     "static/media/astro1.svg": "/static/media/astro1.abd104dbbd74df0cdbd206ab2ed260e6.svg",
     "static/media/icons.png": "/static/media/icons.aaa951992440810539c0.png",
     "static/media/a1.jpg": "/static/media/a1.a8bdcb9ed1d589147ccd.jpg",
     "static/media/chatImage.jpg": "/static/media/chatImage.4691398967c8705d3574.jpg",
-    "static/media/bg-orange.jpeg": "/static/media/bg-orange.48dafded7640361517ae.jpeg",
     "static/media/LoginBG.png": "/static/media/LoginBG.635b9f2bb67fd4372ac2.png",
     "static/media/WhatsApp.svg": "/static/media/WhatsApp.e0432f3a4ee2371ebc4d1cfc8cfb965c.svg",
     "static/media/Instagram.svg": "/static/media/Instagram.44d0c87a16a9dbb29796cabb7c08e0b6.svg",
@@ -21,12 +20,12 @@
     "static/media/arrow_forward_ios.svg": "/static/media/arrow_forward_ios.de1a0fea42076c6b40138973c7f52736.svg",
     "static/media/Facebook.svg": "/static/media/Facebook.87aaefd58091cb0e2f66edd858b1c02a.svg",
     "static/media/Group.svg": "/static/media/Group.67a62290f846541f48bbe8237845ec69.svg",
-    "main.425895a2.css.map": "/static/css/main.425895a2.css.map",
-    "main.6c7a75ef.js.map": "/static/js/main.6c7a75ef.js.map",
+    "main.3d4eb5a0.css.map": "/static/css/main.3d4eb5a0.css.map",
+    "main.2bd748b7.js.map": "/static/js/main.2bd748b7.js.map",
     "787.563712fa.chunk.js.map": "/static/js/787.563712fa.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.425895a2.css",
-    "static/js/main.6c7a75ef.js"
+    "static/css/main.3d4eb5a0.css",
+    "static/js/main.2bd748b7.js"
   ]
 }
