@@ -139,7 +139,55 @@ return{
                 loading: false,
                 error: action.payload.error,
             }
-    }
+    },
+    getBalAfterChatRequest(state, action) {
+        return {
+            ...state,
+            loading: true,
+        }
+    },
+    getBalAfterChatSuccess(state, action) {
+        console.log('user',action.payload);
+
+        return {
+            ...state,
+            loading: false,
+            isAuthenticated: true,
+            user: action.payload.user,
+        }
+    },
+    getBalAfterChatFail(state, action) {
+        console.error("Error fetching chat messages:", action.payload);
+        return {
+            ...state,
+            loading: false,
+            error: action.payload,
+        }
+    },
+    saveChatDetailsRequest(state, action) {
+        return {
+            ...state,
+            loading: true,
+        }
+    },
+    saveChatDetailsSuccess(state, action) {
+        console.log('user',action.payload);
+
+        return {
+            ...state,
+            loading: false,
+            isAuthenticated: true,
+            user: action.payload.user,
+        }
+    },
+    saveChatDetailsFail(state, action) {
+        console.error("Error fetching chat messages:", action.payload);
+        return {
+            ...state,
+            loading: false,
+            error: action.payload,
+        }
+    },
 }
 
 });
@@ -165,7 +213,10 @@ export const {
     setErrorMessage,
   getAllUserFail,
   getAllUserRequest,
-  getAllUserSuccess
+  getAllUserSuccess,
+  getBalAfterChatFail,
+  getBalAfterChatRequest,
+  getBalAfterChatSuccess
 
 } = actions;
 export default reducer

@@ -2,7 +2,7 @@ import React from "react";
 import { BsChatDotsFill } from "react-icons/bs";
 import { FaPhoneAlt } from "react-icons/fa";
 import MetaData from "../../Pages/MetaData";
-import Sidebar from "../../Pages/Sidebar";
+import {Sidebar} from "../../Pages/Sidebar";
 import OffCanvasNav from "../../Pages/OffCanvasNav";
 import "./astro_profile.css";
 import { IoStar } from "react-icons/io5";

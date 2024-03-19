@@ -51,28 +51,7 @@ const conversationSlice = createSlice({
                 error: action.payload,
             }
         },
-        // getLatestChatRequest(state, action) {
-        //     return {
-        //         ...state,
-        //         loading: true,
-        //     }
-        // },
-        // getLatestChatSuccess(state, action) {
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         isAuthenticated: true,
-        //         messages: action.payload,
-        //     }
-        // },
-        // getLatestChatFail(state, action) {
-        //     console.error("Error fetching chat messages:", action.payload);
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         error: action.payload,
-        //     }
-        // },
+       
     }
 });
 
@@ -82,9 +61,7 @@ export const {
     fetchChatRequest,
     fetchChatFail,
     fetchChatSuccess,
-    getLatestChatFail,
-    getLatestChatRequest,
-    getLatestChatSuccess,
+ 
     sendChatRequest,
     sendChatFail,
     sendChatSuccess

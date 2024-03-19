@@ -14,7 +14,6 @@ function ConversationItem({astrologer,message,time}) {
     <p className='con-icon'>{astrologer?.displayname[0]}</p>
       <p className='con-title'>{astrologer?.displayname}</p>
       <p className='con-lastMessage'>{message}</p>
-      
       <p className='con-timeStamp'>{formatedTime}</p>
     </div>
     </motion.div>

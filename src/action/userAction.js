@@ -18,11 +18,12 @@ import {
     getAllUserRequest,
     getAllUserSuccess,
     getAllUserFail,
+    getBalAfterChatRequest,
+    getBalAfterChatSuccess,
+    getBalAfterChatFail,
 
 } from '../slice/authSlice'
-import { toast } from 'react-toastify'
 import axios from 'axios'
-import { useSelector } from 'react-redux';
 
 // export const setErrorMessage = (errorMessage) => ({payload: errorMessage });
 
@@ -116,7 +117,55 @@ export const userRecharge = (userid,packages) => async (dispatch) => {
   }
 
 }
+export const getBalanceAfterChat = (astrologer, date, chatTime, spentAmount,id, token) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    };
 
+    dispatch(getBalAfterChatRequest());
+
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_URL}/api/v1/user/balance_after_chat`,
+      { astrologer, date, chatTime, spentAmount,id},
+      config
+    );
+
+    console.log('After axios.post');
+    dispatch(getBalAfterChatSuccess(data));
+  } catch (error) {
+    dispatch(getBalAfterChatFail(error.response.data.message));
+    console.error(error);
+  }
+};
+
+export const saveChatDetails = (id, spendAmount, token) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    dispatch(getBalAfterChatRequest());
+
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_URL}/api/v1/user/chat/history`,
+      { id, spendAmount },
+      config
+    );
+
+    console.log('After axios.post');
+    dispatch(getBalAfterChatSuccess(data));
+  } catch (error) {
+    dispatch(getBalAfterChatFail(error.response.data.message));
+    console.error(error);
+  }
+};
 
 export const logout =  async (dispatch) => {
 

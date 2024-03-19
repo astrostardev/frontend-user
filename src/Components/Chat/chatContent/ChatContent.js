@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef,useCallback } from "react";
 import MessageSelf from "./MessageSelf";
 import MessageOthers from "./MessageOthers";
 import "./chatContent.css";
@@ -18,19 +18,32 @@ import {
   sendChatRequest,
   sendChatSuccess,
 } from "../../../slice/conversationSlice";
+import Timer from "../Timer";
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL ;
 
 
-function ChatContent() {
-  const { user, token } = useSelector((state) => state.authState);
+function ChatContent({setTime,timeStopped,astrologer}) {
+  const { user} = useSelector((state) => state.authState);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
   const [allMessages, setAllMessages] = useState([]);
   const [messageContent, setMessageContent] = useState("");
+  const [isThrottled, setIsThrottled] = useState(false);
+  const throttlingDelay = 1000; 
   const [socket, setSocket] = useState(null);
   const messagesEndRef = useRef();
-  const [astrologer, setAstrologer] = useState(null);
   const dispatch = useDispatch();
+  
+
+  const handleStopTimer = (stopTimerValue) => {
+    timeStopped(stopTimerValue);
+  };
+
+  const handleTimer = useCallback(() => {
+    const stopTimerValue = false; // Example value
+    timeStopped(stopTimerValue);
+  }, [timeStopped]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -119,11 +132,19 @@ function ChatContent() {
       }
     };
   }, [dispatch, socket, splitId, user]);
-  // send message function
+
+
+  // send message function using throttling    
   const sendMessage = async () => {
     try {
+      if (isThrottled) {
+        console.log("Message sending is throttled. Please wait.");
+        return;
+      }
+  
+      setIsThrottled(true); // Throttle the function
       dispatch(sendChatRequest()); // Dispatch action to indicate message sending has started
-
+  
       // Emit a WebSocket message to send a new chat message
       socket.send(
         JSON.stringify({
@@ -133,7 +154,7 @@ function ChatContent() {
           message: messageContent,
         })
       );
-
+  
       // Listen for WebSocket messages containing chat messages
       socket.addEventListener("message", (event) => {
         const messageData = JSON.parse(event.data);
@@ -144,10 +165,16 @@ function ChatContent() {
           dispatch(sendChatFail(messageData?.message));
         }
       });
+  
+      // Wait for the throttling delay before resetting isThrottled
+      setTimeout(() => {
+        setIsThrottled(false); // Reset the throttling
+      }, throttlingDelay);
     } catch (error) {
       dispatch(sendChatFail(error.message));
     }
   };
+  
 
   useEffect(() => {
     if (socket) {
@@ -174,33 +201,6 @@ function ChatContent() {
     scrollToBottom();
   }, [allMessages]);
 
-  //header part of selected astrologer
-  useEffect(() => {
-    const getAstrologer = async () => {
-      try {
-        let response = await fetch(
-          `${process.env.REACT_APP_URL}/api/v1/astrologer/getAstrologer/${splitId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        let data = await response.json();
-        // console.log("astrologer", data.astrologer);
-        setAstrologer(data.astrologer);
-        // setLoaded(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    getAstrologer();
-  }, [splitId]);
 
   return (
     <div className="main__chatcontent">
@@ -212,15 +212,18 @@ function ChatContent() {
           transition={{ ease: "anticipate", duration: "0.3" }}
         >
           <div className="current-chatting-user">
-            <p className="con-icon">{astrologer?.displayname[0]}</p>
+            <p className="con-icon">{astrologer?.astrologer?.displayname[0]}</p>
             <div className="header-text">
-              <p className="con-title">{astrologer?.displayname}</p>
+              <p className="con-title">{astrologer?.astrologer?.displayname}</p>
 
               <p className="con-timeStamp">online</p>
             </div>
-            <IconButton style={{ background: "#F3F3F3" }} className="btn-nobg">
+            {/* <IconButton style={{ background: "#F3F3F3" }} className="btn-nobg">
               End
-            </IconButton>
+            </IconButton> */}
+             <div className="timer">
+          <Timer setTime={setTime}  onStopTimer={handleStopTimer}/>
+        </div>
           </div>
           {/* Your UI elements */}
           <div className="content__body">
@@ -255,6 +258,7 @@ function ChatContent() {
                     setMessageContent("");
                   }
                 }}
+                style={{ pointerEvents: user?.balance === 0 ? 'none' : 'auto' }}
               />
               <button
                 onClick={() => {

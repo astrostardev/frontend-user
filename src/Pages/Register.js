@@ -4,40 +4,37 @@ import "../Stylesheets/Login.css";
 import logo from "../assests/logo green.png";
 import icons from "../assests/icons.png";
 import PhoneInput from "react-phone-input-2";
-import { toast } from 'react-toastify'
+import { toast } from "react-toastify";
 import "react-phone-input-2/lib/style.css";
 import { useEffect, useReducer, useState } from "react";
-import {userRegister,clearAuthError,} from '../action/userAction';
+import { userRegister, clearAuthError } from "../action/userAction";
 import MetaData from "./MetaData";
 import { v4 as uuid } from "uuid";
-import {
-  Form,
-  Button,
-  Toast,
-  ToastContainer,
-} from "react-bootstrap";
+import { Form, Button, Toast, ToastContainer } from "react-bootstrap";
 import OtpInput from "react-otp-input";
 import { set, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [showTab, setShowtab] = useState(1);
   const handleClick = (num) => {
     setShowtab(num);
   };
-const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
+  const { isAuthenticated, error, loading } = useSelector(
+    (state) => state.authState
+  );
   //step-1
   const [phoneNumber, setPhoneNumber] = useState("");
   const [name, setUserName] = useState("");
   const [namealert, setNameAlert] = useState(false);
-  const [referralCode,setRefCode]=useState(null)
+  const [referralCode, setRefCode] = useState(null);
 
   const [valid, setValid] = useState(true);
   const [alert, setAlert] = useState(false);
-  const[check,setCheck]=useState(false)
+  const [check, setCheck] = useState(false);
   const [checkAlert, setCheckAlert] = useState(false);
   const [disable, setDisable] = useState(false);
 
@@ -46,9 +43,6 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
     setCheckAlert(false);
     setPhoneNumber(value);
     setValid(validatePhoneNumber(value));
-    
- 
-
   };
 
   let mobile = phoneNumber.replace(/\D/g, "");
@@ -60,17 +54,14 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
     return phoneNumberPattern.test(removeCountryCode);
   };
 
-
-
-   
-  const checkUser =  () => {
+  const checkUser = () => {
     // e.preventDefault();
-    if(!valid){
-      setAlert(true)
+    if (!valid) {
+      setAlert(true);
     }
     // const bonus = 50;
     // const welcomeBonus = referralCode === '' ? bonus : null;
-  
+
     // const welcomerefBonus = referralCode !== '' ? bonus + 20 :null;
 
     // console.log('number',valid);
@@ -80,29 +71,27 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
       });
       return;
     }
-    setDisable(true)
+    setDisable(true);
     const userID = uuid().slice(0, 6).toUpperCase();
     // console.log('code',userRefCode);
-    dispatch(userRegister(phoneNo,name,userID,referralCode))
+    dispatch(userRegister(phoneNo, name, userID, referralCode));
 
-      handleOTP()
-    
-
+    handleOTP();
   };
-  
-  useEffect(()=>{
-    if(error){
-       toast(error, {
-         position:toast.POSITION.TOP_RIGHT,
-         type:'error',
-         onOpen:()=>{dispatch(clearAuthError);
-             navigate('/');},
-      
-       })
-        return
 
+  useEffect(() => {
+    if (error) {
+      toast(error, {
+        position: toast.POSITION.TOP_RIGHT,
+        type: "error",
+        onOpen: () => {
+          dispatch(clearAuthError);
+          navigate("/");
+        },
+      });
+      return;
     }
-  },[error, isAuthenticated,dispatch])
+  }, [error, isAuthenticated, dispatch]);
 
   function handleOTP() {
     if (valid) {
@@ -125,7 +114,6 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
   const [minutes, setMinutes] = useState();
   const [seconds, setSeconds] = useState();
   const [otpAlert, setOtpalert] = useState(false);
-
 
   useEffect(() => {
     const interval = setInterval(function () {
@@ -177,15 +165,18 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
 
   return (
     <div id="login">
-        <MetaData title={'Astro5Star'} />
+      <MetaData title={"Astro5Star"} />
 
       <div className="loginContainer">
         <img src={logo} alt="navLogo" />
         <h2>
-          Register{" "}
-          <div className="title_underline"></div>
+          Register <div className="title_underline"></div>
         </h2>
-       <p>Welcome to Astro 5! Begin your journey to self-discovery by creating an account. Gain access to expert astrologers, personalized horoscopes, and insightful consultations.</p>
+        <p>
+          Welcome to Astro 5! Begin your journey to self-discovery by creating
+          an account. Gain access to expert astrologers, personalized
+          horoscopes, and insightful consultations.
+        </p>
         <div className={showTab === 1 ? "active" : "disable"}>
           <Form className="mt-4" id="form">
             <div className="register_feild">
@@ -203,29 +194,28 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
                   onlyCountries={["in"]}
                   disableDropdown={true}
                 />
-                
               </Form.Group>
               {alert && (
-            <ToastContainer
-              position="top-end"
-              className="p-3"
-              style={{ zIndex: 1 }}
-            >
-              <Toast
-                className="d-inline-block m-1"
-                bg="danger"
-                delay={3000}
-                autohide={true}
-              >
-                <Toast.Body className="dark">
-                  Enter valid mobile number
-                </Toast.Body>
-              </Toast>
-            </ToastContainer>
-          )}
+                <ToastContainer
+                  position="top-end"
+                  className="p-3"
+                  style={{ zIndex: 1 }}
+                >
+                  <Toast
+                    className="d-inline-block m-1"
+                    bg="danger"
+                    delay={3000}
+                    autohide={true}
+                  >
+                    <Toast.Body className="dark">
+                      Enter valid mobile number
+                    </Toast.Body>
+                  </Toast>
+                </ToastContainer>
+              )}
               <div className="mb-3 me-3">
                 <label htmlFor="username" className="form-label">
-                   Name
+                  Name
                 </label>
                 <input
                   type="text"
@@ -236,6 +226,12 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
                   onChange={(e) => setUserName(e.target.value)}
                   value={name}
                   required
+                  onKeyDown={(event) => {
+                    if (event.code === "Enter") {
+                      event.preventDefault();
+                      checkUser();
+                    }
+                  }}
                   //  {...register("username", validation.username)}
                 />
               </div>
@@ -251,9 +247,7 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
                   name="referralCode"
                   onChange={(e) => setRefCode(e.target.value)}
                   value={referralCode}
-            
                 />
-
               </div>
             </div>
             {namealert && (
@@ -272,21 +266,30 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
                 </Toast>
               </ToastContainer>
             )}
-            
-            <div
-              className="conditions"
-          
-            >
+            <div className="conditions">
               <h4>Terms and Conditions</h4>
               <p>
-               <ul>
-                <li>Maintain the confidentiality of your account and password</li>
-                <li>Astro5star connects users with highly qualified astrologers</li>
-                <li>Sharing Personal contact number to astrologers are not allowed</li>
-                <li>Always us kind words to ask your questions </li>
-                <li>Astro5star may terminate accounts for violations; terms may change</li>
-                <li>Terms and conditions may be updated; continued use implies acceptance.</li>
-               </ul>
+                <ul>
+                  <li>
+                    Maintain the confidentiality of your account and password
+                  </li>
+                  <li>
+                    Astro5star connects users with highly qualified astrologers
+                  </li>
+                  <li>
+                    Sharing Personal contact number to astrologers are not
+                    allowed
+                  </li>
+                  <li>Always us kind words to ask your questions </li>
+                  <li>
+                    Astro5star may terminate accounts for violations; terms may
+                    change
+                  </li>
+                  <li>
+                    Terms and conditions may be updated; continued use implies
+                    acceptance.
+                  </li>
+                </ul>
               </p>
             </div>
             <p className="terms">
@@ -294,8 +297,7 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
                 type="checkbox"
                 className="check-box"
                 required
-                onChange={(e)=>setCheck(e.target.value)}
-              
+                onChange={(e) => setCheck(e.target.value)}
               />
               By signing up, you agree to our <a href="#">Terms of use</a> and{" "}
               <a href="#">Privacy policy</a>
@@ -317,10 +319,10 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
                 </Toast>
               </ToastContainer>
             )}
-            <div  className="register-feild">
+            <div className="register-feild">
               <Button
                 type="submit"
-                onClick={ (e) => {
+                onClick={(e) => {
                   e.preventDefault();
                   checkUser();
                 }}
@@ -337,7 +339,6 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
               </p>
             </div>
           </Form>
-         
         </div>
         <div className={showTab === 2 ? "active" : "disable"}>
           <Form className="mt-4" id="form">
@@ -371,7 +372,18 @@ const { isAuthenticated,error,loading} = useSelector(state=>state.authState)
               onChange={setOtp}
               numInputs={6}
               renderSeparator={<span className="me-2"></span>}
-              renderInput={(props) => <input {...props} className="otpBox" />}
+              renderInput={(props) => (
+                <input
+                  {...props}
+                  className="otpBox"
+                  onKeyDown={(event) => {
+                    if (event.code === "Enter") {
+                      event.preventDefault();
+                      handleVerify();
+                    }
+                  }}
+                />
+              )}
             />
             <div className="countdown-text">
               {seconds > 0 || minutes > 0 ? (

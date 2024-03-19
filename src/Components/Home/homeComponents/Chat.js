@@ -3,7 +3,7 @@ import plus from "../../../assests/plus.svg";
 import star from "../../../assests/Star 1.svg";
 import OffCanvasNav from "../../../Pages/OffCanvasNav";
 import { Link } from "react-router-dom";
-import Sidebar from "../../../Pages/Sidebar";
+import {Sidebar} from "../../../Pages/Sidebar";
 import "../homeStyleSheets/Home.css";
 import "../homeStyleSheets/Chat.css";
 import MetaData from "../../../Pages/MetaData";

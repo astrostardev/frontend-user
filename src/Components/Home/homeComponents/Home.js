@@ -8,25 +8,21 @@ import group from "../../../assests/Group.svg";
 import line from "../../../assests/horizontalLine.svg";
 import OffCanvasNav from "../../../Pages/OffCanvasNav";
 import { Link } from "react-router-dom";
-import Sidebar from "../../../Pages/Sidebar";
+import { Sidebar } from "../../../Pages/Sidebar";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import MetaData from "../../../Pages/MetaData";
 import LazyLoad from "react-lazy-load";
 import { useNavigate } from "react-router-dom";
-import { useSelector,useDispatch } from "react-redux";
-
 
 function MeetAstrologers(props) {
   const [astrologers, setAstrologers] = useState();
   const [categories, setCategories] = useState(null);
   const [languages, setLanguages] = useState(null);
-  const[searchAstrologer,setSearchAstrologer]=useState(null)
-  const { user, token } = useSelector((state) => state.authState);
+  const [searchAstrologer, setSearchAstrologer] = useState(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // get methods from server
-
   useEffect(() => {
     async function fetchData() {
       let response = await fetch(
@@ -91,27 +87,8 @@ function MeetAstrologers(props) {
     setAstrologers(data.astrologers);
     console.log(astrologers);
   }
-  //sending userId
-  async function sendUserId() {
-    console.log('userId', user?._id);
-    let response = await fetch(
-        `${process.env.REACT_APP_URL}/api/v1/user/getuser`,
-        {
-            headers: {
-                "Content-Type": "application/json", // Corrected Content-Type
-                Authorization: `Bearer ${token}`
-            },
-            method: "POST",
-            body: JSON.stringify({ id: user._id }) // Pass user ID as an object
-        }
-    );
-    console.log(response);
-}
-
 
   //display astrologer searched by name
-
-
   async function fetchAstrologerByName() {
     try {
       const response = await fetch(
@@ -123,14 +100,13 @@ function MeetAstrologers(props) {
       const data = await response.json();
       console.log(data);
       setAstrologers(data.astrologer);
-      console.log('filterBy name',astrologers);
+      console.log("filterBy name", astrologers);
     } catch (error) {
       console.error("Error fetching astrologers:", error);
     }
   }
-  
-  // filtering astrologers by category
 
+  // filtering astrologers by category
   const filterCategoryAstrologer = async (selectedCategory) => {
     console.log("filter", selectedCategory);
     let response = await fetch(
@@ -148,7 +124,6 @@ function MeetAstrologers(props) {
   };
 
   // filtering astrologers by language
-
   const filterLanguageAstrologer = async (selectedCategory) => {
     console.log("filter", selectedCategory);
     let response = await fetch(
@@ -180,7 +155,14 @@ function MeetAstrologers(props) {
         <div className="search_space">
           <div className="search_div">
             <img src={search} alt="" />
-            <input type="text" onChange={(e)=>{setSearchAstrologer(e.target.value); fetchAstrologerByName()}} placeholder="search" />
+            <input
+              type="text"
+              onChange={(e) => {
+                setSearchAstrologer(e.target.value);
+                fetchAstrologerByName();
+              }}
+              placeholder="search"
+            />
           </div>
 
           <div className="filter_btn">
@@ -243,12 +225,15 @@ function MeetAstrologers(props) {
                   <div className="card">
                     <div>
                       <div className="astro_detail">
-                        <div className="astro_img" onClick={()=> navigate(`/astrologer_profile/${data?._id}`)} >
-                        
+                        <div
+                          className="astro_img"
+                          onClick={() =>
+                            navigate(`/astrologer_profile/${data?._id}`)
+                          }
+                        >
                           <LazyLoad height={85}>
-                            <img src={data?.profilePic[0]?.pic} alt="" /> 
+                            <img src={data?.profilePic[0]?.pic} alt="" />
                           </LazyLoad>
-                       
                         </div>
                         <div className="about_astrologer">
                           <h4 className="name"> {data.displayname}</h4>
@@ -260,9 +245,13 @@ function MeetAstrologers(props) {
                               <img src={star} alt="" /> 4.2
                             </button>
                           </div>
-                          
                         </div>
-                       {data?.callAvailable == true || data?.chatAvailable == true ? <div className="availableDot"></div> : ''}
+                        {data?.callAvailable === true ||
+                        data?.chatAvailable === true ? (
+                          <div className="availableDot"></div>
+                        ) : (
+                          ""
+                        )}
                       </div>
 
                       <div className="about_astro">
@@ -271,7 +260,7 @@ function MeetAstrologers(props) {
                         <span>Exp: {data.experience} years</span>
                       </div>
                       <div className="charge_btns">
-                        <Link to={`/chats/${data?._id}`} >
+                        <Link to={`/chats/${data?._id}`}>
                           <button>
                             Chat <span>&#8377;</span>
                             {data.displaychat}/min
@@ -284,7 +273,6 @@ function MeetAstrologers(props) {
                           </button>
                         </Link>
                       </div>
-                      
                     </div>
                   </div>
                 </div>

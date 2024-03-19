@@ -1,9 +1,8 @@
 import "../Stylesheets/sidebar.css";
 import Logo from "../assests/logo green.png";
-import { BsCash, BsChatLeftText } from "react-icons/bs";
+import {  BsChatLeftText } from "react-icons/bs";
 import { RiHistoryFill } from "react-icons/ri";
-import { MdAddToQueue, MdArrowDropDown, MdOutlineCall } from "react-icons/md";
-import { AiOutlineSetting } from "react-icons/ai";
+import {MdArrowDropDown, MdOutlineCall } from "react-icons/md";
 import { FiHelpCircle } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { PiWalletBold } from "react-icons/pi";
@@ -17,7 +16,6 @@ import youtube from "../assests/YouTube.svg";
 import whatsapp from "../assests/WhatsApp.svg";
 import { RiHomeLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { logout, userRecharge } from "../action/userAction";
 import { useState, useEffect } from "react";
 import { Button, Spinner } from "react-bootstrap";
@@ -26,14 +24,14 @@ import Table from "react-bootstrap/Table";
 import { getPackage } from "../action/packageAction";
 import Tooltip from "react-bootstrap/Tooltip";
 
-function MyVerticallyCenteredModal(props) {
+export function MyVerticallyCenteredModal(props) {
   const { user } = useSelector((state) => state.authState);
   const { packages } = useSelector((state) => state.packageState);
   const { singlePackage } = useSelector((state) => state.packageState);
   const [showPackages, setShowPackages] = useState(null);
   const [isLoading, setIsloading] = useState(false);
   const dispatch = useDispatch();
-  const [showModel, setModalShow] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchData() {
@@ -102,7 +100,7 @@ function MyVerticallyCenteredModal(props) {
                     <td className="check-box">
                       <input
                         type="checkbox"
-                        onClick={() => dispatch(getPackage(data?._id))}
+                        onClick={() => {dispatch(getPackage(data?._id)); navigate('/home')}}
                       />
                     </td>
                     <td>
@@ -123,14 +121,16 @@ function MyVerticallyCenteredModal(props) {
           </Table>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide} className="modal_btn">Close</Button>
+          <Button onClick={props.onHide} className="modal_btn">
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 }
 
-function UserRechargeDetailModal(props) {
+export function UserRechargeDetailModal(props) {
   const { user } = useSelector((state) => state.authState);
   const [modalShow, setModalShow] = useState(false);
   const [isLoading, setIsloading] = useState(false);
@@ -143,20 +143,19 @@ function UserRechargeDetailModal(props) {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton  id="pckg_header"> 
+        <Modal.Header closeButton id="pckg_header">
           <Modal.Title id="contained-modal-title-vcenter">
-            Packages Details 
-       
+            Packages Details
           </Modal.Title>
           <Button
-              onClick={() => {
-                setModalShow(true);
-                props.onHide();
-              }}
-           className="modal_btn"
-            >
-              New recharge
-            </Button>
+            onClick={() => {
+              setModalShow(true);
+              props.onHide();
+            }}
+            className="modal_btn"
+          >
+            New recharge
+          </Button>
         </Modal.Header>
         {user?.packages == "" ? (
           <span className="alert-msg">You haven't recharged anything</span>
@@ -185,7 +184,9 @@ function UserRechargeDetailModal(props) {
                   {user?.packages?.map((packageData, index) => (
                     <tr key={packageData?._id}>
                       <td>{index + 1}</td>
-                      <td className="package_name">{packageData?.packageName}</td>
+                      <td className="package_name">
+                        {packageData?.packageName}
+                      </td>
                       <td>{packageData?.packageDetail}</td>
                       <td>{packageData?.fixedPrice}</td>
                       <td>
@@ -213,9 +214,9 @@ function UserRechargeDetailModal(props) {
         )}
 
         <Modal.Footer>
-   
-          <Button onClick={props.onHide} className="modal_btn">Close</Button>
-
+          <Button onClick={props.onHide} className="modal_btn">
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
       <MyVerticallyCenteredModal
@@ -225,7 +226,7 @@ function UserRechargeDetailModal(props) {
     </>
   );
 }
-function Sidebar() {
+export function Sidebar() {
   const { user } = useSelector((state) => state.authState);
 
   const navigate = useNavigate();
@@ -288,10 +289,10 @@ function Sidebar() {
             </Link>
           </div>
 
-          <Link className="side-link" to="/settings">
+          {/* <Link className="side-link" to="/settings">
             <AiOutlineSetting className="icon_size" />
             <span>Settings</span>
-          </Link>
+          </Link> */}
           <Link className="side-link">
             <FiHelpCircle className="icon_size" />
             <span>Help</span>
@@ -354,7 +355,7 @@ function Sidebar() {
                     data-placement="bottom"
                     title="Tooltip on bottom"
                   >
-                    {user?.name[0]}
+                    {user && user.name ? user.name[0] : ""}
                   </span>
                 </OverlayTrigger>
                 <div style={{ marginTop: "5px" }}>
@@ -391,4 +392,3 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;

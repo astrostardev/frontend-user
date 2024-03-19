@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FloatingLabel, Form, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import "../../Stylesheets/UserProfile.css";
-import Sidebar from "../../Pages/Sidebar";
+import "./UserProfile.css";
+import {Sidebar} from "../../Pages/Sidebar";
 import OffCanvasNav from "../../Pages/OffCanvasNav";
 import MetaData from "../../Pages/MetaData";
 import { useSelector } from "react-redux";

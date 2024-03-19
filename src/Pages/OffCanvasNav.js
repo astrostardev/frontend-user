@@ -13,15 +13,15 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { FiHelpCircle } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useEffect,useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import facebook from "../assests/Facebook.svg";
 import twitter from "../assests/Twitter.svg";
 import insta from "../assests/Instagram.svg";
 import youtube from "../assests/YouTube.svg";
 import whatsapp from "../assests/WhatsApp.svg";
 import { RiHomeLine } from "react-icons/ri";
-import { logout, userRecharge} from "../action/userAction";
-import { useDispatch, useSelector} from "react-redux";
+import { logout, userRecharge } from "../action/userAction";
+import { useDispatch, useSelector } from "react-redux";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { LiaWalletSolid } from "react-icons/lia";
@@ -69,14 +69,13 @@ function MyVerticallyCenteredModal(props) {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             Packages{" "}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ overflowX: 'auto'}}>
+        <Modal.Body style={{ overflowX: "auto" }}>
           <Table responsive>
             <thead>
               <tr>
@@ -86,7 +85,6 @@ function MyVerticallyCenteredModal(props) {
                 <th>Package Detail</th>
                 <th>Select Package</th>
                 <th>Button</th>
-             
               </tr>
             </thead>
             {isLoading ? (
@@ -101,9 +99,11 @@ function MyVerticallyCenteredModal(props) {
               <tbody>
                 {showPackages?.map((data, index) => (
                   <tr key={data?._id}>
-                    <td > {index + 1}</td>
+                    <td> {index + 1}</td>
                     <td className="td_width">{data?.fixedPrice}</td>
-                    <td className="package_name td_width">{data?.packageName}</td>
+                    <td className="package_name td_width">
+                      {data?.packageName}
+                    </td>
                     <td className="td_width">{data?.packageDetail}</td>
                     <td className="check-box">
                       <input
@@ -129,7 +129,9 @@ function MyVerticallyCenteredModal(props) {
           </Table>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide} className="modal_btn">Close</Button>
+          <Button onClick={props.onHide} className="modal_btn">
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
@@ -149,20 +151,19 @@ function UserRechargeDetailModal(props) {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton  id="pckg_header"> 
+        <Modal.Header closeButton id="pckg_header">
           <Modal.Title id="contained-modal-title-vcenter">
-            Packages Details 
-       
+            Packages Details
           </Modal.Title>
           <Button
-              onClick={() => {
-                setModalShow(true);
-                props.onHide();
-              }}
-           className="modal_btn"
-            >
-              New recharge
-            </Button>
+            onClick={() => {
+              setModalShow(true);
+              props.onHide();
+            }}
+            className="modal_btn"
+          >
+            New recharge
+          </Button>
         </Modal.Header>
         {user?.packages == "" ? (
           <span className="alert-msg">You haven't recharged anything</span>
@@ -191,7 +192,9 @@ function UserRechargeDetailModal(props) {
                   {user?.packages?.map((packageData, index) => (
                     <tr key={packageData?._id}>
                       <td>{index + 1}</td>
-                      <td className="package_name">{packageData?.packageName}</td>
+                      <td className="package_name">
+                        {packageData?.packageName}
+                      </td>
                       <td>{packageData?.packageDetail}</td>
                       <td>{packageData?.fixedPrice}</td>
                       <td>
@@ -219,9 +222,9 @@ function UserRechargeDetailModal(props) {
         )}
 
         <Modal.Footer>
-   
-          <Button onClick={props.onHide} className="modal_btn">Close</Button>
-
+          <Button onClick={props.onHide} className="modal_btn">
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
       <MyVerticallyCenteredModal
@@ -236,7 +239,7 @@ function Offcanvas() {
   const [userRechargeShow, setUserRechargeShow] = useState(false);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   function openCanvas() {
     let canvas = document.querySelector(".canvas");
     canvas.classList.add("openCanvas");
@@ -270,7 +273,7 @@ function Offcanvas() {
   }
   const logoutHandler = () => {
     dispatch(logout);
-    navigate('/')
+    navigate("/");
   };
   // const refCanvas = useRef(null)
 
@@ -299,25 +302,19 @@ function Offcanvas() {
         <div className="logoContainer">
           <img src={Logo} alt="logo" />
           <div>
-            <RiCloseLine style={{ fontSize: "25px",color:"#229e48" }} onClick={closeCanvas} />
+            <RiCloseLine
+              style={{ fontSize: "25px", color: "#229e48" }}
+              onClick={closeCanvas}
+            />
           </div>
         </div>
         <div className="divider"></div>
         <section className="side-menu">
-          <Link
-            className="side-link"
-            to="/home"
-            onClick={closeCanvas}
-          >
+          <Link className="side-link" to="/home" onClick={closeCanvas}>
             <RiHomeLine style={{ fontSize: "20px" }} />
             <span>Home</span>
           </Link>
-          <Link
-            className="side-link"
-            to="/wallet"
-            onClick={closeCanvas}
-          >
-           
+          <Link className="side-link" to="/wallet" onClick={closeCanvas}>
             <PiWalletBold style={{ fontSize: "20px" }} />
             <span>Wallet</span>
           </Link>
@@ -335,20 +332,28 @@ function Offcanvas() {
             <MdArrowDropDown style={{ fontSize: "20px", marginLeft: "40px" }} />
           </button>
           <div className="history-container">
-            <Link className="hist-link" to="/chat_history" onClick={closeCanvas}>
+            <Link
+              className="hist-link"
+              to="/chat_history"
+              onClick={closeCanvas}
+            >
               <BsChatLeftText style={{ fontSize: "20px" }} />
               <span>Chat</span>
             </Link>
-            <Link className="hist-link" to="/call_history" onClick={closeCanvas}>
+            <Link
+              className="hist-link"
+              to="/call_history"
+              onClick={closeCanvas}
+            >
               <MdOutlineCall style={{ fontSize: "20px" }} />
               <span>Call</span>
             </Link>
           </div>
 
-          <Link className="side-link" to="/settings" onClick={closeCanvas}>
+          {/* <Link className="side-link" to="/settings" onClick={closeCanvas}>
             <AiOutlineSetting style={{ fontSize: "20px" }} />
             <span>Settings</span>
-          </Link>
+          </Link> */}
           <Link className="side-link" onClick={closeCanvas}>
             <FiHelpCircle style={{ fontSize: "20px" }} />
             <span>Help</span>
@@ -389,11 +394,16 @@ function Offcanvas() {
                 </div>
               </button>
               <div className="paydrop" id="drop">
-                <p onClick={()=>{closedroppaydown(); setUserRechargeShow(true)}}>
-                 Recharge
+                <p
+                  onClick={() => {
+                    closedroppaydown();
+                    setUserRechargeShow(true);
+                  }}
+                >
+                  Recharge
                 </p>
                 <hr />
-                <Link to="/profile" >Wallet</Link>
+                <Link to="/profile">Wallet</Link>
                 {/* <Link href="#" onClick={closedropdown}>
                   Logout
                 </Link> */}
@@ -403,7 +413,6 @@ function Offcanvas() {
             {/* Profile */}
             <div className="profileDrop">
               <button className="dropbtn" onClick={toggledropdown}>
-
                 <OverlayTrigger
                   placement="bottom"
                   delay={{ show: 250, hide: 400 }}
@@ -419,7 +428,7 @@ function Offcanvas() {
                     data-placement="bottom"
                     title="Tooltip on bottom"
                   >
-                    {user?.name[0]}
+                    {user && user.name ? user.name[0] : ""}
                   </span>
                 </OverlayTrigger>
                 <div style={{ marginTop: "5px" }}>
