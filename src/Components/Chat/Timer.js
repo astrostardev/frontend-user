@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { setIsRunning } from "../../slice/timerSlice";
+import { useDispatch } from "react-redux";
 
-const Timer = ({ setTime, stopTimer, onStopTimer }) => {
+const Timer = ({ setTime, onStopTimer }) => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
   const timerRef = useRef();
   const [isTimerStopped, setIsTimerStopped] = useState(false);
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (setTime) {
@@ -15,9 +17,9 @@ const Timer = ({ setTime, stopTimer, onStopTimer }) => {
   }, [setTime]);
 
   const startTimer = () => {
-      const startTime = Date.now(); // Record the start time
+    const startTime = Date.now(); // Record the start time
 
-      timerRef.current = setInterval(() => {
+    timerRef.current = setInterval(() => {
       const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Calculate elapsed time in seconds
 
       const newHours = Math.floor(elapsedTime / 3600);
@@ -32,11 +34,12 @@ const Timer = ({ setTime, stopTimer, onStopTimer }) => {
 
   useEffect(() => {
     if (minutes >= setTime && minutes === setTime) {
-      // Check if the timer is not already stopped
       clearInterval(timerRef.current);
+      console.log("Timer stopped at minutes:", minutes);
       setIsTimerStopped(true);
-    }
-  }, [minutes, setTime]);
+      dispatch(setIsRunning(true)); // Dispatching setIsRunning to update the state in Redux store
+    }  
+  }, [minutes, setTime, dispatch]);
 
   useEffect(() => {
     if (isTimerStopped) {

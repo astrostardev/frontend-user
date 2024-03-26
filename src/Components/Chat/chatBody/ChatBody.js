@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./chatBody.css";
 import Sidebar from "../SideBar/Sidebar";
 import { Sidebar as AppSiderbar } from "../../../../src/Pages/Sidebar";
@@ -20,7 +20,8 @@ import {
   fetchChatSuccess,
 } from "../../../slice/conversationSlice";
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
-function ChatBody() {
+function ChatBody({onStopTimer, isTimer}) {
+  console.log('isTimer',isTimer);
   const { user, token } = useSelector((state) => state.authState);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
@@ -31,8 +32,8 @@ function ChatBody() {
   const [time, setTime] = useState("");
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
-  const [timeStoped, setTimeStoped] = useState(false);
-  const [showChatTimingModal, setShowChatTimingModal] = useState(timeStoped);
+  const [timeStopped, setTimeStoped] = useState(false);
+  const [showChatTimingModal, setShowChatTimingModal] = useState(timeStopped);
   const userBal = user?.balance;
   const chatAmount = astrologer?.astrologer?.displaychat;
   const fivemins = 5 * chatAmount;
@@ -41,7 +42,6 @@ function ChatBody() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userID = user?._id;
-
 
   //initialising WebSocket
   useEffect(() => {
@@ -129,6 +129,7 @@ function ChatBody() {
     };
   }, [dispatch, socket, splitId, user]);
 
+
   // Show astrologer on side bar
   useEffect(() => {
     async function fetchData() {
@@ -147,19 +148,8 @@ function ChatBody() {
   function handleTime(time) {
     setTime(time);
   }
-  const handleStopTimer = (stopTimerValue) => {
-    setTimeStoped(stopTimerValue);
-  };
 
-  useEffect(() => {
-    console.log("timed Stoped", timeStoped);
-    setShowChatTimingModal(timeStoped);
-    if (timeStoped) {
-      alert("Chat Time Ended", navigate("/home"));
-    }
-  }, [timeStoped]);
-
-
+ 
   const date = new Date();
   const astrologerName = astrologer?.astrologer?.displayname;
   return (
@@ -175,16 +165,21 @@ function ChatBody() {
         onHide={() => setUserRechargeShow(false)}
       />
       <div>
-        {userBal == 0 ? (
+        {userBal < fivemins ? (
           <Modal show={show} onHide={handleClose}>
+            <Modal.Title style={{textAlign:"center"}}> <h2> Insufficient Balance</h2></Modal.Title>
             <Modal.Body>
-              <h2>Insufficient Balance</h2>
-              <p>
-                Your current balance is {userBal}. Please recharge to continue.
-              </p>
+              <h3>Minimum balance required: &#8377;{fivemins}</h3>
+              <p>Please recharge to continue.</p>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={()=>{ handleClose();navigate('/home')} }>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  handleClose();
+                  navigate("/home");
+                }}
+              >
                 Close
               </Button>
               <Button
@@ -324,9 +319,8 @@ function ChatBody() {
           </Modal>
         )}
       </div>
-      
+
       <div className="main__chatbody">
- 
         <Sidebar
           latestMsg={
             recentMessage?.length > 0
@@ -339,7 +333,7 @@ function ChatBody() {
               : " "
           }
           astrologer={astrologer}
-          timeStopped={handleStopTimer}
+          timeStopped={onStopTimer}
         />
 
         <ChatOffcanvas
@@ -355,12 +349,22 @@ function ChatBody() {
           }
           astrologer={astrologer}
           setTime={time}
-          timeStopped={handleStopTimer}
+          timeStopped={onStopTimer}
         />
 
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="chat_content" element={<ChatContent setTime={time}  timeStopped={handleStopTimer} astrologer={astrologer} />} />
+          <Route
+            path="chat_content"
+            element={
+              <ChatContent
+                setTime={time}
+                timeStopped={onStopTimer}
+                isTimer={isTimer}
+                astrologer={astrologer}
+              />
+            }
+          />
         </Routes>
       </div>
     </>

@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
@@ -25,22 +26,32 @@ import { useSelector } from "react-redux";
 import ChatContent from "./Components/Chat/chatContent/ChatContent";
 import ChatBody from "./Components/Chat/chatBody/ChatBody";
 import Welcome from "./Components/Chat/chatPages/Welcome";
+import { useEffect, useState, useCallback } from "react";
 
 function App() {
+  const [showTime, setShowTime] = useState();
+  const [timeStopped, setTimeStopped] = useState(false);
   const { isAuthenticated } = useSelector(
     (state) => state.authState
   );
+
+//  const navigate = useNavigate()
+  const handleStopTimer = (stopTimerValue) => {
+    setTimeStopped(stopTimerValue);
+  };
+
+  const handleTimer = useCallback(() => {
+    const stopTimerValue = false; // Example value
+    handleStopTimer(stopTimerValue); // Send value back to App.js
+  }, []);
+
+
 
   return (
     <div className="App">
       <HelmetProvider>
         <ToastContainer theme="dark" />
         <Router>
-          {/* <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
-          </Route>
-        </Routes> */}
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -48,12 +59,14 @@ function App() {
             <Route
               path="/home"
               element={
-                isAuthenticated ? <MeetAstrologers /> : <Navigate to="/" />
+                isAuthenticated ? <MeetAstrologers isTimer={timeStopped}/> : <Navigate to="/" />
               }
             />
             <Route
               path="/profile"
-              element={isAuthenticated ? <UserProfile /> : <Navigate to="/" />}
+              element={
+                isAuthenticated ? <UserProfile /> : <Navigate to="/" />
+              }
             />
             <Route
               path="/astrologer_profile/:id"
@@ -61,11 +74,24 @@ function App() {
                 isAuthenticated ? <AstrologerProfile /> : <Navigate to="/" />
               }
             />
-
-            {/* <Route path="/profile" element={isAuthenticated ? <UserProfile /> : <Navigate to="/" />} /> */}
-            <Route path="chats/:id" element={isAuthenticated ? <ChatBody /> : <Navigate to="/" />}>
-              <Route path="chat_content" element={isAuthenticated ? <ChatContent /> : <Navigate to="/" />} />
-              <Route path="welcome" element={isAuthenticated ? <Welcome /> : <Navigate to="/" />} />
+            <Route
+              path="chats/:id"
+              element={
+                isAuthenticated ? (
+                  <ChatBody onStopTimer={handleStopTimer} isTimer={timeStopped}/>
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            >
+              <Route
+                path="chat_content"
+                element={isAuthenticated ? <ChatContent /> : <Navigate to="/" />}
+              />
+              <Route
+                path="welcome"
+                element={isAuthenticated ? <Welcome /> : <Navigate to="/" />}
+              />
             </Route>
             <Route
               path="/off_chat_content/:id"

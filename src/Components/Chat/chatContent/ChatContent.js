@@ -19,10 +19,13 @@ import {
   sendChatSuccess,
 } from "../../../slice/conversationSlice";
 import Timer from "../Timer";
+import { isAstrologerBusy } from "../../../action/astrologerAction";
+import { setIsRunning } from "../../../slice/timerSlice";
+import { FaBullseye } from "react-icons/fa";
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL ;
 
 
-function ChatContent({setTime,timeStopped,astrologer}) {
+function ChatContent({setTime,timeStopped,astrologer,isTimer}) {
   const { user} = useSelector((state) => state.authState);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
@@ -33,11 +36,21 @@ function ChatContent({setTime,timeStopped,astrologer}) {
   const [socket, setSocket] = useState(null);
   const messagesEndRef = useRef();
   const dispatch = useDispatch();
+  const[isTimerStopped,setIsTimerStopped]=useState(isTimer)
   
 
   const handleStopTimer = (stopTimerValue) => {
     timeStopped(stopTimerValue);
   };
+  useEffect(() => {
+    if (setIsRunning && isTimer) {
+      alert("Chat Time Ended");
+      dispatch(isAstrologerBusy(!isTimer,splitId))
+      dispatch(setIsRunning(false))
+    }
+  }, [isTimer,dispatch,splitId,isTimerStopped]);
+
+
 
   const handleTimer = useCallback(() => {
     const stopTimerValue = false; // Example value
@@ -258,7 +271,7 @@ function ChatContent({setTime,timeStopped,astrologer}) {
                     setMessageContent("");
                   }
                 }}
-                style={{ pointerEvents: user?.balance === 0 ? 'none' : 'auto' }}
+                style={{ pointerEvents: user?.balance === 0 && isTimer ? 'none' : 'auto' }}
               />
               <button
                 onClick={() => {

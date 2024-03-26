@@ -7,19 +7,25 @@ import search from "../../../assests/search.svg";
 import group from "../../../assests/Group.svg";
 import line from "../../../assests/horizontalLine.svg";
 import OffCanvasNav from "../../../Pages/OffCanvasNav";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import { Sidebar } from "../../../Pages/Sidebar";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import MetaData from "../../../Pages/MetaData";
 import LazyLoad from "react-lazy-load";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllAstrologer, isAstrologerBusy } from "../../../action/astrologerAction";
 
-function MeetAstrologers(props) {
-  const [astrologers, setAstrologers] = useState();
+function MeetAstrologers() {
+  const { token } = useSelector((state)=>state.authState)
+  const  {astrologers}  = useSelector((state) => state.astroState);
+  const [getAstrologer, setAstrologers] = useState();
   const [categories, setCategories] = useState(null);
   const [languages, setLanguages] = useState(null);
   const [searchAstrologer, setSearchAstrologer] = useState(null);
+  const[astroIsBusy, setBusy] = useState(true)
+  const dispatch = useDispatch()
 
   const navigate = useNavigate();
   // get methods from server
@@ -68,25 +74,6 @@ function MeetAstrologers(props) {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // displaying all astrologers
-  async function fetchData() {
-    let response = await fetch(
-      `${process.env.REACT_APP_URL}/api/v1/astrologer/allAstrologers`,
-      {
-        method: "GET",
-      }
-    );
-    // console.log(response);
-    let data = await response.json();
-    console.log(data);
-
-    setAstrologers(data.astrologers);
-    console.log(astrologers);
-  }
 
   //display astrologer searched by name
   async function fetchAstrologerByName() {
@@ -140,6 +127,13 @@ function MeetAstrologers(props) {
     console.log(astrologers);
   };
 
+
+
+  
+useEffect(()=>{
+  dispatch(getAllAstrologer())
+  },[])
+
   return (
     <>
       <MetaData title={"Astro5Star"} />
@@ -183,7 +177,7 @@ function MeetAstrologers(props) {
           <div className="meet_astro_option">
             <h4> Meet Astrologers</h4>
             <div className="astro_drop_btn button_container">
-              <button className="all" onClick={fetchData}>
+              <button className="all" onClick={()=>dispatch(getAllAstrologer)}>
                 All <img src={arrow_ios} alt="" />
               </button>
               <DropdownButton id="dropdown-item-button" title="Methodology">
@@ -260,12 +254,14 @@ function MeetAstrologers(props) {
                         <span>Exp: {data.experience} years</span>
                       </div>
                       <div className="charge_btns">
-                        <Link to={`/chats/${data?._id}`}>
-                          <button>
+                      <Link to={`/chats/${data?._id}`} onClick={()=> dispatch(isAstrologerBusy(astroIsBusy,data?._id))}>
+
+                          <button disabled={data?.isBusy}>
                             Chat <span>&#8377;</span>
                             {data.displaychat}/min
                           </button>
                         </Link>
+                     
                         <Link to="/call">
                           <button>
                             Call <span>&#8377;</span>
