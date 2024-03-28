@@ -35,6 +35,58 @@ const astrologerSlice = createSlice({
                 error: action.payload // Set error state
             }
         },
+        availAstrologerCallRequest(state, action) {
+
+            return {
+                ...state,
+                loading: true,
+                error: null // Clear any previous errors
+            }
+        },
+        availAstrologerCallSuccess(state, action) {
+
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: true,
+                callAvailable: action.payload.callAvailable, // Update astrologers data
+                error: null // Clear any previous errors
+            }
+        },
+        availAstrologerCallFail(state, action) {
+            console.error("Error fetching astrologers:", action.payload);
+            return {
+                ...state,
+                loading: false,
+                error: action.payload // Set error state
+            }
+        },
+        availAstrologerChatRequest(state, action) {
+
+            return {
+                ...state,
+                loading: true,
+                error: null // Clear any previous errors
+            }
+        },
+        availAstrologerChatSuccess(state, action) {
+
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: true,
+                chatAvailable: action.payload.chatAvailable, // Update astrologers data
+                error: null // Clear any previous errors
+            }
+        },
+        availAstrologerChatFail(state, action) {
+            console.error("Error fetching astrologers:", action.payload);
+            return {
+                ...state,
+                loading: false,
+                error: action.payload // Set error state
+            }
+        },
 
         isAstrologerBusyRequest(state, action) {
             return {
@@ -71,7 +123,13 @@ export const {
     isAstrologerBusyRequest,
     getAllAstrologerFail,
     getAllAstrologerRequest,
-    getAllAstrologerSuccess
+    getAllAstrologerSuccess,
+    availAstrologerCallFail,
+    availAstrologerCallRequest,
+    availAstrologerCallSuccess,
+    availAstrologerChatFail,
+    availAstrologerChatRequest,
+    availAstrologerChatSuccess
 } = actions;
 
 export default reducer;

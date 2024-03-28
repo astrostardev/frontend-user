@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import "./chatBody.css";
 import Sidebar from "../SideBar/Sidebar";
 import { Sidebar as AppSiderbar } from "../../../../src/Pages/Sidebar";
@@ -19,9 +19,11 @@ import {
   fetchChatRequest,
   fetchChatSuccess,
 } from "../../../slice/conversationSlice";
+import { isAstrologerBusy } from "../../../action/astrologerAction";
+import { setIsRunning } from "../../../slice/timerSlice";
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
-function ChatBody({onStopTimer, isTimer}) {
-  console.log('isTimer',isTimer);
+
+const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
   const { user, token } = useSelector((state) => state.authState);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
@@ -32,8 +34,6 @@ function ChatBody({onStopTimer, isTimer}) {
   const [time, setTime] = useState("");
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
-  const [timeStopped, setTimeStoped] = useState(false);
-  const [showChatTimingModal, setShowChatTimingModal] = useState(timeStopped);
   const userBal = user?.balance;
   const chatAmount = astrologer?.astrologer?.displaychat;
   const fivemins = 5 * chatAmount;
@@ -42,7 +42,9 @@ function ChatBody({onStopTimer, isTimer}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userID = user?._id;
-
+  const { isRunning } = useSelector((state) => state.timerState);
+  const date = new Date();
+  const astrologerName = astrologer?.astrologer?.displayname;
   //initialising WebSocket
   useEffect(() => {
     const newSocket = new WebSocket(ENDPOINT);
@@ -90,10 +92,7 @@ function ChatBody({onStopTimer, isTimer}) {
     const handleMessageEvent = (event) => {
       const messageData = JSON.parse(event.data);
       if (messageData.type === "messages") {
-        console.log("messageData Get", messageData.payload);
-
         const messages = dispatch(fetchChatSuccess(messageData.messages));
-
         setAllMessages(messages.payload); // Dispatch action to update messages in the state
       } else if (messageData.type === "new message") {
         const messages = dispatch(
@@ -108,7 +107,7 @@ function ChatBody({onStopTimer, isTimer}) {
     if (socket) {
       socket.addEventListener("open", () => {
         console.log("WebSocket connection is open.");
-        console.log("paramsId", splitId);
+
         getChatMessages(); // Call the function to fetch chat messages
       });
 
@@ -129,7 +128,6 @@ function ChatBody({onStopTimer, isTimer}) {
     };
   }, [dispatch, socket, splitId, user]);
 
-
   // Show astrologer on side bar
   useEffect(() => {
     async function fetchData() {
@@ -145,13 +143,14 @@ function ChatBody({onStopTimer, isTimer}) {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    dispatch(setIsRunning(false));
+  }, [isTimer]);
+
   function handleTime(time) {
     setTime(time);
   }
 
- 
-  const date = new Date();
-  const astrologerName = astrologer?.astrologer?.displayname;
   return (
     <>
       <div id="fixedbar">
@@ -160,6 +159,7 @@ function ChatBody({onStopTimer, isTimer}) {
       <div id="offcanvas">
         <OffCanvasNav />
       </div>
+
       <UserRechargeDetailModal
         show={userRechargeShow}
         onHide={() => setUserRechargeShow(false)}
@@ -167,7 +167,10 @@ function ChatBody({onStopTimer, isTimer}) {
       <div>
         {userBal < fivemins ? (
           <Modal show={show} onHide={handleClose}>
-            <Modal.Title style={{textAlign:"center"}}> <h2> Insufficient Balance</h2></Modal.Title>
+            <Modal.Title style={{ textAlign: "center" }}>
+              {" "}
+              <h2> Insufficient Balance</h2>
+            </Modal.Title>
             <Modal.Body>
               <h3>Minimum balance required: &#8377;{fivemins}</h3>
               <p>Please recharge to continue.</p>
@@ -178,6 +181,7 @@ function ChatBody({onStopTimer, isTimer}) {
                 onClick={() => {
                   handleClose();
                   navigate("/home");
+                   dispatch(isAstrologerBusy(false,splitId))
                 }}
               >
                 Close
@@ -369,6 +373,6 @@ function ChatBody({onStopTimer, isTimer}) {
       </div>
     </>
   );
-}
+});
 
 export default ChatBody;

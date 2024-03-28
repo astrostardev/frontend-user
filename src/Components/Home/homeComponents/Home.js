@@ -15,17 +15,20 @@ import MetaData from "../../../Pages/MetaData";
 import LazyLoad from "react-lazy-load";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllAstrologer, isAstrologerBusy } from "../../../action/astrologerAction";
+import {
+  getAllAstrologer,
+  isAstrologerBusy,
+} from "../../../action/astrologerAction";
+import { set } from "react-hook-form";
 
 function MeetAstrologers() {
-  const { token } = useSelector((state)=>state.authState)
-  const  {astrologers}  = useSelector((state) => state.astroState);
-  const [getAstrologer, setAstrologers] = useState();
+  const { astrologers = [] } = useSelector((state) => state.astroState);
+  const [getAstrologer, setAstrologers] = useState(astrologers);
   const [categories, setCategories] = useState(null);
   const [languages, setLanguages] = useState(null);
   const [searchAstrologer, setSearchAstrologer] = useState(null);
-  const[astroIsBusy, setBusy] = useState(true)
-  const dispatch = useDispatch()
+  const [astroIsBusy, setBusy] = useState(true);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   // get methods from server
@@ -73,7 +76,6 @@ function MeetAstrologers() {
     }
     fetchData();
   }, []);
-
 
   //display astrologer searched by name
   async function fetchAstrologerByName() {
@@ -127,13 +129,36 @@ function MeetAstrologers() {
     console.log(astrologers);
   };
 
+  // Function to shuffle astrologers array
+  useEffect(() => {
+    const shuffleAstrologers = () => {
+      setAstrologers((preAstrologer) => {
+        const shuffledAstrologers = [...preAstrologer];
+        for (let i = shuffledAstrologers.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          console.log("j", j);
+          console.log("i", i);
 
+          [shuffledAstrologers[i], shuffledAstrologers[j]] = [
+            shuffledAstrologers[j],
+            shuffledAstrologers[i],
+          ];
+        }
+        return shuffledAstrologers;
+      });
+    };
 
-  
-useEffect(()=>{
+    shuffleAstrologers();
+    const intervalId = setInterval(shuffleAstrologers, 10000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+const allAstrologer = ()=> {
   dispatch(getAllAstrologer())
-  },[])
-
+}
+useEffect(()=>{
+  setAstrologers(astrologers)
+},[astrologers])
   return (
     <>
       <MetaData title={"Astro5Star"} />
@@ -159,7 +184,7 @@ useEffect(()=>{
             />
           </div>
 
-          <div className="filter_btn">
+          {/* <div className="filter_btn">
             <button>
               {" "}
               <img src={line} alt="" />
@@ -169,7 +194,7 @@ useEffect(()=>{
               {" "}
               <img src={group} alt="" /> Sort
             </button>
-          </div>
+          </div> */}
         </div>
 
         <div className="container-fluid ">
@@ -177,7 +202,10 @@ useEffect(()=>{
           <div className="meet_astro_option">
             <h4> Meet Astrologers</h4>
             <div className="astro_drop_btn button_container">
-              <button className="all" onClick={()=>dispatch(getAllAstrologer)}>
+              <button
+                className="all"
+                onClick={allAstrologer}
+              >
                 All <img src={arrow_ios} alt="" />
               </button>
               <DropdownButton id="dropdown-item-button" title="Methodology">
@@ -214,7 +242,7 @@ useEffect(()=>{
             </div>
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3  row-cols-md-2 row-cols-xl-4 g-2 astrologer_container">
-              {astrologers?.map((data) => (
+              {getAstrologer?.map((data) => (
                 <div className="col" key={data.id} id="card_width">
                   <div className="card">
                     <div>
@@ -254,14 +282,18 @@ useEffect(()=>{
                         <span>Exp: {data.experience} years</span>
                       </div>
                       <div className="charge_btns">
-                      <Link to={`/chats/${data?._id}`} onClick={()=> dispatch(isAstrologerBusy(astroIsBusy,data?._id))}>
-
+                        <Link
+                          to={`/chats/${data?._id}`}
+                          onClick={() =>
+                            dispatch(isAstrologerBusy(astroIsBusy, data?._id))
+                          }
+                        >
                           <button disabled={data?.isBusy}>
                             Chat <span>&#8377;</span>
                             {data.displaychat}/min
                           </button>
                         </Link>
-                     
+
                         <Link to="/call">
                           <button>
                             Call <span>&#8377;</span>

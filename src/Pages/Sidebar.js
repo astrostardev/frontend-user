@@ -23,13 +23,16 @@ import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 import { getPackage } from "../action/packageAction";
 import Tooltip from "react-bootstrap/Tooltip";
+import { getAllAstrologer, getAstrologerAvailableForCall } from "../action/astrologerAction";
+import { getAstrologerAvailableForChat} from "../action/astrologerAction";
 
 export function MyVerticallyCenteredModal(props) {
-  const { user } = useSelector((state) => state.authState);
+  const {user, token} = useSelector((state) => state.authState);
   const { packages } = useSelector((state) => state.packageState);
   const { singlePackage } = useSelector((state) => state.packageState);
   const [showPackages, setShowPackages] = useState(null);
   const [isLoading, setIsloading] = useState(false);
+  const[btnDisable,setBtnDisable] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
@@ -100,7 +103,7 @@ export function MyVerticallyCenteredModal(props) {
                     <td className="check-box">
                       <input
                         type="checkbox"
-                        onClick={() => {dispatch(getPackage(data?._id)); navigate('/home')}}
+                        onClick={() => dispatch(getPackage(data?._id))}
                       />
                     </td>
                     <td>
@@ -227,7 +230,7 @@ export function UserRechargeDetailModal(props) {
   );
 }
 export function Sidebar() {
-  const { user } = useSelector((state) => state.authState);
+  const { user,token } = useSelector((state) => state.authState);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -283,7 +286,7 @@ export function Sidebar() {
               <BsChatLeftText className="icon_size" />
               <span>Chat</span>
             </Link>
-            <Link className="history-link" to="/call_history">
+            <Link className="history-link" to="/call_history" >
               <MdOutlineCall className="icon_size" />
               <span>Call</span>
             </Link>

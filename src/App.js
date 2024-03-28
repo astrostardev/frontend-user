@@ -22,15 +22,17 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Timer from "./Components/Chat/Timer";
 import { HelmetProvider } from "react-helmet-async";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ChatContent from "./Components/Chat/chatContent/ChatContent";
 import ChatBody from "./Components/Chat/chatBody/ChatBody";
 import Welcome from "./Components/Chat/chatPages/Welcome";
 import { useEffect, useState, useCallback } from "react";
+import { setIsRunning } from "./slice/timerSlice";
 
 function App() {
   const [showTime, setShowTime] = useState();
   const [timeStopped, setTimeStopped] = useState(false);
+  const dispatch = useDispatch()
   const { isAuthenticated } = useSelector(
     (state) => state.authState
   );

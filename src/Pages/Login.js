@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { clearAuthError, login,getAllUser} from '../action/userAction';
 import { useSelector,useDispatch } from "react-redux";
 import MetaData from "./MetaData";
+import {getAllAstrologer, getAstrologerAvailableForCall, getAstrologerAvailableForChat} from '../action/astrologerAction'
 
 
 import {
@@ -32,9 +33,16 @@ function Login() {
   const [disable, setDisable] = useState(false);
   const [setloading, setLoading] = useState(false);
 
+
+  useEffect(()=>{
+    dispatch(getAllAstrologer())
+    dispatch(getAstrologerAvailableForCall())
+    dispatch(getAstrologerAvailableForChat())
+      },[])
   const handleClick = (num) => {
     setShowtab(num);
   };
+
 
   const handleChange = (value) => {
     setAlert(false);
@@ -287,7 +295,8 @@ dispatch(getAllUser)
               renderSeparator={<span className="me-2"></span>}
               renderInput={(props) => <input {...props} className="otpBox"  onKeyDown={(event) => {
                 if (event.code === "Enter") {
-                  handleVerify()
+                  handleVerify();
+
                 }
               }}/>}
             />
@@ -310,7 +319,7 @@ dispatch(getAllUser)
                 Resend OTP
               </button>
             </div>
-            <Button onClick={handleVerify} >Verify</Button>
+            <Button onClick={()=> {handleVerify();}}  >Verify</Button>
             {otpAlert && (
               <ToastContainer
                 position="top-end"

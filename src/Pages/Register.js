@@ -15,6 +15,7 @@ import OtpInput from "react-otp-input";
 import { set, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import {getAllAstrologer, getAstrologerAvailableForCall, getAstrologerAvailableForChat} from '../action/astrologerAction'
 
 function Login() {
   const navigate = useNavigate();
@@ -37,7 +38,11 @@ function Login() {
   const [check, setCheck] = useState(false);
   const [checkAlert, setCheckAlert] = useState(false);
   const [disable, setDisable] = useState(false);
-
+  useEffect(()=>{
+    dispatch(getAllAstrologer())
+    dispatch(getAstrologerAvailableForCall())
+    dispatch(getAstrologerAvailableForChat())
+      },[])
   const handleChange = (value) => {
     setAlert(false);
     setCheckAlert(false);
@@ -404,10 +409,11 @@ function Login() {
                 Resend OTP
               </button>
             </div>
-            <Button onClick={handleVerify} disabled={!disable}>
+            <Button onClick={handleVerify}  disabled={!disable}>
               Verify
             </Button>
             {otpAlert && (
+              
               <ToastContainer
                 position="top-end"
                 className="p-3"

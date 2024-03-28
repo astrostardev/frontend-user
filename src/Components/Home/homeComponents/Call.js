@@ -1,49 +1,41 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import plus from "../../../assests/plus.svg";
 import star from "../../../assests/Star 1.svg";
 import OffCanvasNav from "../../../Pages/OffCanvasNav";
 import { Link } from "react-router-dom";
-import {Sidebar} from "../../../Pages/Sidebar";
+import { Sidebar } from "../../../Pages/Sidebar";
 import "../homeStyleSheets/Home.css";
 import "../homeStyleSheets/Chat.css";
 import MetaData from "../../../Pages/MetaData";
+import { useSelector } from "react-redux";
 function Call(props) {
-  const [astrologers,setAstrologers]=useState(null);
+  const { callAvailable = [] } = useSelector((state) => state.astroState);
+  const [getAstrologers, setAstrologers] = useState(callAvailable);
 
-//fetching available astrologers for call 
-useEffect(()=>{
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_URL}/api/v1/astrologer/call_available`,
-        {
-          headers: {
-            "Content-type": "multipart/form-data",
-            // Authorization: `Bearer ${token}`
-          },
-          method: "GET",
+  // Function to shuffle astrologers array
+  useEffect(() => {
+    const shuffleAstrologers = () => {
+      setAstrologers((preAstrologer) => {
+        const shuffledAstrologers = [...preAstrologer];
+        for (let i = shuffledAstrologers.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffledAstrologers[i], shuffledAstrologers[j]] = [
+            shuffledAstrologers[j],
+            shuffledAstrologers[i],
+          ];
         }
-      );
+        return shuffledAstrologers;
+      });
+    };
 
-      if (!response.ok) {
-        // Handle non-successful response (e.g., 404 Not Found)
-        console.error(`Error: ${response.status} - ${response.statusText}`);
-        return;
-      }
+    shuffleAstrologers();
+    const intervalId = setInterval(shuffleAstrologers, 10000);
+    return () => clearInterval(intervalId);
+  }, []);
 
-      const data = await response.json();
-      console.log(data);
-       setAstrologers(data?.astrologers);
-       console.log("astro", astrologers);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-  fetchData()
-},[astrologers])
   return (
     <div>
-        <MetaData title={'Astro5Star-Call'} />
+      <MetaData title={"Astro5Star-Call"} />
 
       <div id="fixedbar">
         <Sidebar />
@@ -62,9 +54,9 @@ useEffect(()=>{
             </div>
             <div>
               <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3  row-cols-md-2 row-cols-xl-4 g-2 astrologer_container">
-                {astrologers?.map((data) => (
+                {getAstrologers?.map((data) => (
                   <div class="col" id="card_width">
-                    <div className="card" key={data.id} >
+                    <div className="card" key={data.id}>
                       {" "}
                       {/* Added a unique key */}
                       <div>

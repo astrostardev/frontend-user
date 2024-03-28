@@ -37,8 +37,14 @@ const Timer = ({ setTime, onStopTimer }) => {
       clearInterval(timerRef.current);
       console.log("Timer stopped at minutes:", minutes);
       setIsTimerStopped(true);
-      dispatch(setIsRunning(true)); // Dispatching setIsRunning to update the state in Redux store
+      dispatch(setIsRunning(true)); 
+      setHours('');
+      setMinutes('');
+      setSeconds('');
+
     }  
+    setTimeout(() => setIsTimerStopped(false), 5000);
+
   }, [minutes, setTime, dispatch]);
 
   useEffect(() => {

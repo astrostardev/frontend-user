@@ -1,20 +1,19 @@
 import "../homeStyleSheets/ChatHistory.css";
 import Table from "react-bootstrap/Table";
 import { chatHistory } from "../../../data";
-import {Sidebar} from "../../../Pages/Sidebar";
+import { Sidebar } from "../../../Pages/Sidebar";
 import OffCanvasNav from "../../../Pages/OffCanvasNav";
 import MetaData from "../../../Pages/MetaData";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { extractTime } from "../../../utils/extractTime";
 function ChatHistory() {
-  const{user}=useSelector((state)=>state.authState)
-  const [chatHistory,setChatHistory] = useState(user?.chatDetails)
+  const { user } = useSelector((state) => state.authState);
+  const [chatHistory, setChatHistory] = useState(user?.chatDetails);
 
- 
   return (
     <div>
-      <MetaData title={'Astro5Star-ChatHistory'} />
+      <MetaData title={"Astro5Star-ChatHistory"} />
 
       <div id="fixedbar">
         <Sidebar />
@@ -66,12 +65,15 @@ function ChatHistory() {
                 return (
                   <tr style={{ height: "50px" }}>
                     <td>{index + 1}</td>
-                    <td>{chat.astrologer}</td>
-                    <td>{new Date(chat.date).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-})}, {extractTime(chat.date)}</td>
+                    <td style={{textTransform:"capitalize"}}>{chat.astrologer}</td>
+                    <td>
+                      {new Date(chat.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                      , {extractTime(chat.date)}
+                    </td>
 
                     <td>{chat.chatTime}mins</td>
                     <td>&#8377;{chat.spentAmount}</td>

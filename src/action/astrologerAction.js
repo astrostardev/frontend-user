@@ -1,4 +1,4 @@
-import { getAllAstrologerFail, getAllAstrologerRequest, getAllAstrologerSuccess, isAstrologerBusyFail, isAstrologerBusyRequest, isAstrologerBusySuccess } from "../slice/astrologerSlice";
+import { availAstrologerCallFail, availAstrologerCallRequest, availAstrologerCallSuccess, availAstrologerChatFail, availAstrologerChatRequest, availAstrologerChatSuccess, getAllAstrologerFail, getAllAstrologerRequest, getAllAstrologerSuccess, isAstrologerBusyFail, isAstrologerBusyRequest, isAstrologerBusySuccess } from "../slice/astrologerSlice";
 import axios from 'axios'
 
 export const isAstrologerBusy = ( isBusy, id, token) => async (dispatch) => {
@@ -25,12 +25,12 @@ export const isAstrologerBusy = ( isBusy, id, token) => async (dispatch) => {
       console.error(error);
     }
   };
-  export const getAllAstrologer= (token) => async (dispatch) => {
+  export const getAllAstrologer = () => async (dispatch) => {
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          // Authorization: `Bearer ${token}`
         }
       };
       dispatch(getAllAstrologerRequest());
@@ -44,6 +44,50 @@ export const isAstrologerBusy = ( isBusy, id, token) => async (dispatch) => {
       dispatch(getAllAstrologerSuccess(data));
     } catch (error) {
       dispatch(getAllAstrologerFail(error.response.data.message));
+      console.error(error);
+    }
+  };
+  export const getAstrologerAvailableForCall= (token) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      };
+      dispatch(availAstrologerCallRequest());
+  
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_URL}/api/v1/astrologer/call_available`,
+        config
+      );
+      console.log("Data fetched:", data);
+  
+      dispatch(availAstrologerCallSuccess(data));
+    } catch (error) {
+      dispatch(availAstrologerCallFail(error.response.data.message));
+      console.error(error);
+    }
+  };
+  export const getAstrologerAvailableForChat= (token) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      };
+      dispatch(availAstrologerChatRequest());
+  
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_URL}/api/v1/astrologer/chat_available`,
+        config
+      );
+      console.log("Data fetched:", data);
+  
+      dispatch(availAstrologerChatSuccess(data));
+    } catch (error) {
+      dispatch(availAstrologerChatFail(error.response.data.message));
       console.error(error);
     }
   };

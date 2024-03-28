@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef,useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import MessageSelf from "./MessageSelf";
 import MessageOthers from "./MessageOthers";
 import "./chatContent.css";
@@ -7,7 +7,7 @@ import { IoAddOutline } from "react-icons/io5";
 import { AiOutlineSend } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
@@ -20,37 +20,31 @@ import {
 } from "../../../slice/conversationSlice";
 import Timer from "../Timer";
 import { isAstrologerBusy } from "../../../action/astrologerAction";
-import { setIsRunning } from "../../../slice/timerSlice";
-import { FaBullseye } from "react-icons/fa";
-const ENDPOINT = process.env.REACT_APP_SOCKET_URL ;
+const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
-
-function ChatContent({setTime,timeStopped,astrologer,isTimer}) {
-  const { user} = useSelector((state) => state.authState);
+function ChatContent({ setTime, timeStopped, astrologer, isTimer }) {
+  const { user } = useSelector((state) => state.authState);
+  const { isRunning } = useSelector((state) => state.timerState);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
   const [allMessages, setAllMessages] = useState([]);
   const [messageContent, setMessageContent] = useState("");
   const [isThrottled, setIsThrottled] = useState(false);
-  const throttlingDelay = 1000; 
+  const throttlingDelay = 1000;
   const [socket, setSocket] = useState(null);
   const messagesEndRef = useRef();
   const dispatch = useDispatch();
-  const[isTimerStopped,setIsTimerStopped]=useState(isTimer)
-  
+  const navigate = useNavigate();
 
   const handleStopTimer = (stopTimerValue) => {
     timeStopped(stopTimerValue);
   };
   useEffect(() => {
-    if (setIsRunning && isTimer) {
-      alert("Chat Time Ended");
-      dispatch(isAstrologerBusy(!isTimer,splitId))
-      dispatch(setIsRunning(false))
+    if (isTimer && isRunning) {
+      alert("Chat Time Ended Please Recharge", navigate(`/home`));
+      dispatch(isAstrologerBusy(!isTimer, splitId));
     }
-  }, [isTimer,dispatch,splitId,isTimerStopped]);
-
-
+  }, [isTimer, dispatch, navigate, splitId, isRunning]);
 
   const handleTimer = useCallback(() => {
     const stopTimerValue = false; // Example value
@@ -146,18 +140,17 @@ function ChatContent({setTime,timeStopped,astrologer,isTimer}) {
     };
   }, [dispatch, socket, splitId, user]);
 
-
-  // send message function using throttling    
+  // send message function using throttling
   const sendMessage = async () => {
     try {
       if (isThrottled) {
         console.log("Message sending is throttled. Please wait.");
         return;
       }
-  
+
       setIsThrottled(true); // Throttle the function
       dispatch(sendChatRequest()); // Dispatch action to indicate message sending has started
-  
+
       // Emit a WebSocket message to send a new chat message
       socket.send(
         JSON.stringify({
@@ -167,7 +160,7 @@ function ChatContent({setTime,timeStopped,astrologer,isTimer}) {
           message: messageContent,
         })
       );
-  
+
       // Listen for WebSocket messages containing chat messages
       socket.addEventListener("message", (event) => {
         const messageData = JSON.parse(event.data);
@@ -178,7 +171,7 @@ function ChatContent({setTime,timeStopped,astrologer,isTimer}) {
           dispatch(sendChatFail(messageData?.message));
         }
       });
-  
+
       // Wait for the throttling delay before resetting isThrottled
       setTimeout(() => {
         setIsThrottled(false); // Reset the throttling
@@ -187,7 +180,6 @@ function ChatContent({setTime,timeStopped,astrologer,isTimer}) {
       dispatch(sendChatFail(error.message));
     }
   };
-  
 
   useEffect(() => {
     if (socket) {
@@ -214,7 +206,6 @@ function ChatContent({setTime,timeStopped,astrologer,isTimer}) {
     scrollToBottom();
   }, [allMessages]);
 
-
   return (
     <div className="main__chatcontent">
       <AnimatePresence>
@@ -234,9 +225,9 @@ function ChatContent({setTime,timeStopped,astrologer,isTimer}) {
             {/* <IconButton style={{ background: "#F3F3F3" }} className="btn-nobg">
               End
             </IconButton> */}
-             <div className="timer">
-          <Timer setTime={setTime}  onStopTimer={handleStopTimer}/>
-        </div>
+            <div className="timer">
+              <Timer setTime={setTime} onStopTimer={handleStopTimer} />
+            </div>
           </div>
           {/* Your UI elements */}
           <div className="content__body">
@@ -271,7 +262,7 @@ function ChatContent({setTime,timeStopped,astrologer,isTimer}) {
                     setMessageContent("");
                   }
                 }}
-                style={{ pointerEvents: user?.balance === 0 && isTimer ? 'none' : 'auto' }}
+                // style={{ pointerEvents: user?.balance ? 'none' : 'auto' }}
               />
               <button
                 onClick={() => {
