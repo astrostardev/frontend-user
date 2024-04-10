@@ -4,10 +4,8 @@ import arrow_ios from "../../../assests/arrow_forward_ios.svg";
 import plus from "../../../assests/plus.svg";
 import star from "../../../assests/Star 1.svg";
 import search from "../../../assests/search.svg";
-import group from "../../../assests/Group.svg";
-import line from "../../../assests/horizontalLine.svg";
 import OffCanvasNav from "../../../Pages/OffCanvasNav";
-import { Link, json } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Sidebar } from "../../../Pages/Sidebar";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -19,7 +17,6 @@ import {
   getAllAstrologer,
   isAstrologerBusy,
 } from "../../../action/astrologerAction";
-import { set } from "react-hook-form";
 
 function MeetAstrologers() {
   const { astrologers = [] } = useSelector((state) => state.astroState);

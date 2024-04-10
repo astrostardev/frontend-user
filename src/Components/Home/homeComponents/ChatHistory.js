@@ -1,20 +1,21 @@
 import "../homeStyleSheets/ChatHistory.css";
 import Table from "react-bootstrap/Table";
-import { chatHistory } from "../../../data";
 import { Sidebar } from "../../../Pages/Sidebar";
 import OffCanvasNav from "../../../Pages/OffCanvasNav";
 import MetaData from "../../../Pages/MetaData";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { extractTime } from "../../../utils/extractTime";
+import { Button} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 function ChatHistory() {
   const { user } = useSelector((state) => state.authState);
   const [chatHistory, setChatHistory] = useState(user?.chatDetails);
-
+   const navigate = useNavigate()
   return (
     <div>
       <MetaData title={"Astro5Star-ChatHistory"} />
-
       <div id="fixedbar">
         <Sidebar />
       </div>
@@ -58,6 +59,8 @@ function ChatHistory() {
                 <th>Date</th>
                 <th>Time (in Mins)</th>
                 <th>Amount (₹)</th>
+                <th>Details</th>
+
               </tr>
             </thead>
             <tbody className="table-group-divider">
@@ -65,18 +68,57 @@ function ChatHistory() {
                 return (
                   <tr style={{ height: "50px" }}>
                     <td>{index + 1}</td>
-                    <td style={{textTransform:"capitalize"}}>{chat.astrologer}</td>
+                    <td style={{ textTransform: "capitalize" }}>
+                      {chat &&
+                        chat.sameAstrologer &&
+                        chat.sameAstrologer.length > 0 &&
+                        chat.sameAstrologer[chat.sameAstrologer.length - 1]
+                          .astrologer}
+                    </td>
                     <td>
-                      {new Date(chat.date).toLocaleDateString("en-US", {
+                      {new Date(
+                        chat &&
+                          chat.sameAstrologer &&
+                          chat.sameAstrologer.length > 0 &&
+                          chat.sameAstrologer[chat.sameAstrologer.length - 1]
+                            .date
+                      ).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                       })}
-                      , {extractTime(chat.date)}
+                      ,{" "}
+                      {extractTime(
+                        chat &&
+                          chat.sameAstrologer &&
+                          chat.sameAstrologer.length > 0 &&
+                          chat.sameAstrologer[chat.sameAstrologer.length - 1]
+                            .date
+                      )}
                     </td>
 
-                    <td>{chat.chatTime}mins</td>
-                    <td>&#8377;{chat.spentAmount}</td>
+                    <td>
+                      {" "}
+                      {chat &&
+                        chat.sameAstrologer &&
+                        chat.sameAstrologer.length > 0 &&
+                        chat.sameAstrologer[chat.sameAstrologer.length - 1]
+                          .chatTime}
+                      mins
+                    </td>
+                    <td>
+                      &#8377;{" "}
+                      {chat &&
+                        chat.sameAstrologer &&
+                        chat.sameAstrologer.length > 0 &&
+                        chat.sameAstrologer[chat.sameAstrologer.length - 1]
+                          .spentAmount}
+                    </td>
+                    <td>
+                      <Button variant="success" onClick={()=> navigate(`/full_chat_history/${chat.sameAstrologer[chat.sameAstrologer.length - 1].astrologerId}`)}>
+                      View
+                      </Button>
+                    </td>
                   </tr>
                 );
               })}

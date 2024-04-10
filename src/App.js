@@ -28,6 +28,7 @@ import ChatBody from "./Components/Chat/chatBody/ChatBody";
 import Welcome from "./Components/Chat/chatPages/Welcome";
 import { useEffect, useState, useCallback } from "react";
 import { setIsRunning } from "./slice/timerSlice";
+import FullChatHistory from "./Components/Home/homeComponents/FullChatHistory";
 
 function App() {
   const [showTime, setShowTime] = useState();
@@ -103,6 +104,11 @@ function App() {
               path="/chat_history"
               element={isAuthenticated ? <ChatHistory /> : <Navigate to="/" />}
             />
+              <Route
+              path="/full_chat_history/:id"
+              element={isAuthenticated ? <FullChatHistory /> : <Navigate to="/" />}
+            />
+
             <Route
               path="/call_history"
               element={isAuthenticated ? <CallHistory /> : <Navigate to="/" />}

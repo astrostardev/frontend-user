@@ -111,7 +111,31 @@ const astrologerSlice = createSlice({
                 loading: false,
                 error: action.payload // Set error state
             }
-        }   
+        },
+        sendChatDetailToAStrologerRequest(state, action) {
+            return {
+                ...state,
+                loading: true,
+                error: null // Clear any previous errors
+            }
+        },
+        sendChatDetailToAStrologerSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: true,
+                astrologer: action.payload,
+                error: null // Clear any previous errors
+            }
+        },
+        sendChatDetailToAStrologerFail(state, action) {
+            console.error("Error checking astrologer busy status:", action.payload);
+            return {
+                ...state,
+                loading: false,
+                error: action.payload // Set error state
+            }
+        }      
     }
 });
 
@@ -129,7 +153,10 @@ export const {
     availAstrologerCallSuccess,
     availAstrologerChatFail,
     availAstrologerChatRequest,
-    availAstrologerChatSuccess
+    availAstrologerChatSuccess,
+    sendChatDetailToAStrologerFail,
+    sendChatDetailToAStrologerRequest,
+    sendChatDetailToAStrologerSuccess
 } = actions;
 
 export default reducer;

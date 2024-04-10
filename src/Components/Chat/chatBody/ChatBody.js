@@ -13,7 +13,7 @@ import Table from "react-bootstrap/Table";
 import { toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
 import { UserRechargeDetailModal } from "../../../../src/Pages/Sidebar";
-import { getBalanceAfterChat } from "../../../action/userAction";
+import { getBalanceAfterChat, saveChatDetailsToAstrologerDb } from "../../../action/userAction";
 import {
   fetchChatFail,
   fetchChatRequest,
@@ -34,17 +34,28 @@ const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
   const [time, setTime] = useState("");
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
+  //chatPrice for User
   const userBal = user?.balance;
   const chatAmount = astrologer?.astrologer?.displaychat;
   const fivemins = 5 * chatAmount;
   const tenmins = 10 * chatAmount;
   const fifteenmins = 15 * chatAmount;
+
+
+  //chatPrice for AStrologer
+  const originalAmount = astrologer?.astrologer?.chat;
+  const originalFivemins = 5 * originalAmount;
+  const originalTenmins = 10 * originalAmount;
+  const originalFifteenmins = 15 * originalAmount;
+
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userID = user?._id;
   const { isRunning } = useSelector((state) => state.timerState);
   const date = new Date();
   const astrologerName = astrologer?.astrologer?.displayname;
+  const name = user?.name
   //initialising WebSocket
   useEffect(() => {
     const newSocket = new WebSocket(ENDPOINT);
@@ -232,10 +243,22 @@ const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
                               dispatch(
                                 getBalanceAfterChat(
                                   astrologerName,
+                                  splitId,
                                   date,
                                   5,
                                   fivemins,
                                   userID,
+                                  token
+                                )
+                              );
+                              dispatch(
+                                saveChatDetailsToAstrologerDb(
+                                  name,
+                                  userID,
+                                  date,
+                                  5,
+                                  originalFivemins,
+                                  splitId,
                                   token
                                 )
                               );
@@ -257,22 +280,39 @@ const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
                       <td>
                         <Button
                           variant="success"
-                          onClick={() =>
-                            userBal >= tenmins
-                              ? (handleClose(tenmins),
-                                handleTime(2),
+                          onClick={(e) =>
+                            {
+                              e.preventDefault();
+                          
+                              if (userBal >= tenmins) {
+                                handleClose(tenmins);
+                                handleTime(1);
                                 dispatch(
                                   getBalanceAfterChat(
                                     astrologerName,
+                                    splitId,
                                     date,
                                     10,
                                     tenmins,
                                     userID,
                                     token
                                   )
-                                ))
-                              : toast.error("Insufficiant Balance")
-                          }
+                                );
+                                dispatch(
+                                  saveChatDetailsToAstrologerDb(
+                                    name,
+                                    userID,
+                                    date,
+                                    10,
+                                    originalTenmins,
+                                    splitId,
+                                    token
+                                  )
+                                );
+                              } else {
+                                toast.error("Insufficient Balance");
+                              }
+                            }}
                         >
                           10 mins
                         </Button>
@@ -288,22 +328,38 @@ const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
                       <td>
                         <Button
                           variant="success"
-                          onClick={() =>
-                            userBal >= fifteenmins
-                              ? (handleClose(fifteenmins),
-                                handleTime(3),
-                                dispatch(
-                                  getBalanceAfterChat(
-                                    astrologerName,
-                                    date,
-                                    15,
-                                    fifteenmins,
-                                    userID,
-                                    token
-                                  )
-                                ))
-                              : toast.error("Insufficiant Balance")
-                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (userBal >= fifteenmins) {
+                              handleClose(fifteenmins);
+                              handleTime(1);
+                              dispatch(
+                                getBalanceAfterChat(
+                                  astrologerName,
+                                  splitId,
+                                  date,
+                                  15,
+                                  fifteenmins,
+                                  userID,
+                                  token
+                                )
+                              );
+                              dispatch(
+                                saveChatDetailsToAstrologerDb(
+                                  name,
+                                  userID,
+                                  date,
+                                  15,
+                                  originalFifteenmins,
+                                  splitId,
+                                  token
+                                )
+                              );
+                            } else {
+                              toast.error("Insufficient Balance");
+                            }
+
+                          }}
                         >
                           15 mins
                         </Button>

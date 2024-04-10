@@ -1,3 +1,4 @@
+import { sendChatDetailToAStrologerFail, sendChatDetailToAStrologerRequest, sendChatDetailToAStrologerSuccess } from '../slice/astrologerSlice';
 import {
     loginRequest,
     loginFail,
@@ -117,7 +118,7 @@ export const userRecharge = (userid,packages) => async (dispatch) => {
   }
 
 }
-export const getBalanceAfterChat = (astrologer, date, chatTime, spentAmount,id, token) => async (dispatch) => {
+export const getBalanceAfterChat = (astrologer,astroId, date, chatTime, spentAmount,id, token) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -130,7 +131,7 @@ export const getBalanceAfterChat = (astrologer, date, chatTime, spentAmount,id, 
 
     const { data } = await axios.post(
       `${process.env.REACT_APP_URL}/api/v1/user/balance_after_chat`,
-      { astrologer, date, chatTime, spentAmount,id},
+      { astrologer,astroId, date, chatTime, spentAmount,id},
       config
     );
 
@@ -163,6 +164,38 @@ export const saveChatDetails = (id, spendAmount, token) => async (dispatch) => {
     dispatch(getBalAfterChatSuccess(data));
   } catch (error) {
     dispatch(getBalAfterChatFail(error.response.data.message));
+    console.error(error);
+  }
+};
+export const saveChatDetailsToAstrologerDb = (name,userId,date,chatTime,earnedAmount,id,token) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    dispatch(sendChatDetailToAStrologerRequest());
+
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_URL}/api/v1/astrologer/chatDetail`,
+      {
+        name,
+        userId,
+        date,
+        chatTime,
+        earnedAmount,
+        id,
+        token
+      },
+      config
+    );
+
+    console.log('After axios.post');
+    dispatch(sendChatDetailToAStrologerSuccess(data));
+  } catch (error) {
+    dispatch(sendChatDetailToAStrologerFail(error.response.data.message));
     console.error(error);
   }
 };

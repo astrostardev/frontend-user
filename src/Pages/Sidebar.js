@@ -32,7 +32,6 @@ export function MyVerticallyCenteredModal(props) {
   const { singlePackage } = useSelector((state) => state.packageState);
   const [showPackages, setShowPackages] = useState(null);
   const [isLoading, setIsloading] = useState(false);
-  const[btnDisable,setBtnDisable] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
@@ -52,7 +51,8 @@ export function MyVerticallyCenteredModal(props) {
       setShowPackages(data.packages);
     }
     fetchData();
-  }, [packages]);
+  }, []);
+
 
   const postData = async () => {
     const userid = user?._id;

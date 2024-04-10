@@ -57,42 +57,47 @@ function Wallet(props) {
           </div>
           <div className={showTrans === 1 ? "" : "d-none"} id="trans_tbl">
             <table class="table table-striped">
-              <tbody>
-                {user?.rechargePrice?.map((data) => (
-                  <tr>
-                    <td className="wallet-container">
-                      <p className="con-icon">{user?.name[0]}</p>
-                      <p className="con-title">{user?.name}</p>
-                      <p style={{ color: "gray" }} className="con-lastMessage">
-                        {new Date(data.date).toLocaleString("en-IN", {
-                          timeZone: "Asia/Kolkata",
-                          hour12: true,
-                        })}
-                      </p>
-                      <p className="con-timeStamp" style={{ color: "green" }}>
-                        {data?.price}
-                      </p>
-                    </td>
-                  </tr>
-                ))}
-                {user?.chatDetails?.map((data) => (
-                  <tr>
-                    <td className="wallet-container">
-                      <p className="con-icon">{user?.name[0]}</p>
-                      <p className="con-title">{user?.name}</p>
-                      <p style={{ color: "gray" }} className="con-lastMessage">
-                        {new Date(data.date).toLocaleString("en-IN", {
-                          timeZone: "Asia/Kolkata",
-                          hour12: true,
-                        })}
-                      </p>
-                      <p className="con-timeStamp" style={{ color: "red" }}>
-                        - {data?.spentAmount}
-                      </p>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+            <tbody>
+  {user?.rechargePrice?.map((data) => (
+    <tr key={data.id}>
+      <td className="wallet-container">
+        <p className="con-icon">{user?.name[0]}</p>
+        <p className="con-title">{user?.name}</p>
+        <p style={{ color: "gray" }} className="con-lastMessage">
+          {new Date(data.date).toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata",
+            hour12: true,
+          })}
+        </p>
+        <p className="con-timeStamp" style={{ color: "green" }}>
+          {data?.price}
+        </p>
+      </td>
+    </tr>
+  ))}
+  
+  {user?.chatDetails?.map((data) => (
+    data.sameAstrologer &&
+    data.sameAstrologer?.map((data) => (
+      <tr key={data.id}>
+        <td className="wallet-container">
+          <p className="con-icon">{user?.name[0]}</p>
+          <p className="con-title">{user?.name}</p>
+          <p style={{ color: "gray" }} className="con-lastMessage">
+            {new Date(data.date).toLocaleString("en-IN", {
+              timeZone: "Asia/Kolkata",
+              hour12: true,
+            })}
+          </p>
+          <p className="con-timeStamp" style={{ color: "red" }}>
+            {data?.spentAmount}
+          </p>
+        </td>
+      </tr>
+    ))
+  ))}
+</tbody>
+
             </table>
           </div>
           <div className={showTrans === 2 ? "" : "d-none"} id="trans_tbl">
@@ -121,23 +126,31 @@ function Wallet(props) {
           <div className={showTrans === 3 ? "" : "d-none"} id="trans_tbl">
             <table class="table table-striped">
               <tbody>
-                {user?.chatDetails?.map((data) => (
-                  <tr>
-                    <td className="wallet-container">
-                      <p className="con-icon">{user?.name[0]}</p>
-                      <p className="con-title">{user?.name}</p>
-                      <p style={{ color: "gray" }} className="con-lastMessage">
-                        {new Date(data.date).toLocaleString("en-IN", {
-                          timeZone: "Asia/Kolkata",
-                          hour12: true,
-                        })}
-                      </p>
-                      <p className="con-timeStamp" style={{ color: "red" }}>
-                        {data?.spentAmount}
-                      </p>
-                    </td>
-                  </tr>
-                ))}
+                {user?.chatDetails?.map(
+                  (data) =>
+                    data.sameAstrologer &&
+                    data.sameAstrologer?.map((data) => (
+                      <tr>
+                        <td className="wallet-container">
+                          <p className="con-icon">{user?.name[0]}</p>
+                          <p className="con-title">{user?.name}</p>
+                          <p
+                            style={{ color: "gray" }}
+                            className="con-lastMessage"
+                          >
+                            {new Date(data.date).toLocaleString("en-IN", {
+                              timeZone: "Asia/Kolkata",
+                              hour12: true,
+                            })}
+                          </p>
+
+                          <p className="con-timeStamp" style={{ color: "red" }}>
+                            {data?.spentAmount}
+                          </p>
+                        </td>
+                      </tr>
+                    ))
+                )}
               </tbody>
             </table>
           </div>
