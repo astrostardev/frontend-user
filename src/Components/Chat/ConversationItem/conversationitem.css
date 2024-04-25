@@ -45,11 +45,12 @@
 .con-timeStamp{
     justify-self: flex-end;
     font-size: 0.75rem;
-    color:rgba(101, 101, 101,0.54);
+    margin-top:5px;
+    color:rgb(101, 101, 101) !important;
 
 }
 .con-lastMessage{
-    font-size: 0.75rem;
+    font-size:1rem !important;
     color:rgb(101, 101, 101);
 
 }

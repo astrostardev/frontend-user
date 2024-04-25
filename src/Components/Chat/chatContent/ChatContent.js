@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { BiSolidMicrophone } from "react-icons/bi";
 import {
   fetchChatFail,
   fetchChatRequest,
@@ -20,9 +21,12 @@ import {
 } from "../../../slice/conversationSlice";
 import Timer from "../Timer";
 import { isAstrologerBusy } from "../../../action/astrologerAction";
+import { extractDayAndDate } from "../../../utils/extractTime";
+import { logDOM } from "@testing-library/react";
+import { AudioProvider } from "../../../context/AudioContext";
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
-function ChatContent({ setTime, timeStopped, astrologer, isTimer }) {
+function ChatContent({ setTime, timeStopped, astrologer, isTimer,time }) {
   const { user } = useSelector((state) => state.authState);
   const { isRunning } = useSelector((state) => state.timerState);
   const { id } = useParams();
@@ -32,6 +36,10 @@ function ChatContent({ setTime, timeStopped, astrologer, isTimer }) {
   const [isThrottled, setIsThrottled] = useState(false);
   const throttlingDelay = 1000;
   const [socket, setSocket] = useState(null);
+  const [streaming, setStreaming] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [currentHeader, setCurrentHeader] = useState('');
+  const scrollRef = useRef(null);
   const messagesEndRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,7 +62,28 @@ function ChatContent({ setTime, timeStopped, astrologer, isTimer }) {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+//scroll to show day details 
+useEffect(() => {
+  const handleScroll = () => {
+    const scrollTop = scrollRef.current.scrollTop;
+    // Logic to determine which header should be shown based on scroll position
+    const newHeader = getCurrentHeader(scrollTop);
+    setCurrentHeader(newHeader);
+  };
 
+  const ref = scrollRef.current;
+  ref?.addEventListener('scroll', handleScroll);
+
+  return () => {
+    ref?.removeEventListener('scroll', handleScroll);
+  };
+}, []);
+
+const getCurrentHeader = (scrollTop) => {
+const showtime = extractDayAndDate(time)
+console.log('show time',showtime);
+setCurrentHeader(showtime)
+};
   //initialising WebSocket
   useEffect(() => {
     const newSocket = new WebSocket(ENDPOINT);
@@ -139,6 +168,93 @@ function ChatContent({ setTime, timeStopped, astrologer, isTimer }) {
       }
     };
   }, [dispatch, socket, splitId, user]);
+
+
+    // Function to start streaming audio
+    const startStreaming = () => {
+      console.log("startStreaming called");
+      console.log("socket:", socket);
+    
+      try {
+        if (socket && socket.readyState === WebSocket.OPEN) {
+          console.log("WebSocket connection is open. Starting streaming.");
+    
+          navigator.mediaDevices
+            .getUserMedia({ audio: true })
+            .then((stream) => {
+              console.log("getUserMedia success");
+              const mediaRecorder = new MediaRecorder(stream);
+    
+              mediaRecorder.ondataavailable = (event) => {
+                const audioBlob = new Blob([event.data], { type: "audio/webm" });
+                const reader = new FileReader();
+    
+                reader.onload = async () => {
+                  try {
+                    const base64Data = reader.result; // Data URL including MIME type and base64-encoded data
+                    const formData = new FormData();
+    
+                    // Add metadata and the audio file to the form
+                    formData.append("from", user._id);
+                    formData.append("to", splitId);
+                    formData.append("audio", audioBlob, "audio_message.webm");
+    
+                    const response = await fetch(
+                      'http://localhost:8001/api/v1/message/send/audio',
+                      {
+                        method: "POST",
+                        // Don't set Content-Type for FormData; let the browser set it
+                        body: formData,
+                      }
+                    );
+    
+                    if (!response.ok) {
+                      throw new Error(`Failed to upload audio: ${response.statusText}`);
+                    }
+    
+                    console.log("Audio sent successfully");
+    
+                    // Send data via WebSocket
+                    socket.send(
+                      JSON.stringify({
+                        type: "new audio",
+                        room: splitId,
+                        userId:user?._id,
+                        audio: base64Data, // Sending the base64-encoded data URL
+                      })
+                    );
+                  } catch (error) {
+                    console.error("Error during file read and fetch:", error);
+                  }
+                };
+    
+                reader.readAsDataURL(audioBlob); // Convert Blob to Data URL
+              };
+    
+              mediaRecorder.start();
+              setStreaming(true);
+              setMediaRecorder(mediaRecorder);
+            })
+            .catch((error) => {
+              console.error("Error accessing microphone", error);
+            });
+        } else {
+          console.error("Socket connection is not open.");
+        }
+      } catch (error) {
+        console.error("Error during audio streaming:", error);
+      }
+    };
+    
+    // Function to stop streaming audio
+    const stopStreaming = () => {
+      if (mediaRecorder) {
+        mediaRecorder.stop();
+         setStreaming(false);
+         setMediaRecorder(null);
+      }
+    };
+  
 
   // send message function using throttling
   const sendMessage = async () => {
@@ -230,19 +346,31 @@ function ChatContent({ setTime, timeStopped, astrologer, isTimer }) {
             </div>
           </div>
           {/* Your UI elements */}
+          
           <div className="content__body">
             <div className="chat__items">
-              {allMessages?.map((message, index) =>
-                message.senderId === user._id ? (
-                  <MessageSelf key={index} props={message} />
-                ) : (
+            <AudioProvider>
+            {allMessages?.map((message, index) =>
+              <>
+              
+             {message.senderId === user._id ? (
+         
+             <MessageSelf key={index} props={message} audio={message.audio} />
+                ) : message.receiverId === user._id ?(
                   <MessageOthers
                     key={index}
                     props={message}
+                    audio={message.audio} 
                     astrologer={astrologer}
                   />
-                )
-              )}
+                ):null
+
+              }
+              </>
+            )}
+            </AudioProvider>
+
+          
               <div ref={messagesEndRef} />
             </div>
           </div>
@@ -260,6 +388,7 @@ function ChatContent({ setTime, timeStopped, astrologer, isTimer }) {
                   if (event.code === "Enter") {
                     sendMessage();
                     setMessageContent("");
+                    
                   }
                 }}
                 // style={{ pointerEvents: user?.balance ? 'none' : 'auto' }}
@@ -273,6 +402,16 @@ function ChatContent({ setTime, timeStopped, astrologer, isTimer }) {
                 id="sendMsgBtn"
               >
                 <AiOutlineSend />
+              </button>
+              <button className="btnSendMsg" id="sendMsgBtn">
+                {streaming ? (
+                  <BiSolidMicrophone onMouseUp={stopStreaming} />
+                ) : (
+                  <BiSolidMicrophone
+                    className="btnSendMsg"
+                    onMouseDown={startStreaming} // Removed parentheses to prevent immediate invocation
+                  />
+                )}
               </button>
             </div>
           </div>

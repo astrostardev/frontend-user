@@ -33,6 +33,7 @@ const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
   const [userRechargeShow, setUserRechargeShow] = useState(false);
   const [time, setTime] = useState("");
   const [show, setShow] = useState(true);
+  const[chats,setChats]=useState(null)
   const handleClose = () => setShow(false);
   //chatPrice for User
   const userBal = user?.balance;
@@ -47,7 +48,6 @@ const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
   const originalFivemins = 5 * originalAmount;
   const originalTenmins = 10 * originalAmount;
   const originalFifteenmins = 15 * originalAmount;
-
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -161,6 +161,38 @@ const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
   function handleTime(time) {
     setTime(time);
   }
+//fetch chats between two members
+async function getUser() {
+  try {
+    let response = await fetch(
+      `${process.env.REACT_APP_URL}/api/v1/fetch_chat`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        method: "POST",
+        body: JSON.stringify({
+          id: user._id,
+          astroId:splitId
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user");
+    }
+
+    let data = await response.json();
+    setChats(data?.chats);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+  }
+}
+
+useEffect(() => {
+  getUser();
+}, []);
 
   return (
     <>
@@ -385,8 +417,9 @@ const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
           latestMsg={
             recentMessage?.length > 0
               ? recentMessage[recentMessage?.length - 1]?.message
-              : " "
+              :  recentMessage[recentMessage?.length - 1]?.audio
           }
+         
           time={
             recentMessage?.length > 0
               ? recentMessage[recentMessage?.length - 1]?.createdAt
@@ -422,6 +455,11 @@ const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
                 timeStopped={onStopTimer}
                 isTimer={isTimer}
                 astrologer={astrologer}
+                time={
+                  recentMessage?.length > 0
+                    ? recentMessage[recentMessage?.length - 1]?.createdAt
+                    : " "
+                }
               />
             }
           />

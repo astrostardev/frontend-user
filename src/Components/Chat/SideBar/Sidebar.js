@@ -6,9 +6,26 @@ import ConversationItem from "../ConversationItem/ConversationItem";
 import { useSelector } from "react-redux";
 function Sidebar({ latestMsg, time, astrologer}) {
   const messagesArray = useSelector((state) => state?.conversationState?.messages?.message);
-  const { user } = useSelector((state) => state.authState);
-  const recentMsg = messagesArray ? messagesArray : latestMsg;
+  const audiomessagesArray = useSelector((state) => state?.conversationState?.messages?.audio);
 
+  const { user } = useSelector((state) => state.authState);
+  let recentMsg
+  let recentAudio 
+          
+  if (messagesArray) {
+    recentMsg = messagesArray;
+  console.log('recent',recentMsg);
+
+  } else if (audiomessagesArray) {
+    recentAudio  = audiomessagesArray;
+  console.log(recentAudio);
+
+  } 
+  else {
+    recentMsg = latestMsg; 
+  console.log(recentMsg);
+  // Assuming `latestMsg` is a valid variable in this context
+  }
 
   return (
     <div className="sidebar_container">
@@ -38,7 +55,8 @@ function Sidebar({ latestMsg, time, astrologer}) {
       <div className="sd-coversation">
         <ConversationItem
           astrologer={astrologer?.astrologer}
-          message={messagesArray ? messagesArray : recentMsg}
+          message={recentMsg}
+          audio={recentAudio}
           time={time}
           key={astrologer?.astrologer[0]?.firstname}
         />
