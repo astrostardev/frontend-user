@@ -27,6 +27,7 @@ function Welcome() {
   //   <p>View and text directly to astrologers present in the chat rooms</p>
 
   // </div>
+  
   );
 }
 

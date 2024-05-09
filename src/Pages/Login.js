@@ -33,12 +33,12 @@ function Login() {
   const [disable, setDisable] = useState(false);
   const [setloading, setLoading] = useState(false);
 
-
   useEffect(()=>{
     dispatch(getAllAstrologer())
     dispatch(getAstrologerAvailableForCall())
     dispatch(getAstrologerAvailableForChat())
       },[])
+
   const handleClick = (num) => {
     setShowtab(num);
   };

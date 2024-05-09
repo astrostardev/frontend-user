@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import "../homeStyleSheets/Home.css";
 import arrow_ios from "../../../assests/arrow_forward_ios.svg";
 import plus from "../../../assests/plus.svg";
@@ -17,17 +17,24 @@ import {
   getAllAstrologer,
   isAstrologerBusy,
 } from "../../../action/astrologerAction";
+const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
 function MeetAstrologers() {
   const { astrologers = [] } = useSelector((state) => state.astroState);
+  const { user, token } = useSelector((state) => state.authState);
+
   const [getAstrologer, setAstrologers] = useState(astrologers);
   const [categories, setCategories] = useState(null);
   const [languages, setLanguages] = useState(null);
   const [searchAstrologer, setSearchAstrologer] = useState(null);
   const [astroIsBusy, setBusy] = useState(true);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+
+  const localStreamRef = useRef(null);
+  const remoteStreamRef = useRef(null);
+  const [peerConnection, setPeerConnection] = useState(null);
+  const [websocket, setWebsocket] = useState(null);
   // get methods from server
   useEffect(() => {
     async function fetchData() {
@@ -150,12 +157,104 @@ function MeetAstrologers() {
     return () => clearInterval(intervalId);
   }, []);
 
-const allAstrologer = ()=> {
-  dispatch(getAllAstrologer())
-}
-useEffect(()=>{
-  setAstrologers(astrologers)
-},[astrologers])
+  const allAstrologer = () => {
+    dispatch(getAllAstrologer());
+  };
+  useEffect(() => {
+    setAstrologers(astrologers);
+  }, [astrologers]);
+
+  useEffect(() => {
+    // Set up the WebSocket connection
+    const newSocket = new WebSocket(ENDPOINT);
+  
+    newSocket.onopen = () => {
+      console.log("WebSocket is open");
+  
+      const setupMessage = {
+        type: "setup",
+        userId: user?._id,
+      };
+  
+      newSocket.send(JSON.stringify(setupMessage)); // Send after WebSocket is open
+      setWebsocket(newSocket); // Store the WebSocket in state
+    };
+  
+    newSocket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+  
+    newSocket.onclose = () => {
+      console.log("Disconnected from WebSocket server");
+    };
+  
+    return () => {
+      if (newSocket.readyState === WebSocket.OPEN) {
+        newSocket.close(); // Ensure proper cleanup
+      }
+    };
+  }, []);
+  
+  const handleCall = (astrologerId) => {
+    const callNotification = {
+      type: 'call-initiate',
+      astrologerId,
+      userId:user?._id
+
+    };
+
+    // Assuming you have a WebSocket connection setup
+    if (websocket && websocket.readyState === WebSocket.OPEN) {
+      websocket.send(JSON.stringify(callNotification));
+    }
+
+    // Navigate to the call page
+    navigate(`/call_page/${astrologerId}`);
+  };
+  // Function to create an offer and initiate a call
+  // const initiateCall = () => {
+  //   if (peerConnection && websocket) {
+  //     localStreamRef.current.getTracks().forEach((track) => {
+  //       peerConnection.addTrack(track, localStreamRef.current);
+  //     });
+
+  //     peerConnection.createOffer()
+  //       .then((offer) => {
+  //         return peerConnection.setLocalDescription(offer);
+  //       })
+  //       .then(() => {
+  //         websocket.send(JSON.stringify({ type: 'offer', offer: peerConnection.localDescription }));
+  //       })
+  //       .catch((err) => {
+  //         console.error('Error creating offer:', err);
+  //       });
+  //   }
+  // };
+
+  // Function to handle received signaling messages
+  useEffect(() => {
+    if (websocket) {
+      websocket.onmessage = (message) => {
+        const data = JSON.parse(message.data);
+
+        if (data.type === 'offer') {
+          peerConnection.setRemoteDescription(data.offer)
+            .then(() => peerConnection.createAnswer())
+            .then((answer) => peerConnection.setLocalDescription(answer))
+            .then(() => websocket.send(JSON.stringify({ type: 'answer', answer: peerConnection.localDescription })))
+            .catch((err) => console.error('Error handling offer:', err));
+        } else if (data.type === 'answer') {
+          peerConnection.setRemoteDescription(data.answer)
+            .catch((err) => console.error('Error handling answer:', err));
+        } else if (data.type === 'ice-candidate') {
+          peerConnection.addIceCandidate(data.candidate)
+            .catch((err) => console.error('Error adding ICE candidate:', err));
+        }
+      };
+    }
+  }, [websocket, peerConnection]);
+ 
+
   return (
     <>
       <MetaData title={"Astro5Star"} />
@@ -199,10 +298,7 @@ useEffect(()=>{
           <div className="meet_astro_option">
             <h4> Meet Astrologers</h4>
             <div className="astro_drop_btn button_container">
-              <button
-                className="all"
-                onClick={allAstrologer}
-              >
+              <button className="all" onClick={allAstrologer}>
                 All <img src={arrow_ios} alt="" />
               </button>
               <DropdownButton id="dropdown-item-button" title="Methodology">
@@ -274,9 +370,11 @@ useEffect(()=>{
                       </div>
 
                       <div className="about_astro">
-                        <span>{data.category}</span>
-                        <span>{data.language}</span>
-                        <span>Exp: {data.experience} years</span>
+                        <span className="astro_category">
+                          {data.category}
+                        </span>
+                        <span className="astro_category">{data.language}</span>
+                        <span>Exp: {data.experience} yrs</span>
                       </div>
                       <div className="charge_btns">
                         <Link
@@ -291,12 +389,13 @@ useEffect(()=>{
                           </button>
                         </Link>
 
-                        <Link to="/call">
-                          <button>
+                        {/* <Link to={`/call_page/${data?._id}`}> */}
+
+                          <button onClick={()=>handleCall(data?._id)}>
                             Call <span>&#8377;</span>
                             {data.displaycall}/min
                           </button>
-                        </Link>
+                        {/* </Link> */}
                       </div>
                     </div>
                   </div>

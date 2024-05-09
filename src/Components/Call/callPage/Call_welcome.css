@@ -1,0 +1,68 @@
+
+.call_welcome-container{
+    display:flex;
+    flex: 1 !important;;
+    /* padding-left:15rem; */
+    height:83vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    font-family:  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-bottom:5px solid   rgb(253, 250, 220);;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.welcome-call_logo{
+max-width:30%;
+animation: ring-shake 1s infinite; /* 1-second animation that repeats indefinitely */
+
+}
+/* Define keyframes for shake animation */
+@keyframes ring-shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(-5deg);
+  }
+  20% {
+    transform: rotate(5deg);
+  }
+  30% {
+    transform: rotate(-5deg);
+  }
+  40% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+
+
+ .text_welcome{
+    color:rgba(0,0,0,0.54);
+}
+.timer_container{
+  position:absolute;
+  left:20rem;
+  top:8rem;
+}
+@media screen and (max-width: 500px) {
+    .welcome-container {
+      display:none;
+     
+    }
+    .welcome-call_logo{
+    height: 30vh !important;
+    }
+    .text_welcome{
+        margin:1rem !important;
+       text-align: center;
+    }
+  }

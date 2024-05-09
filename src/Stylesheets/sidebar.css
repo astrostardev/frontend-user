@@ -83,7 +83,46 @@
   outline: none;
   cursor: pointer;
 }
-
+.history_active{
+  background-color: #ffff;
+  border-radius: 5px;
+  color:#229e48;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  transition: all 50ms ease-in 5ms;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight:600;
+}
+.activeLink {
+  background-color: #ffff;
+  border-radius: 5px;
+  color:#229e48;
+  text-decoration: none;
+  padding: 10px 20px;
+  width: 210px;
+  margin: 40px auto;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  transition: all 50ms ease-in 5ms;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight:600; /* or any desired text color */
+}
+.activeLink:hover{
+  background-color: #ffff;
+  border-radius: 5px;
+  color:#229e48;
+  transform: scaleY(1.07);
+  text-decoration: none;
+}
 #side > .side-menu > .side-link:hover,
 #side > .side-menu > .historydrop-container > .history-link:hover {
   background-color: #ffff;

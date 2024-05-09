@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from "react";
-import "./chatBody.css";
-import Sidebar from "../SideBar/Sidebar";
-import { Sidebar as AppSiderbar } from "../../../../src/Pages/Sidebar";
-import ChatOffcanvas from "../offCanvas/ChatOffcanvas";
-import OffCanvasNav from "../../../../src/Pages/OffCanvasNav";
+import "../Chat/chatBody/chatBody.css";
+import { Sidebar as AppSiderbar } from "../../../src/Pages/Sidebar";
+import OffCanvasNav from "../../../src/Pages/OffCanvasNav";
 import { Route, Routes, useNavigate, useParams } from "react-router-dom";
-import Welcome from "../chatPages/Welcome";
-import ChatContent from "../chatContent/ChatContent";
+import Welcome from "./callPage/Welcome";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
-import { UserRechargeDetailModal } from "../../../../src/Pages/Sidebar";
-import { getBalanceAfterChat, saveChatDetailsToAstrologerDb } from "../../../action/userAction";
+import { UserRechargeDetailModal } from "../../../src/Pages/Sidebar";
+import { getBalanceAfterChat, saveChatDetailsToAstrologerDb } from "../../action/userAction";
 import {
   fetchChatFail,
   fetchChatRequest,
   fetchChatSuccess,
-} from "../../../slice/conversationSlice";
-import { isAstrologerBusy } from "../../../action/astrologerAction";
-import { setIsRunning } from "../../../slice/timerSlice";
+} from "../../slice/conversationSlice";
+import { isAstrologerBusy } from "../../action/astrologerAction";
+import { setIsRunning } from "../../slice/timerSlice";
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
-const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
+const CallPage = React.memo(({ onStopTimer, isTimer }) => {
   const { user, token } = useSelector((state) => state.authState);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
@@ -197,7 +194,8 @@ const latestMsg = recentMessage && recentMessage.length > 0
   ? (recentMessage[recentMessage.length - 1].message || recentMessage[recentMessage.length - 1].audio) 
   : 'No messages'; // Fallback in case there are no messages
 
-  return (
+
+ return (
     <>
       <div id="fixedbar">
         <AppSiderbar />
@@ -416,35 +414,14 @@ const latestMsg = recentMessage && recentMessage.length > 0
       </div>
 
       <div className="main__chatbody">
-        <Sidebar
-          latestMsg={latestMsg}
-         
-          time={
-            recentMessage?.length > 0
-              ? recentMessage[recentMessage?.length - 1]?.createdAt
-              : " "
-          }
-          astrologer={astrologer}
-          timeStopped={onStopTimer}
-        />
+  
 
-        <ChatOffcanvas
-          latestMsg={
-            recentMessage?.length > 0
-              ? recentMessage[recentMessage?.length - 1]?.message
-              : " "
-          }
-          time={
-            recentMessage?.length > 0
-              ? recentMessage[recentMessage?.length - 1]?.createdAt
-              : " "
-          }
-          astrologer={astrologer}
-          setTime={time}
-          timeStopped={onStopTimer}
-        />
+ <Welcome    setTime={time}
+                timeStopped={handleTime}
+                isTimer={time}
+                astrologer = {astrologer}/>
 
-        <Routes>
+        {/* <Routes>
           <Route path="/" element={<Welcome />} />
           <Route
             path="chat_content"
@@ -462,10 +439,10 @@ const latestMsg = recentMessage && recentMessage.length > 0
               />
             }
           />
-        </Routes>
+        </Routes> */}
       </div>
     </>
   );
 });
 
-export default ChatBody;
+export default CallPage;

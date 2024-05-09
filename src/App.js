@@ -4,7 +4,7 @@ import {
   Route,
   Routes,
   Navigate,
-  useNavigate,
+
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
@@ -16,24 +16,22 @@ import MeetAstrologers from "./Components/Home/homeComponents/Home";
 import Wallet from "../src/Components/Home/homeComponents/Wallet";
 import Chat from "./Components/Home/homeComponents/Chat";
 import Call from "./Components/Home/homeComponents/Call";
+import CallPage from './Components/Call/CallPage'
 import ChatHistory from "./Components/Home/homeComponents/ChatHistory";
 import CallHistory from "./Components/Home/homeComponents/CallHistory";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Timer from "./Components/Chat/Timer";
 import { HelmetProvider } from "react-helmet-async";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import ChatContent from "./Components/Chat/chatContent/ChatContent";
 import ChatBody from "./Components/Chat/chatBody/ChatBody";
 import Welcome from "./Components/Chat/chatPages/Welcome";
-import { useEffect, useState, useCallback } from "react";
-import { setIsRunning } from "./slice/timerSlice";
+import {  useState, useCallback } from "react";
 import FullChatHistory from "./Components/Home/homeComponents/FullChatHistory";
 
 function App() {
-  const [showTime, setShowTime] = useState();
   const [timeStopped, setTimeStopped] = useState(false);
-  const dispatch = useDispatch()
   const { isAuthenticated } = useSelector(
     (state) => state.authState
   );
@@ -91,6 +89,7 @@ function App() {
                 path="chat_content"
                 element={isAuthenticated ? <ChatContent /> : <Navigate to="/" />}
               />
+           
               <Route
                 path="welcome"
                 element={isAuthenticated ? <Welcome /> : <Navigate to="/" />}
@@ -104,6 +103,10 @@ function App() {
               path="/chat_history"
               element={isAuthenticated ? <ChatHistory /> : <Navigate to="/" />}
             />
+              <Route
+                path="/call_page/:id"
+                element={isAuthenticated ? <CallPage /> : <Navigate to="/" />}
+              />
               <Route
               path="/full_chat_history/:id"
               element={isAuthenticated ? <FullChatHistory /> : <Navigate to="/" />}

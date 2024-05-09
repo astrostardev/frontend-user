@@ -4,7 +4,7 @@ import {  BsChatLeftText } from "react-icons/bs";
 import { RiHistoryFill } from "react-icons/ri";
 import {MdArrowDropDown, MdOutlineCall } from "react-icons/md";
 import { FiHelpCircle } from "react-icons/fi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { PiWalletBold } from "react-icons/pi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -23,17 +23,13 @@ import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 import { getPackage } from "../action/packageAction";
 import Tooltip from "react-bootstrap/Tooltip";
-import { getAllAstrologer, getAstrologerAvailableForCall } from "../action/astrologerAction";
-import { getAstrologerAvailableForChat} from "../action/astrologerAction";
 
 export function MyVerticallyCenteredModal(props) {
   const {user, token} = useSelector((state) => state.authState);
-  const { packages } = useSelector((state) => state.packageState);
   const { singlePackage } = useSelector((state) => state.packageState);
   const [showPackages, setShowPackages] = useState(null);
   const [isLoading, setIsloading] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchData() {
@@ -230,7 +226,7 @@ export function UserRechargeDetailModal(props) {
   );
 }
 export function Sidebar() {
-  const { user,token } = useSelector((state) => state.authState);
+  const { user} = useSelector((state) => state.authState);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -255,7 +251,9 @@ export function Sidebar() {
     dispatch(logout);
     navigate("/");
   };
-
+const location =useLocation();
+const currentpath = location.pathname;
+const isActive = (path)=>currentpath === path
   return (
     <>
       <aside id="side">
@@ -264,15 +262,16 @@ export function Sidebar() {
         </div>
         <div className="divider"></div>
         <section className="side-menu">
-          <Link className="side-link" to="/home">
+          <Link   className={`${isActive('/home') ? 'activeLink' : 'side-link'}`} to="/home">
             <RiHomeLine className="icon_size" />
             <span>Home</span>
           </Link>
-          <Link className="side-link" to="/chat">
+          <Link  className={`${isActive('/chat') ? 'activeLink' : 'side-link'}`} 
+           to="/chat">
             <BsChatLeftText className="icon_size" />
             <span>Chat </span>
           </Link>
-          <Link className="side-link" to="/call">
+          <Link className={`${isActive('/call') ? 'activeLink' : 'side-link'}`}  to="/call">
             <MdOutlineCall className="icon_size" />
             <span>Call</span>
           </Link>
@@ -282,11 +281,11 @@ export function Sidebar() {
             <MdArrowDropDown className="arr_drop" />
           </button>
           <div className="historydrop-container">
-            <Link className="history-link" to="/chat_history">
+            <Link className={`${isActive('/chat_history') ? 'history_active' : 'history-link'}`}  to="/chat_history">
               <BsChatLeftText className="icon_size" />
               <span>Chat</span>
             </Link>
-            <Link className="history-link" to="/call_history" >
+            <Link className={`${isActive('/call_history') ? 'history_active' : 'history-link'}`} to="/call_history" >
               <MdOutlineCall className="icon_size" />
               <span>Call</span>
             </Link>
@@ -296,7 +295,7 @@ export function Sidebar() {
             <AiOutlineSetting className="icon_size" />
             <span>Settings</span>
           </Link> */}
-          <Link className="side-link">
+          <Link className={`${isActive('/help') ? 'activeLink' : 'side-link'}`} to='/help'>
             <FiHelpCircle className="icon_size" />
             <span>Help</span>
           </Link>
