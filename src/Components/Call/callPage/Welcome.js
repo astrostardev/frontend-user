@@ -44,14 +44,17 @@ function Welcome({setTime, timeStopped,isTimer, astrologer}) {
    duration:"0.3"}}
    className="call_welcome-container">
     <div className="timer_container">
-          <div className="current-chatting-user" style={{width:"30vw",paddingRight:"1rem"}}>
-            <p className="con-icon" style={{width:"100px",height:"100px",fontSize:"40px"}}>{astrologer?.astrologer?.displayname[0]}</p>
+          <div className="current-chatting-user" id="user_container">
+            <p className="con-icon"  id="call_user">{astrologer?.astrologer?.displayname[0]}</p>
             <div className="header-text">
-              <p className="con-title" style={{fontSize:"30px"}}> {astrologer?.astrologer?.displayname}</p>
+              <p className="con-title"> {astrologer?.astrologer?.displayname}</p>
 
               <p className="con-timeStamp">online</p>
             </div>
-    <Timer setTime={setTime} onStopTimer={handleStopTimer} />
+            <div className="call_timer" style={{fontSize:"13px"}}>
+            <Timer setTime={setTime} onStopTimer={handleStopTimer} />
+
+            </div>
 
             </div>
     </div>

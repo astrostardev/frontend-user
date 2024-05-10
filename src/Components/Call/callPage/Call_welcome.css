@@ -49,11 +49,41 @@ animation: ring-shake 1s infinite; /* 1-second animation that repeats indefinite
     color:rgba(0,0,0,0.54);
 }
 .timer_container{
-  position:absolute;
-  left:20rem;
-  top:8rem;
+  /* position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  transform:transition(100%, 100%);
+  right:0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding:20px 30px; */
+
+  position: absolute; /* The element is positioned absolutely */
+  top: 5rem; /* Aligns to the top */
+  left: 0; /* Aligns to the left */
+  right: 0; /* Aligns to the right */
+  bottom: 0; /* Aligns to the bottom */
+  
+  /* Flexbox layout */
+  display: flex;
+  align-items: flex-start; /* Centers content vertically */
+  justify-content: space-around; /* Distributes content evenly, with space between items */
+  
+  padding: 20px 30px; 
 }
-@media screen and (max-width: 500px) {
+#call_user{
+  width:50px;
+  height:50px;
+  font-size:30px;
+}
+.call_timer{
+  width:8vw;
+  margin-top:-1rem;
+  margin-left:1rem;
+}
+@media (min-width:320px) and (max-width: 500px) {
     .welcome-container {
       display:none;
      
@@ -64,5 +94,23 @@ animation: ring-shake 1s infinite; /* 1-second animation that repeats indefinite
     .text_welcome{
         margin:1rem !important;
        text-align: center;
+    }
+    .timer_container{
+      /* margin-left:0.7rem; */
+      /* margin-top:3.3rem; */
+      padding:20px 10px;
+
+    }
+    .call_timer{
+      position: absolute;
+      /* top:2.2rem; */
+      right:1rem;
+      width:25vw;
+    }
+    .call_welcome-container{
+      width:90vw;
+    }
+    #user_container{
+padding:10px 7.2rem 10px 10px;
     }
   }
