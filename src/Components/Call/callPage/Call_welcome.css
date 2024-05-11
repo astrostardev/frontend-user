@@ -111,6 +111,6 @@ animation: ring-shake 1s infinite; /* 1-second animation that repeats indefinite
       width:90vw;
     }
     #user_container{
-padding:10px 7.2rem 10px 10px;
+     padding:10px 7.2rem 10px 10px;
     }
   }

@@ -382,7 +382,7 @@ function Offcanvas() {
           </div>
 
           <div onClick={closeCanvas}>
-            <IoMdNotificationsOutline style={{ fontSize: "25px" }} />
+            {/* <IoMdNotificationsOutline style={{ fontSize: "25px" }} /> */}
 
             {/* Earning */}
             <span>₹{user?.packages ? user?.balance : "0"}</span>

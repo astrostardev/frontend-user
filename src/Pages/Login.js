@@ -232,7 +232,7 @@ dispatch(getAllUser)
             >
               Get OTP
             </Button>
-            <p className="new_user">
+            <p className="new_user" id="login_user">
                 New User Please?{" "}
                 <Link className="reg_link" to="/register" style={{}}>
                   Register

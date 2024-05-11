@@ -13,6 +13,11 @@
   display: flex;
   justify-content: space-between;
 }
+@media screen and (max-width: 360px){
+  #navhead > ._nav {
+    padding: 10px 0px;
+  }
+}
 
 #navhead > ._nav > div {
   display: flex;
@@ -20,17 +25,13 @@
   align-items: center;
 }
 
+
 ._nav .earning {
   display: flex;
   gap: 10px;
 }
 
-@media screen and (max-width: 736px) {
 
-.earning button{
-
-  }
-}
 
 .profileDrop {
   float: left;

@@ -274,7 +274,7 @@ function Login() {
             <div className="conditions">
               <h4>Terms and Conditions</h4>
               <p>
-                <ul>
+                <ul className="conditions_list">
                   <li>
                     Maintain the confidentiality of your account and password
                   </li>

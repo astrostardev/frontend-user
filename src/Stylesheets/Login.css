@@ -38,10 +38,20 @@
     display: none;
 }
 
-#login .loginImgContainer {
+#login .registerImgContainer {
   
     display: block;
 
+    background-color: #229e48;
+    flex-basis: 52%;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+
+}
+#login .loginImgContainer {
+  
+    display: block;
     background-color: #229e48;
     flex-basis: 52%;
     height: 100vh;
@@ -69,16 +79,7 @@
     transform: translate(-50%, -50%);
     /* animation: mymove 10s linear infinite; */
 }
-@media screen and (max-width:736px) {
-    #login .loginImgContainer{
-    display: none !important;
-}
-#login .loginContainer {
-    flex-basis: 100%;
 
-}
-
-}
 @keyframes mymove {
     from {
         transform: rotate(0deg);
@@ -218,26 +219,51 @@
     display:flex;
     margin-top:1rem;
     align-items:center;
+    gap:1rem;
+    justify-content: center;
 }
 .new_user{
     font-size: 16px !important; 
     margin-left:1.4rem;
     margin-top:15px
 }
+#login_user{
+    font-size: 16px !important; 
+    margin-top:15px;
+}
 .reg_link{
     color: #229e48; 
     margin-left:.2rem;
 }
-@media screen and  ((min-width:736px)and (max-width:1200px)){
-    .register_feild{
-        display: block !important;
-    } 
+@media screen and  ((min-width:768px)and (max-width:1200px)){
+    .submit-btn{
+        gap:0;
+    }
     .conditions {
-
         height: 30vmin;
     }
+    .conditions {
+        width: 81vw;
+        padding: 10px 20px;
+         margin-top: 1rem;
     
+    }
+    #login{
+        flex-direction: column !important;
+    }
+    #login .loginImgContainer {
+     display: flex;
     
+    }
+    #login .loginContainer {
+        flex-basis: 100%;
+     
+    }
+    .register-feild{
+     
+        gap:0rem !important;
+        
+    }
 }
 .register-feild{
     display: flex;
@@ -246,25 +272,69 @@
     gap: 2rem;
  
 }
-@media screen and (max-width:736px) {
 
-.conditions {
+@media screen and (max-width:360px) {
+    .submit-btn{
+        gap:0rem;
+        width:300px;
+        align-items:center;
+        margin-left:-1rem;
+
+}
+    #login_user{
+        font-size: 14px !important; 
+    }
+}
+@media screen and (max-width:800px) {
+    #login .loginImgContainer{
+        display: none !important;
+    }
+    #login .loginContainer {
+        flex-basis: 100%;
+    
+    }
+    .form{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .submit-btn{
+        gap:1rem;
+    }
+.conditions{
  
     height: 18vh;
-
-   
+    background-color: #ECECEC;
+    width: fit-content;
+    line-height: 20px;
+    padding: 0px 20px;
+    overflow: auto;
+    border-radius: 6px;
+}
+#login .loginContainer p:first-of-type {
+    font-size: 16px;
+}
+.new_user{
+    font-size: 16px !important; 
+    margin-left:0;
+    margin-top:0;
 }
 .register-feild{
-    display: block;
-
-   
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap:1rem;
     
+}
+.conditions_list{
+    display:flex;
+    flex-direction: column;
+    gap:1rem;
+}
+.conditions_list>li{
+    font-size: 14px;
+}
 
-}
-.otpBtn{
-    margin-top:-1rem;
-    margin-bottom: 10px;
-}
 
 .register_feild{
     display: block !important;

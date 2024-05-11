@@ -156,6 +156,31 @@
   align-items: center;
   justify-content: space-evenly !important;
 }
+@media screen and (max-height: 800px){
+
+#side > .side-menu{
+  height:70%;
+}
+.astro_social_icon {
+  display: flex;
+  gap:2rem;
+  margin-top:1rem;
+}
+.media_icons {
+  gap:1rem;
+  margin-left:-3rem;
+}
+}
+@media screen and (min-width: 800px) {
+  .media_icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly !important;
+  }
+  .astro_social_icon>p {
+    margin-top:-2rem;
+  }
+  }
 .media_icons {
   display: flex;
   align-items:center;

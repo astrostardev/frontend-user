@@ -26,6 +26,14 @@
   justify-content: center;
   border-radius: 10px;
 }
+@media screen and (max-width: 500px) {
+  .search_div {
+    width: 100vw;
+   justify-content: flex-start;
+   padding:0 10px;
+  }
+}
+
 .search_div img {
   max-width: 100%;
   position: relative;
