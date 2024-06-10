@@ -1,10 +1,10 @@
 import React,{useState,useEffect,useCallback} from "react";
 import { useSelector, dispatch, useDispatch } from "react-redux";
 import "./Call_welcome.css";
-import logo from "../../../assests/chatImage.jpg";
 import { AnimatePresence } from "framer-motion";
+// import logo from "../../../assests/chat.png";
 import { motion } from "framer-motion";
-import callIcon from "../../../assests/callIcon.png"
+import callIcon from "../../../assests/call.png"
 import { isAstrologerBusy } from "../../../action/astrologerAction";
 import { useNavigate, useParams } from "react-router-dom";
 import Timer from "../../Chat/Timer";

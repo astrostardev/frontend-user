@@ -18,7 +18,7 @@ import {
   sendChatFail,
   sendChatRequest,
   sendChatSuccess,
-} from "../../../slice/conversationSlice";
+} from "../../../Slice/conversationSlice";
 import Timer from "../Timer";
 import { isAstrologerBusy } from "../../../action/astrologerAction";
 import { extractDayAndDate } from "../../../utils/extractTime";

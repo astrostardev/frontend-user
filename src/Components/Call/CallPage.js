@@ -10,14 +10,17 @@ import Table from "react-bootstrap/Table";
 import { toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
 import { UserRechargeDetailModal } from "../../../src/Pages/Sidebar";
-import { getBalanceAfterChat, saveChatDetailsToAstrologerDb } from "../../action/userAction";
+import {
+  getBalanceAfterChat,
+  saveChatDetailsToAstrologerDb,
+} from "../../action/userAction";
 import {
   fetchChatFail,
   fetchChatRequest,
   fetchChatSuccess,
-} from "../../slice/conversationSlice";
+} from "../../../src/Slice/conversationSlice";
 import { isAstrologerBusy } from "../../action/astrologerAction";
-import { setIsRunning } from "../../slice/timerSlice";
+import { setIsRunning } from "../../../src/Slice/timerSlice";
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
 const CallPage = React.memo(({ onStopTimer, isTimer }) => {
@@ -30,7 +33,7 @@ const CallPage = React.memo(({ onStopTimer, isTimer }) => {
   const [userRechargeShow, setUserRechargeShow] = useState(false);
   const [time, setTime] = useState("");
   const [show, setShow] = useState(true);
-  const[chats,setChats]=useState(null)
+  const [chats, setChats] = useState(null);
   const handleClose = () => setShow(false);
   //chatPrice for User
   const userBal = user?.balance;
@@ -38,7 +41,6 @@ const CallPage = React.memo(({ onStopTimer, isTimer }) => {
   const fivemins = 5 * chatAmount;
   const tenmins = 10 * chatAmount;
   const fifteenmins = 15 * chatAmount;
-
 
   //chatPrice for AStrologer
   const originalAmount = astrologer?.astrologer?.chat;
@@ -52,7 +54,7 @@ const CallPage = React.memo(({ onStopTimer, isTimer }) => {
   const { isRunning } = useSelector((state) => state.timerState);
   const date = new Date();
   const astrologerName = astrologer?.astrologer?.displayname;
-  const name = user?.name
+  const name = user?.name;
   //initialising WebSocket
   useEffect(() => {
     const newSocket = new WebSocket(ENDPOINT);
@@ -158,44 +160,45 @@ const CallPage = React.memo(({ onStopTimer, isTimer }) => {
   function handleTime(time) {
     setTime(time);
   }
-//fetch chats between two members
-async function getUser() {
-  try {
-    let response = await fetch(
-      `${process.env.REACT_APP_URL}/api/v1/fetch_chat`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        method: "POST",
-        body: JSON.stringify({
-          id: user._id,
-          astroId:splitId
-        }),
+  //fetch chats between two members
+  async function getUser() {
+    try {
+      let response = await fetch(
+        `${process.env.REACT_APP_URL}/api/v1/fetch_chat`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          method: "POST",
+          body: JSON.stringify({
+            id: user._id,
+            astroId: splitId,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch user");
       }
-    );
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch user");
+      let data = await response.json();
+      setChats(data?.chats);
+    } catch (error) {
+      console.error("Error fetching user:", error);
     }
-
-    let data = await response.json();
-    setChats(data?.chats);
-  } catch (error) {
-    console.error("Error fetching user:", error);
   }
-}
 
-useEffect(() => {
-  getUser();
-}, []);
-const latestMsg = recentMessage && recentMessage.length > 0 
-  ? (recentMessage[recentMessage.length - 1].message || recentMessage[recentMessage.length - 1].audio) 
-  : 'No messages'; // Fallback in case there are no messages
+  useEffect(() => {
+    getUser();
+  }, []);
+  const latestMsg =
+    recentMessage && recentMessage.length > 0
+      ? recentMessage[recentMessage.length - 1].message ||
+        recentMessage[recentMessage.length - 1].audio
+      : "No messages"; // Fallback in case there are no messages
 
-
- return (
+  return (
     <>
       <div id="fixedbar">
         <AppSiderbar />
@@ -225,7 +228,7 @@ const latestMsg = recentMessage && recentMessage.length > 0
                 onClick={() => {
                   handleClose();
                   navigate("/home");
-                   dispatch(isAstrologerBusy(false,splitId))
+                  dispatch(isAstrologerBusy(false, splitId));
                 }}
               >
                 Close
@@ -313,39 +316,38 @@ const latestMsg = recentMessage && recentMessage.length > 0
                       <td>
                         <Button
                           variant="success"
-                          onClick={(e) =>
-                            {
-                              e.preventDefault();
-                          
-                              if (userBal >= tenmins) {
-                                handleClose(tenmins);
-                                handleTime(1);
-                                dispatch(
-                                  getBalanceAfterChat(
-                                    astrologerName,
-                                    splitId,
-                                    date,
-                                    10,
-                                    tenmins,
-                                    userID,
-                                    token
-                                  )
-                                );
-                                dispatch(
-                                  saveChatDetailsToAstrologerDb(
-                                    name,
-                                    userID,
-                                    date,
-                                    10,
-                                    originalTenmins,
-                                    splitId,
-                                    token
-                                  )
-                                );
-                              } else {
-                                toast.error("Insufficient Balance");
-                              }
-                            }}
+                          onClick={(e) => {
+                            e.preventDefault();
+
+                            if (userBal >= tenmins) {
+                              handleClose(tenmins);
+                              handleTime(1);
+                              dispatch(
+                                getBalanceAfterChat(
+                                  astrologerName,
+                                  splitId,
+                                  date,
+                                  10,
+                                  tenmins,
+                                  userID,
+                                  token
+                                )
+                              );
+                              dispatch(
+                                saveChatDetailsToAstrologerDb(
+                                  name,
+                                  userID,
+                                  date,
+                                  10,
+                                  originalTenmins,
+                                  splitId,
+                                  token
+                                )
+                              );
+                            } else {
+                              toast.error("Insufficient Balance");
+                            }
+                          }}
                         >
                           10 mins
                         </Button>
@@ -391,7 +393,6 @@ const latestMsg = recentMessage && recentMessage.length > 0
                             } else {
                               toast.error("Insufficient Balance");
                             }
-
                           }}
                         >
                           15 mins
@@ -414,12 +415,12 @@ const latestMsg = recentMessage && recentMessage.length > 0
       </div>
 
       <div className="main__chatbody">
-  
-
- <Welcome    setTime={time}
-                timeStopped={handleTime}
-                isTimer={time}
-                astrologer = {astrologer}/>
+        <Welcome
+          setTime={time}
+          timeStopped={handleTime}
+          isTimer={time}
+          astrologer={astrologer}
+        />
 
         {/* <Routes>
           <Route path="/" element={<Welcome />} />

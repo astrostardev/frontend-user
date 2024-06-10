@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { setIsRunning } from "../../slice/timerSlice";
+import { setIsRunning } from "../../Slice/timerSlice";
 import { useDispatch } from "react-redux";
 
 const Timer = ({ setTime, onStopTimer }) => {

@@ -13,26 +13,30 @@
   background-color: rgb(240, 255, 248);
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1024px) {
   .main__chatbody {
     /* flex-direction: column; */
-    gap: 2rem;
-    /* margin-left:-16px; */
+    /* gap: 2rem; */
+    width: 100%;
+    margin-left: 0px;
   }
 
 }
-
-@media screen and (max-width: 500px) {
-  .main__chatbody {
-    /* flex-direction: column; */
-    gap: 2rem;
-    /* margin-left:-16px; */
-  }
+  
+@media screen and (max-width: 760px) {
   .sidebar_container{
    display: none; 
   }
-  .main__chatbody {
+}
+
+@media screen and ((min-width: 760px) and (max-width: 1024px))
+{
+  .sidebar_container {
+      display: block;
+    }
+
+    .left_angle{
+      display: none !important;
+    }
  
-    margin-left:0rem;
-  }
 }

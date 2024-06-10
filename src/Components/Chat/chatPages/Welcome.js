@@ -1,6 +1,6 @@
 import React from "react";
 import "./welcome.css";
-import logo from "../../../assests/chatImage.jpg";
+import logo from "../../../assests/chat.png";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 function Welcome() {
