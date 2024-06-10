@@ -8,13 +8,13 @@
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.header_dec{
-  height:3px;
+.header_dec {
+  height: 3px;
   width: 30px;
-  background-color:#229e48;
+  background-color: #229e48;
   border-radius: 10px;
   margin-top: 3px;
-  margin-left:20px;
+  margin-left: 20px;
 }
 .search_div {
   width: 30vw;
@@ -26,11 +26,11 @@
   justify-content: center;
   border-radius: 10px;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1024px) {
   .search_div {
     width: 100vw;
-   justify-content: flex-start;
-   padding:0 10px;
+    justify-content: flex-start;
+    padding: 0 10px;
   }
 }
 
@@ -99,8 +99,8 @@
   display: flex;
   gap: 5px;
 }
-.astro_drop_btn .all img{
-  color:#229e48;
+.astro_drop_btn .all img {
+  color: #229e48;
 }
 .astro_drop_btn button {
   padding: 8px 18px;
@@ -125,11 +125,11 @@
   gap: 1rem;
   flex-grow: 1;
   flex-direction: column;
-  align-items:flex-start;
+  align-items: flex-start;
   overflow-y: scroll;
 }
-.astrologer_container{
-margin:0 px;
+.astrologer_container {
+  margin: 0 px;
 }
 .astro_detail {
   min-height: 100px;
@@ -140,19 +140,17 @@ margin:0 px;
 }
 .astro_detail .astro_img {
   border-radius: 5px;
-  width:100px;
-  height:85px;
+  width: 100px;
+  height: 85px;
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 .astro_detail .astro_img img {
   max-width: 100%;
-  height:100%;
-  width:100%;
+  height: 100%;
+  width: 100%;
   border-radius: 5px;
-
 }
 .astro_detail .about_astrologer {
   display: flex;
@@ -192,12 +190,11 @@ margin:0 px;
   display: flex;
   padding: auto 5px;
   gap: 4%;
-  align-items:center;
+  align-items: center;
   justify-content: center;
-
 }
-.astro_category{
-  width:7vw;
+.astro_category {
+  width: 7vw;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -217,11 +214,10 @@ margin:0 px;
   justify-content: space-around;
   margin-bottom: 10px;
 }
-#card_width{
-  width:20rem;
-
+#card_width {
+  width: 20rem;
 }
-#card_width:hover{
+#card_width:hover {
   cursor: pointer;
 }
 .charge_btns button {
@@ -237,47 +233,39 @@ margin:0 px;
 .charge_btns button span {
   margin-left: 0.4rem;
 }
-.show_down_arr{
+.show_down_arr {
   display: none;
 }
-@media screen and (max-width:736px) {
-
+@media screen and (max-width: 1024px) {
   .search_div input {
     width: 60%;
- 
   }
 
   .filter_btn button {
     padding: 10px 15px;
-
   }
 
   .astro_drop_btn {
     gap: 8px;
     overflow-y: auto;
-    height:20vh;
+    height: auto;
   }
-  
+
   .top_astrologers {
-
-    height: 35vh;
-  
+    height: auto;
   }
-
-
 }
-.about_astrologer{
+.about_astrologer {
   display: flex !important;
- 
 }
 
-.availableDot{
-  width:6px !important;
-  height:6px;
-  border-radius:50%;
+.availableDot {
+  width: 6px !important;
+  height: 6px;
+  border-radius: 50%;
   margin-left: 20px;
   background-color: green;
   position: absolute;
-  top:5px;
-  right:5px;
+  top: 5px;
+  right: 5px;
 }
