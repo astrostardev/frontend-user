@@ -17,7 +17,7 @@ h4 {
   margin-bottom: 0 !important;
 }
 
-@media screen  and (max-width:600px){
+@media screen  and (max-width: 1024px){
   .__main{
      margin: auto 0.5rem   !important;
      /* width:100vw !important;
@@ -41,7 +41,7 @@ h4 {
   margin-top:8px;
 }
 
-@media screen and (max-width: 736px) {
+@media screen and (max-width: 1024px) {
   #fixedbar {
     display: none;
   }
@@ -61,7 +61,7 @@ h4 {
   background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
-@media screen and (max-width: 736px) {
+@media screen and (max-width: 1024px) {
   .infoContainer {
     margin: 20px 10px 10px 10px;
   }

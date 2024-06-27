@@ -18,9 +18,9 @@ import {
   fetchChatFail,
   fetchChatRequest,
   fetchChatSuccess,
-} from "../../../slice/conversationSlice";
+} from "../../../../src/Slice/conversationSlice";
 import { isAstrologerBusy } from "../../../action/astrologerAction";
-import { setIsRunning } from "../../../slice/timerSlice";
+import { setIsRunning } from "../../../../src/Slice/timerSlice";
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
 const ChatBody = React.memo(({ onStopTimer, isTimer }) => {
