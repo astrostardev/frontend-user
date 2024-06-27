@@ -121,7 +121,7 @@
   font-size: 1rem;
 
 }
-@media screen and ((max-width: 736px)) {
+@media screen and ((max-width: 1024px)) {
   .wallet_cards {
     margin: 20px 0px 0px 0px;
   }
@@ -133,11 +133,9 @@
   }
   .show_transaction {
    gap:1.5rem;
-   height: 55vh;
-
+   height: 70vh;
   }
   .show_transaction div {
-
     gap: 0.4rem;
   }
 

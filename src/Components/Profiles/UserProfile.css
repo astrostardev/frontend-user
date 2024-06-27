@@ -36,16 +36,16 @@
   display: block;
 }
 
-@media screen and (max-width: 736px) {
+@media screen and (max-width: 1024px) {
   .profileBtn {
     display: flex;
     justify-content: center;
     margin-right: 0px;
   }
   #profile_container {
-    margin: 20px 10px 10px 10px;
-    height: 80vh;
-    overflow-y:auto ;
+    margin: 20px;
+    height: auto;
+    overflow-y:auto;
   }
   #astroProfile > .astroForm > div {
     display: grid;
